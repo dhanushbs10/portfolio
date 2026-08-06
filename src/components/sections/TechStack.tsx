@@ -35,7 +35,7 @@ export function TechStack() {
       <div className="mx-auto max-w-4xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="05 — Stack"
+            eyebrow="[INFRA.STACK]"
             title="Tools I Reach For"
             subtitle="The technologies and tools I use regularly for development, security, and networking."
           />

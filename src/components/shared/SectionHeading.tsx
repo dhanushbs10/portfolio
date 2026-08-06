@@ -7,6 +7,7 @@ interface SectionHeadingProps {
   subtitle?: string;
   align?: "left" | "center";
   className?: string;
+  eyebrowClassName?: string;
 }
 
 export function SectionHeading({
@@ -15,7 +16,9 @@ export function SectionHeading({
   subtitle,
   align = "left",
   className,
+  eyebrowClassName,
 }: SectionHeadingProps) {
+  const isSysLabel = eyebrow?.startsWith("[") && eyebrow?.endsWith("]");
   return (
     <div
       className={cn(
@@ -25,7 +28,11 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <p className="mono-label text-accent-interactive mb-3">{eyebrow}</p>
+        isSysLabel ? (
+          <p className={cn("sys-label mb-3", eyebrowClassName)}>{eyebrow}</p>
+        ) : (
+          <p className="mono-label text-accent-interactive mb-3">{eyebrow}</p>
+        )
       )}
       <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight text-text-primary">
         {title}

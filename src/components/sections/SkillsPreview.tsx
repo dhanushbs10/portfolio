@@ -61,7 +61,7 @@ export function SkillsPreview() {
       <div className="mx-auto max-w-4xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="04 — Skills"
+            eyebrow="[SYS.SKILLS]"
             title="Areas of Focus"
             subtitle="Static preview — full categorized system with proficiency levels coming in a later chapter."
           />

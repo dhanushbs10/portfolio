@@ -24,7 +24,7 @@ export function CertificationsPreview() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="06 — Certifications"
+            eyebrow="[SEC.CERTS]"
             title="Credentials & Certifications"
             subtitle="Placeholder data — real certificates will be populated in a later chapter."
           />

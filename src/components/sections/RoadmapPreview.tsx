@@ -21,7 +21,7 @@ export function RoadmapPreview() {
       <div className="mx-auto max-w-4xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="09 — Roadmap"
+            eyebrow="[NET.ROADMAP]"
             title="Where Things Are Headed"
             subtitle="A snapshot of what's shipped, what's in motion, and what's next."
           />

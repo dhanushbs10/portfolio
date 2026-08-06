@@ -55,7 +55,7 @@ export function ProjectsPreview() {
       <div className="mx-auto max-w-5xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="07 — Projects"
+            eyebrow="[DEV.PROJ]"
             title="Selected Work"
             subtitle="A sample of projects I've built to learn and demonstrate practical skills."
           />

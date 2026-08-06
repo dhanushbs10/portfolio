@@ -33,7 +33,7 @@ export function Achievements() {
       <div className="mx-auto max-w-4xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="10 — Achievements"
+            eyebrow="[SYS.ACHIEV]"
             title="By the Numbers"
             subtitle="A few stats and highlights worth calling out."
           />
