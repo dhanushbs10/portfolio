@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import FaultyTerminal from "@/components/shared/FaultyTerminal";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -70,24 +69,6 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <FaultyTerminal
-        scale={1.5}
-        gridMul={[2, 1]}
-        digitSize={1.2}
-        scanlineIntensity={0.5}
-        glitchAmount={1}
-        flickerAmount={1}
-        noiseAmp={1}
-        curvature={0.1}
-        tint="#22d3ee"
-        mouseReact
-        mouseStrength={0.5}
-        pageLoadAnimation
-        brightness={0.9}
-        className="absolute inset-0 z-[1]"
-      />
-      <div className="scanlines absolute inset-0 z-[5] pointer-events-none opacity-20" />
-
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{
