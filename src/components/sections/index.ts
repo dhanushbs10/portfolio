@@ -1,0 +1,12 @@
+export { Hero } from "./Hero";
+export { AboutMe } from "./AboutMe";
+export { Journey } from "./Journey";
+export { Education } from "./Education";
+export { SkillsPreview } from "./SkillsPreview";
+export { TechStack } from "./TechStack";
+export { CertificationsPreview } from "./CertificationsPreview";
+export { ProjectsPreview } from "./ProjectsPreview";
+export { HomeLabTeaser } from "./HomeLabTeaser";
+export { RoadmapPreview } from "./RoadmapPreview";
+export { Achievements } from "./Achievements";
+export { ContactSection } from "./ContactSection";

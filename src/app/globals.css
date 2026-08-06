@@ -235,4 +235,15 @@
     background-image: radial-gradient(circle, var(--border-subtle) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+
+  /* Infinite marquee for TechStack */
+  .animate-marquee {
+    animation: marquee 35s linear infinite;
+    width: max-content;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 }
