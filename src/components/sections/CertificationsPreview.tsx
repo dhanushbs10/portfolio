@@ -52,11 +52,11 @@ export function CertificationsPreview() {
         </AnimatedReveal>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {CERTIFICATIONS.map((cert) => {
+          {CERTIFICATIONS.map((cert, i) => {
             const stateMeta = CERT_STATES[cert.state];
             const Icon = stateMeta.icon;
             return (
-              <AnimatedReveal key={cert.name}>
+              <AnimatedReveal key={`cert-${i}`}>
                 <div className="card p-5 flex flex-col gap-3">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-base font-semibold text-text-primary">

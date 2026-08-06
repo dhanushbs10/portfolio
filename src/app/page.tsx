@@ -7,7 +7,6 @@ import {
   TechStack,
   CertificationsPreview,
   ProjectsPreview,
-  HomeLabTeaser,
   RoadmapPreview,
   Achievements,
   ContactSection,
@@ -34,7 +33,6 @@ export default function HomePage() {
       <TechStack />
       <CertificationsPreview />
       <ProjectsPreview />
-      <HomeLabTeaser />
       <RoadmapPreview />
       <Achievements />
       <ContactSection />

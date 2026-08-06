@@ -53,9 +53,9 @@ export function Education() {
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {entry.coursework.map((c) => (
+                  {entry.coursework.map((c, i) => (
                     <span
-                      key={c}
+                      key={`${entry.program}-coursework-${i}`}
                       className="px-2.5 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary"
                     >
                       {c}
