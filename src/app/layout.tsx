@@ -25,25 +25,27 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhanush Nagishetti — Portfolio",
-    template: "%s | Dhanush Nagishetti",
+    default: "Dhanush B S — Network Security Engineer",
+    template: "%s | Dhanush B S",
   },
   description:
-    "Portfolio of Dhanush Nagishetti — building at the intersection of infrastructure, systems, and design.",
+    "Portfolio of Dhanush B S — Diploma student in Computer Science Engineering from Bengaluru, focused on cybersecurity, networking, and infrastructure. Building toward a career as a Network Security Engineer.",
   keywords: [
-    "portfolio",
-    "developer",
+    "Dhanush B S",
+    "network security",
+    "cybersecurity",
+    "networking",
     "infrastructure",
     "homelab",
-    "full-stack",
+    "portfolio",
   ],
-  authors: [{ name: "Dhanush Nagishetti" }],
+  authors: [{ name: "Dhanush B S" }],
   openGraph: {
-    title: "Dhanush Nagishetti — Portfolio",
+    title: "Dhanush B S — Network Security Engineer",
     description:
-      "Building at the intersection of infrastructure, systems, and design.",
+      "Cybersecurity and networking enthusiast from Bengaluru. Building practical skills through hands-on projects and home lab experimentation.",
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
   },
 };
 

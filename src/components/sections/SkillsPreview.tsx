@@ -8,30 +8,25 @@ import { cn } from "@/lib/utils";
 
 interface SkillCategory {
   name: string;
-  placeholder: boolean;
   items: string[];
 }
 
 const SKILLS: SkillCategory[] = [
   {
-    name: "Languages",
-    placeholder: true,
-    items: ["TypeScript", "Go", "Python", "Rust (learning)", "[Language]"],
+    name: "Programming",
+    items: ["C", "Python", "JavaScript", "HTML", "CSS", "TypeScript (Learning)"],
   },
   {
-    name: "Frontend",
-    placeholder: true,
-    items: ["Next.js", "React", "Tailwind", "[Framework]"],
+    name: "Web Development",
+    items: ["React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub"],
   },
   {
-    name: "Infrastructure",
-    placeholder: true,
-    items: ["Docker", "Kubernetes", "Terraform", "[Tool]"],
+    name: "Cybersecurity",
+    items: ["Linux", "Kali Linux", "Wireshark", "Nmap", "Burp Suite", "Metasploit (Learning)"],
   },
   {
-    name: "Tools & Practices",
-    placeholder: true,
-    items: ["Git", "CI/CD", "Linux", "[Tool/Practice]"],
+    name: "Networking",
+    items: ["TCP/IP", "DNS", "DHCP", "Routing", "Switching", "VLAN", "Cisco Packet Tracer"],
   },
 ];
 
@@ -71,7 +66,6 @@ export function SkillsPreview() {
                     />
                   </div>
 
-                  {/* Always show a few tags; expand on click */}
                   <div
                     className={cn(
                       "flex flex-wrap gap-2 transition-all",
@@ -87,12 +81,6 @@ export function SkillsPreview() {
                       </span>
                     ))}
                   </div>
-
-                  {cat.placeholder && (
-                    <p className="font-mono text-[10px] text-text-tertiary mt-1">
-                      Preview — hover/tap to expand
-                    </p>
-                  )}
                 </button>
               </AnimatedReveal>
             );

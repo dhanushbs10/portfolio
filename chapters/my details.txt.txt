@@ -1,0 +1,380 @@
+# About Me
+
+My name is **Dhanush B S**, and I am a Diploma student in **Computer Science Engineering** from **Bengaluru, Karnataka, India**. I am currently in my final year of diploma and have chosen **Cybersecurity and Networking** as the career path I want to pursue. My long-term goal is to become a **Network Security Engineer**, working on enterprise networks, infrastructure security, and defensive cybersecurity.
+
+Technology has always been something I enjoy exploring beyond academics. Instead of only learning concepts from textbooks, I spend most of my free time experimenting with operating systems, networking, virtualization, hardware, programming, and cybersecurity tools. I believe practical experience is the fastest way to learn, which is why I constantly build projects, troubleshoot systems, and create my own learning environment.
+
+## My Interests
+
+The areas that interest me the most are:
+
+* Cybersecurity
+* Network Security
+* Ethical Hacking
+* Linux System Administration
+* Windows Administration
+* Networking
+* Home Lab Development
+* Hardware
+* Web Development
+* Open Source
+* Automation
+* Virtualization
+* System Architecture
+
+I enjoy understanding how computers work from both the hardware and software side. Whether it is configuring operating systems, troubleshooting hardware, building web applications, or learning networking protocols, I enjoy breaking problems down and finding practical solutions.
+
+## My Learning Philosophy
+
+I believe learning should always be hands-on.
+
+Instead of simply watching tutorials, I prefer installing software myself, configuring servers, experimenting with operating systems, solving real problems, building projects, and understanding why something works rather than just making it work.
+
+Whenever I learn a new concept, I try implementing it in a project or inside my home lab so the knowledge becomes practical.
+
+## Career Goal
+
+My ultimate goal is to become a **Network Security Engineer**.
+
+To achieve this, I am continuously learning about:
+
+* Computer Networks
+* Network Security
+* Ethical Hacking
+* Vulnerability Assessment
+* Penetration Testing
+* Linux Administration
+* Windows Administration
+* Enterprise Infrastructure
+* Firewalls
+* Active Directory
+* Cloud Security
+* SOC Operations
+* Incident Response
+
+I also plan to pursue industry certifications that strengthen my knowledge and improve my professional profile.
+
+## My Technical Skills
+
+### Programming
+
+* C
+* Python
+* JavaScript
+* HTML
+* CSS
+* TypeScript (Learning)
+
+### Web Development
+
+* React
+* Next.js
+* Tailwind CSS
+* Node.js
+* Git
+* GitHub
+
+### Cybersecurity
+
+* Linux
+* Kali Linux
+* Wireshark
+* Nmap
+* Burp Suite
+* Metasploit (Learning)
+* OWASP Fundamentals
+* Vulnerability Assessment
+
+### Networking
+
+* TCP/IP
+* DNS
+* DHCP
+* Routing
+* Switching
+* VLAN Concepts
+* Cisco Packet Tracer
+
+### Operating Systems
+
+* Windows 10
+* Windows 11
+* Kali Linux
+* Ubuntu
+
+## My Home Lab
+
+One of the things I enjoy most is building and improving my own home lab.
+
+I use it for:
+
+* Learning cybersecurity
+* Practicing networking
+* Testing operating systems
+* Running Linux environments
+* Learning virtualization
+* Experimenting with tools
+* Building projects
+* Troubleshooting hardware and software
+
+Rather than relying entirely on cloud environments, I like understanding how real hardware works and how systems interact.
+
+## My Computer
+
+My primary desktop currently consists of:
+
+**Processor**
+Intel Core i5-4670K
+
+**Motherboard**
+Gigabyte GA-Z87-D3HP
+
+**Graphics Card**
+Zotac GT 710 2GB DDR3
+
+**Memory**
+12 GB RAM
+
+**Storage**
+100 GB SSD
+100 GB HDD
+500 GB HDD
+
+**Power Supply**
+Antec 500W PSU
+
+**Displays**
+Dual-monitor setup
+
+This system serves as my primary development machine and learning environment.
+
+## My Projects
+
+I enjoy building projects that allow me to learn new technologies while solving practical problems.
+
+Some areas I work on include:
+
+* Portfolio Development
+* Web Applications
+* Cybersecurity Projects
+* Networking Utilities
+* Automation Scripts
+* Linux Configurations
+* Personal Tools
+* Experimental Applications
+
+Every project teaches me something new, and I continuously improve previous projects as I learn better practices.
+
+## What Makes Me Different
+
+I enjoy understanding technology from multiple perspectives instead of focusing on only one field.
+
+I like combining:
+
+* Hardware
+* Networking
+* Operating Systems
+* Programming
+* Security
+* Web Development
+
+to build complete solutions.
+
+I also enjoy troubleshooting difficult technical issues because they force me to understand systems at a deeper level.
+
+## My Personality
+
+I am naturally curious and enjoy learning new technologies.
+
+I like challenging myself with projects that are slightly beyond my current skill level because they push me to grow.
+
+I value practical knowledge over memorization and prefer building things that demonstrate my understanding.
+
+I enjoy improving my workflow, organizing my projects, and creating systems that are scalable and maintainable.
+
+## My Portfolio Vision
+
+My portfolio is not intended to be just another resume website.
+
+I want it to represent who I am, how I think, what I build, and where I want to go professionally.
+
+I want visitors to understand my journey, explore my projects, learn about my home lab, see my technical growth, and recognize my passion for cybersecurity and networking.
+
+The website should evolve with me throughout my career.
+
+As I complete certifications, build new projects, upgrade my hardware, publish technical write-ups, participate in Capture The Flag competitions, and gain professional experience, my portfolio should grow alongside me.
+
+Ultimately, I want my portfolio to serve as both a personal brand and a living record of my continuous learning journey.
+
+
+
+
+
+
+Below are the projects currently present in my portfolio. These are placeholders based on my learning journey and should be replaced or expanded with my actual work. Use these as the foundation and improve them wherever possible without changing their original purpose.
+
+---
+
+## 1. PXE Network Boot Lab
+
+### Category
+
+Networking / Linux / Infrastructure
+
+### Status
+
+Live
+
+### Summary
+
+This project focuses on building a PXE (Preboot Execution Environment) network boot server capable of booting a legacy computer directly over the network without requiring an operating system on its local storage. The setup uses DHCP and TFTP services to deliver a Linux image to the client machine, demonstrating how enterprise environments deploy operating systems across multiple computers.
+
+### Technologies
+
+* Linux
+* PXE Boot
+* DHCP
+* TFTP
+* Networking
+
+### Repository
+
+Currently points to my GitHub profile instead of a dedicated repository.
+
+---
+
+## 2. ESP Wake-on-LAN Trigger
+
+### Category
+
+IoT / Networking / Embedded Systems
+
+### Status
+
+Live
+
+### Summary
+
+A microcontroller-based project designed to remotely power on a computer after unexpected shutdowns or power failures. The project utilizes an ESP board to send Wake-on-LAN packets, allowing systems to come back online remotely without physical interaction.
+
+### Technologies
+
+* ESP32
+* Wake-on-LAN
+* Embedded Systems
+* Networking
+
+### Repository
+
+Currently points to my GitHub profile instead of a dedicated repository.
+
+---
+
+## 3. Cross-Subnet Sharing Fix
+
+### Category
+
+Networking / Troubleshooting
+
+### Status
+
+Live
+
+### Summary
+
+A networking troubleshooting project that investigates SMB file-sharing failures caused by a Wi-Fi range extender creating multiple subnets within the same local network. The project explains the root cause, network topology, diagnosis process, and solution for restoring communication between devices.
+
+### Technologies
+
+* SMB
+* TCP/IP
+* Subnetting
+* Windows Networking
+
+### Repository
+
+Currently points to my GitHub profile instead of a dedicated repository.
+
+---
+
+## 4. Packet Tracer Enterprise Topology
+
+### Category
+
+Cisco Networking
+
+### Status
+
+Planned
+
+### Summary
+
+A future Cisco Packet Tracer project focused on enterprise networking concepts such as VLAN configuration, Inter-VLAN Routing, switching, routing protocols, and troubleshooting scenarios. This project is intended to strengthen CCNA-level networking knowledge through practical simulation.
+
+### Technologies
+
+* Cisco Packet Tracer
+* VLAN
+* Routing
+* Switching
+* Network Troubleshooting
+
+### Repository
+
+No repository has been assigned yet.
+
+---
+
+# Links Extracted
+
+## GitHub Profile
+
+https://github.com/dhanushbs10
+
+Purpose:
+Currently used as the destination for every project card instead of linking to individual repositories.
+
+---
+##linkedin
+www.linkedin.com/in/dhanush-b-s-4b454a368
+## Email
+
+**[dhanushpoojari101@gmail.com](mailto:dhanushpoojari101@gmail.com)**
+
+Purpose:
+Primary contact email displayed throughout the portfolio.
+
+---
+
+## Resume
+
+Currently configured as a placeholder.
+
+The resume button exists, but no actual resume URL has been added yet.
+
+---
+
+# Improvements Required
+
+The current portfolio structure is good, but the projects are too brief and generic. They should be replaced with my actual work. I have built many real-world projects outside of these placeholders, including web applications, cybersecurity experiments, networking labs, Linux troubleshooting, IoT projects, automation scripts, and home lab setups.
+
+I want every project to become its own detailed case study containing:
+
+* Project Overview
+* Problem Statement
+* Motivation
+* Technologies Used
+* Architecture
+* Features
+* Screenshots
+* Challenges Faced
+* Solutions Implemented
+* Lessons Learned
+* Future Improvements
+* GitHub Repository
+* Live Demo (if available)
+* Documentation
+
+Instead of showing all projects as simple cards, the portfolio should organize them into categories such as Cybersecurity, Networking, Web Development, IoT, Automation, Linux, and Research. Every project card should link to a dedicated project page with comprehensive technical documentation.
+
+Additionally, every project should have its own dedicated GitHub repository link instead of redirecting visitors to my GitHub profile. This will make the portfolio significantly more professional and allow recruiters to inspect the actual source code for each project.

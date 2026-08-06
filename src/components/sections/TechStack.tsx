@@ -11,31 +11,30 @@ interface ToolGroup {
 
 const TOOL_GROUPS: ToolGroup[] = [
   {
-    label: "Languages",
-    tools: ["TypeScript", "Go", "Python", "Rust (learning)", "SQL"],
+    label: "Programming",
+    tools: ["C", "Python", "JavaScript", "HTML", "CSS", "TypeScript (Learning)"],
   },
   {
-    label: "Frontend",
-    tools: ["Next.js", "React", "Tailwind", "tRPC"],
+    label: "Web Development",
+    tools: ["React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub"],
   },
   {
-    label: "Infrastructure",
-    tools: ["Docker", "Kubernetes", "Terraform", "Ansible", "Nix"],
+    label: "Cybersecurity",
+    tools: ["Linux", "Kali Linux", "Wireshark", "Nmap", "Burp Suite", "Metasploit"],
   },
   {
-    label: "Databases",
-    tools: ["PostgreSQL", "Redis", "SQLite", "ClickHouse"],
+    label: "Networking",
+    tools: ["TCP/IP", "DNS", "DHCP", "Routing", "Switching", "VLAN", "Cisco Packet Tracer"],
   },
   {
-    label: "Observability",
-    tools: ["Grafana", "Prometheus", "Loki", "OpenTelemetry"],
+    label: "Operating Systems",
+    tools: ["Windows 10", "Windows 11", "Kali Linux", "Ubuntu"],
   },
 ];
 
 function ToolMarqueeRow({ tools }: { tools: string[] }) {
   return (
     <div className="relative overflow-hidden">
-      {/* Fade edges */}
       <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-surface-base to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-surface-base to-transparent z-10 pointer-events-none" />
 
@@ -65,7 +64,7 @@ export function TechStack() {
           <SectionHeading
             eyebrow="05 — Stack"
             title="Tools I Reach For"
-            subtitle="A slow marquee of the things I use regularly — not exhaustive, just representative."
+            subtitle="The technologies and tools I use regularly for development, security, and networking."
           />
         </AnimatedReveal>
 
