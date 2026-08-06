@@ -3,34 +3,7 @@
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { cn } from "@/lib/utils";
-
-interface ToolGroup {
-  label: string;
-  tools: string[];
-}
-
-const TOOL_GROUPS: ToolGroup[] = [
-  {
-    label: "Programming",
-    tools: ["C", "Python", "JavaScript", "HTML", "CSS", "TypeScript (Learning)"],
-  },
-  {
-    label: "Web Development",
-    tools: ["React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub"],
-  },
-  {
-    label: "Cybersecurity",
-    tools: ["Linux", "Kali Linux", "Wireshark", "Nmap", "Burp Suite", "Metasploit"],
-  },
-  {
-    label: "Networking",
-    tools: ["TCP/IP", "DNS", "DHCP", "Routing", "Switching", "VLAN", "Cisco Packet Tracer"],
-  },
-  {
-    label: "Operating Systems",
-    tools: ["Windows 10", "Windows 11", "Kali Linux", "Ubuntu"],
-  },
-];
+import { toolGroups } from "@/data/tech-stack";
 
 function ToolMarqueeRow({ tools }: { tools: string[] }) {
   return (
@@ -69,7 +42,7 @@ export function TechStack() {
         </AnimatedReveal>
 
         <div className="mt-12 flex flex-col gap-8">
-          {TOOL_GROUPS.map((group) => (
+          {toolGroups.map((group) => (
             <div key={group.label} className="flex flex-col gap-3">
               <span className="font-mono text-[11px] tracking-widest uppercase text-text-tertiary pl-1">
                 {group.label}

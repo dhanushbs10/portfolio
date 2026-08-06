@@ -3,32 +3,15 @@
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { cn } from "@/lib/utils";
-
-const INTERESTS = [
-  "Cybersecurity",
-  "Network Security",
-  "Ethical Hacking",
-  "Linux Administration",
-  "Windows Administration",
-  "Networking",
-  "Home Lab Development",
-  "Hardware",
-  "Web Development",
-  "Open Source",
-  "Automation",
-  "Virtualization",
-  "System Architecture",
-];
-
-const SKILL_TAGS = [
-  "C", "Python", "JavaScript", "HTML", "CSS", "TypeScript (Learning)",
-  "React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub",
-  "Linux", "Kali Linux", "Wireshark", "Nmap", "Burp Suite",
-  "TCP/IP", "DNS", "DHCP", "Routing", "Switching", "VLAN",
-  "Cisco Packet Tracer",
-];
+import { bio, interests } from "@/data/about";
+import { skills } from "@/data/skills";
 
 export function AboutMe() {
+  // Unique categories from real data
+  const categories = [
+    ...new Map(skills.map((s) => [s.category, s.category])).values(),
+  ] as string[];
+
   return (
     <section className="section-container">
       <div className="mx-auto max-w-5xl">
@@ -54,21 +37,11 @@ export function AboutMe() {
 
           <AnimatedReveal direction="right">
             <div className="flex flex-col gap-5">
-              <p className="text-lg text-text-secondary leading-relaxed">
-                I&apos;m a final-year Diploma student specializing in{" "}
-                <span className="text-text-primary font-medium">Cybersecurity and Networking</span>.
-                Technology has always been something I explore beyond academics —
-                I spend my free time experimenting with operating systems, networking,
-                virtualization, hardware, and cybersecurity tools.
-              </p>
-              <p className="text-lg text-text-secondary leading-relaxed">
-                I believe practical experience is the fastest way to learn, which is
-                why I constantly build projects, troubleshoot systems, and create my
-                own learning environment.
-              </p>
+              <p className="text-lg text-text-secondary leading-relaxed">{bio.intro}</p>
+              <p className="text-lg text-text-secondary leading-relaxed">{bio.detail}</p>
 
               <div className="flex flex-wrap gap-2 pt-2">
-                {INTERESTS.map((tag) => (
+                {interests.map((tag) => (
                   <span key={tag} className="px-3 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-xs text-text-secondary">
                     {tag}
                   </span>
@@ -78,16 +51,17 @@ export function AboutMe() {
               <div className="mt-4">
                 <p className="mono-label text-accent-interactive mb-3">Skills &amp; Tools</p>
                 <div className="flex flex-wrap gap-2">
-                  {SKILL_TAGS.map((tag) => (
+                  {skills.map((skill) => (
                     <span
-                      key={tag}
-                      className={cn("px-2.5 py-1 rounded font-mono text-[11px] border",
-                        tag.includes("(Learning)")
+                      key={skill.id}
+                      className={cn(
+                        "px-2.5 py-1 rounded font-mono text-[11px] border",
+                        skill.proficiency === "learning"
                           ? "border-warning/40 text-warning bg-warning/5"
                           : "border-border-subtle text-text-secondary bg-surface-overlay"
                       )}
                     >
-                      {tag}
+                      {skill.name}
                     </span>
                   ))}
                 </div>

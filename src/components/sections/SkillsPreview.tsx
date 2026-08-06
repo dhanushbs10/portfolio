@@ -5,33 +5,56 @@ import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getSkills, getSkillsByCategory } from "@/lib/data";
+import type { Skill } from "@/lib/types";
 
-interface SkillCategory {
-  name: string;
-  items: string[];
+const VISIBLE_CHIPS = 4;
+
+function SkillCategoryCard({ name, skills }: { name: string; skills: Skill[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? skills : skills.slice(0, VISIBLE_CHIPS);
+  const hidden = skills.length - VISIBLE_CHIPS;
+
+  return (
+    <div className="card p-5 flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-sm font-semibold text-text-primary">
+          {name}
+        </h3>
+        {hidden > 0 && !expanded && (
+          <button
+            onClick={() => setExpanded(true)}
+            className="font-mono text-[11px] text-accent-interactive hover:text-accent-interactive-hover transition-colors"
+          >
+            +{hidden} more
+          </button>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {visible.map((skill) => (
+          <span
+            key={skill.id}
+            title={skill.note}
+            className={cn(
+              "px-2 py-0.5 rounded font-mono text-[11px] border",
+              skill.proficiency === "learning"
+                ? "border-warning/40 text-warning bg-warning/5"
+                : "border-border-subtle text-text-secondary bg-surface-overlay"
+            )}
+          >
+            {skill.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-const SKILLS: SkillCategory[] = [
-  {
-    name: "Programming",
-    items: ["C", "Python", "JavaScript", "HTML", "CSS", "TypeScript (Learning)"],
-  },
-  {
-    name: "Web Development",
-    items: ["React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub"],
-  },
-  {
-    name: "Cybersecurity",
-    items: ["Linux", "Kali Linux", "Wireshark", "Nmap", "Burp Suite", "Metasploit (Learning)"],
-  },
-  {
-    name: "Networking",
-    items: ["TCP/IP", "DNS", "DHCP", "Routing", "Switching", "VLAN", "Cisco Packet Tracer"],
-  },
-];
-
 export function SkillsPreview() {
-  const [open, setOpen] = useState<string | null>(null);
+  const skills = getSkills();
+  const categories = [
+    ...new Map(skills.map((s) => [s.category, s.category])).values(),
+  ];
 
   return (
     <section className="section-container">
@@ -44,44 +67,13 @@ export function SkillsPreview() {
           />
         </AnimatedReveal>
 
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {SKILLS.map((cat) => {
-            const isOpen = open === cat.name;
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categories.map((cat) => {
+            const catSkills = getSkillsByCategory(cat);
+            if (catSkills.length === 0) return null;
             return (
-              <AnimatedReveal key={cat.name}>
-                <button
-                  onClick={() => setOpen(isOpen ? null : cat.name)}
-                  className="card p-5 flex flex-col gap-3 text-left w-full hover:border-accent-structure transition-colors group"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-sm font-semibold text-text-primary">
-                      {cat.name}
-                    </h3>
-                    <ChevronRight
-                      size={15}
-                      className={cn(
-                        "text-text-tertiary transition-transform duration-200",
-                        isOpen && "rotate-90"
-                      )}
-                    />
-                  </div>
-
-                  <div
-                    className={cn(
-                      "flex flex-wrap gap-2 transition-all",
-                      !isOpen && "line-clamp-2"
-                    )}
-                  >
-                    {cat.items.map((item) => (
-                      <span
-                        key={item}
-                        className="px-2 py-0.5 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </button>
+              <AnimatedReveal key={cat}>
+                <SkillCategoryCard name={cat} skills={catSkills} />
               </AnimatedReveal>
             );
           })}

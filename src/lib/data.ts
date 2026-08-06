@@ -89,3 +89,17 @@ import { osEnvironment } from "@/data/os-environment";
 export function getOsEnvironment() {
   return osEnvironment;
 }
+
+// ── Tech Stack ──────────────────────────────────────────────
+import { toolGroups } from "@/data/tech-stack";
+
+export function getTechStack() {
+  return toolGroups;
+}
+
+// ── About ───────────────────────────────────────────────────
+import { bio, interests } from "@/data/about";
+
+export function getAbout() {
+  return { bio, interests };
+}

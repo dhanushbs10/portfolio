@@ -122,3 +122,20 @@ export interface ContactInfo {
   location: string;
   socials: SocialLink[];
 }
+
+// ── Tech Stack ──────────────────────────────────────────────
+export interface ToolGroup {
+  label: string;
+  tools: string[];
+}
+
+// ── About ───────────────────────────────────────────────────
+export interface AboutBio {
+  intro: string;
+  detail: string;
+}
+
+export interface AboutData {
+  bio: AboutBio;
+  interests: string[];
+}

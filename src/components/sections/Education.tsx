@@ -2,30 +2,12 @@
 
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-
-interface EduEntry {
-  program: string;
-  institution: string;
-  dates: string;
-  coursework: string[];
-}
-
-const EDUCATION: EduEntry[] = [
-  {
-    program: "[Degree Program]",
-    institution: "[University / Institution Name]",
-    dates: "Year — Year",
-    coursework: ["Coursework placeholder", "Coursework placeholder", "Coursework placeholder"],
-  },
-  {
-    program: "[Certificate / Bootcamp Name]",
-    institution: "[Provider]",
-    dates: "Year",
-    coursework: ["Topic placeholder", "Topic placeholder"],
-  },
-];
+import { getEducation } from "@/lib/data";
+import type { EducationEntry } from "@/lib/types";
 
 export function Education() {
+  const entries: EducationEntry[] = getEducation();
+
   return (
     <section className="section-container">
       <div className="mx-auto max-w-3xl">
@@ -38,8 +20,8 @@ export function Education() {
         </AnimatedReveal>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {EDUCATION.map((entry) => (
-            <AnimatedReveal key={entry.program}>
+          {entries.map((entry: EducationEntry) => (
+            <AnimatedReveal key={entry.id}>
               <div className="card p-6 flex flex-col gap-4">
                 <div>
                   <h3 className="font-display text-lg font-semibold text-text-primary">
@@ -49,13 +31,14 @@ export function Education() {
                     {entry.institution}
                   </p>
                   <span className="font-mono text-xs text-accent-interactive mt-1 block">
-                    {entry.dates}
+                    {entry.startDate}
+                    {entry.endDate ? ` — ${entry.endDate}` : " — Present"}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {entry.coursework.map((c, i) => (
                     <span
-                      key={`${entry.program}-coursework-${i}`}
+                      key={`${entry.id}-coursework-${i}`}
                       className="px-2.5 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary"
                     >
                       {c}
