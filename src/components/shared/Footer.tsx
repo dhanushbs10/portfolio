@@ -1,6 +1,9 @@
 import { Globe, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Compute once at module level so server and client render the same year.
+const CURRENT_YEAR = new Date().getFullYear();
+
 const SOCIALS = [
   {
     href: "https://github.com/dhanushbs10",
@@ -19,7 +22,7 @@ export function Footer() {
     <footer className="border-t border-border-subtle mt-auto">
       <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="font-mono text-xs text-text-tertiary">
-          &copy; {new Date().getFullYear()} Dhanush B S.{" "}
+          &copy; {CURRENT_YEAR} Dhanush B S.{" "}
           <span className="text-text-secondary">
             Bengaluru, Karnataka, India
           </span>
