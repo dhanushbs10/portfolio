@@ -1,9 +1,6 @@
 import { Globe, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Compute once at module level so server and client render the same year.
-const CURRENT_YEAR = new Date().getFullYear();
-
 const SOCIALS = [
   {
     href: "https://github.com/dhanushbs10",
@@ -22,10 +19,7 @@ export function Footer() {
     <footer className="border-t border-border-subtle mt-auto">
       <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="font-mono text-xs text-text-tertiary">
-          &copy; {CURRENT_YEAR} Dhanush B S.{" "}
-          <span className="text-text-secondary">
-            Bengaluru, Karnataka, India
-          </span>
+          Dhanush B S — Bengaluru, Karnataka, India
         </p>
 
         <div className="flex items-center gap-6">
@@ -47,8 +41,8 @@ export function Footer() {
             aria-label="Email"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
             </svg>
           </a>
         </div>
