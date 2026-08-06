@@ -79,11 +79,11 @@ export function Hero() {
         flickerAmount={1}
         noiseAmp={1}
         curvature={0.1}
-        tint="#06B6D4"
+        tint="#22d3ee"
         mouseReact
         mouseStrength={0.5}
         pageLoadAnimation
-        brightness={0.6}
+        brightness={0.9}
         className="absolute inset-0 z-[1]"
       />
       <div className="scanlines absolute inset-0 z-[5] pointer-events-none opacity-20" />
