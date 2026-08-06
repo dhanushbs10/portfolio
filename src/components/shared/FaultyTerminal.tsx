@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo, useCallback } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
 
 type Vec2 = [number, number];
@@ -156,6 +156,11 @@ export default function FaultyTerminal({
   style,
   ...rest
 }: FaultyTerminalProps) {
+  // Mount guard: render nothing on server, prevent SSR mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<any>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
