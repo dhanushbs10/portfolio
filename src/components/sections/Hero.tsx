@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import FaultyTerminal from "@/components/shared/FaultyTerminal";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -57,70 +58,6 @@ function BootSequence({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-// ── Particle canvas ──────────────────────────────────────────
-function ParticleCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
-
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) { drawStatic(); return; }
-
-    let animId: number;
-    const particles: { x: number; y: number; vx: number; vy: number }[] = [];
-    const COUNT = 45;
-    const CONNECT_SQ = 140 * 140;
-
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resize();
-    window.addEventListener("resize", resize);
-
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-      });
-    }
-
-    function drawStatic() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(215, 228, 242, 0.25)";
-      for (const p of particles) { ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2); ctx.fill(); }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of particles) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-      }
-      ctx.strokeStyle = "rgba(215, 228, 242, 0.06)"; ctx.lineWidth = 0.6;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          if (dx * dx + dy * dy < CONNECT_SQ) {
-            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-          }
-        }
-      }
-      ctx.fillStyle = "rgba(215, 228, 242, 0.3)";
-      for (const p of particles) { ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2); ctx.fill(); }
-      animId = requestAnimationFrame(animate);
-    }
-
-    if (!mq.matches) animate();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", resize); };
-  }, []);
-
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" aria-hidden="true" style={{ opacity: 0.7 }} />;
-}
-
 // ── Main Hero ────────────────────────────────────────────────
 type Phase = "booting" | "loaded";
 
@@ -133,8 +70,23 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <ParticleCanvas />
-      <div className="scanlines absolute inset-0 z-[5] pointer-events-none opacity-30" />
+      <FaultyTerminal
+        scale={1.5}
+        gridMul={[2, 1]}
+        digitSize={1.2}
+        scanlineIntensity={0.5}
+        glitchAmount={1}
+        flickerAmount={1}
+        noiseAmp={1}
+        curvature={0.1}
+        tint="#06B6D4"
+        mouseReact
+        mouseStrength={0.5}
+        pageLoadAnimation
+        brightness={0.6}
+        className="absolute inset-0 z-[1]"
+      />
+      <div className="scanlines absolute inset-0 z-[5] pointer-events-none opacity-20" />
 
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
