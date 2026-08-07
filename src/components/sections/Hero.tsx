@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import FaultyTerminal from "@/components/shared/FaultyTerminal";
+import Topography from "@/components/Topography";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -70,30 +70,34 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* FaultyTerminal background */}
+      {/* Topography background */}
       <div className="absolute inset-0 z-0">
-        <FaultyTerminal
-          scale={1.5}
-          gridMul={[2, 1]}
-          digitSize={1.2}
-          timeScale={0.5}
-          pause={false}
-          scanlineIntensity={0.5}
-          glitchAmount={1}
-          flickerAmount={1}
-          noiseAmp={1}
-          chromaticAberration={0}
-          dither={0}
-          curvature={0.1}
-          tint="#06B6D4"
-          mouseReact
-          mouseStrength={0.5}
-          pageLoadAnimation
-          brightness={0.5}
+        <Topography
+          lowColor="#110b29"
+          midColor="#605dbf"
+          highColor="#FFFFFF"
+          speed={0.35}
+          morphAmount={3}
+          morphSpeed={0.05}
+          bands={2}
+          thickness={0.01}
+          scale={2}
+          pixelSize={1}
+          glow={0.5}
+          colorMode="elevation"
+          contrast={3}
+          brightness={1}
+          fillBands={false}
+          opacity={1}
+          grain
+          grainIntensity={0.05}
+          mouseInteraction
+          mouseRadius={0.3}
+          mouseStrength={0.4}
         />
       </div>
 
-      {/* Dark overlay — center is dark enough for text, edges darker for depth */}
+      {/* Dark overlay for text readability */}
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{
