@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import FaultyTerminal from "@/components/shared/FaultyTerminal";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -69,14 +70,39 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* FaultyTerminal background */}
+      <div className="absolute inset-0 z-0">
+        <FaultyTerminal
+          scale={1.5}
+          gridMul={[2, 1]}
+          digitSize={1.2}
+          timeScale={0.5}
+          pause={false}
+          scanlineIntensity={0.5}
+          glitchAmount={1}
+          flickerAmount={1}
+          noiseAmp={1}
+          chromaticAberration={0}
+          dither={0}
+          curvature={0.1}
+          tint="#06B6D4"
+          mouseReact
+          mouseStrength={0.5}
+          pageLoadAnimation
+          brightness={0.5}
+        />
+      </div>
+
+      {/* Dark overlay — center is dark enough for text, edges darker for depth */}
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 45%, transparent 0%, var(--surface-base) 100%)",
+            "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(2,6,23,0.78) 0%, rgba(2,6,23,0.95) 100%)",
         }}
       />
 
+      {/* Content */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 mx-auto max-w-3xl px-6 text-center"
