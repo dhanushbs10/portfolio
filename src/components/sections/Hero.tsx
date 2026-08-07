@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import Ferrofluid from "@/components/Ferrofluid";
+import FaultyTerminal from "@/components/FaultyTerminal";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -71,21 +71,24 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <Ferrofluid
-          colors={["#ffffff", "#ffffff", "#ffffff"]}
-          speed={0.5}
-          scale={1.6}
-          turbulence={1}
-          fluidity={0.1}
-          rimWidth={0.2}
-          sharpness={2.5}
-          shimmer={1.5}
-          glow={2}
-          flowDirection="down"
-          opacity={1}
-          mouseInteraction
-          mouseStrength={1}
-          mouseRadius={0.35}
+        <FaultyTerminal
+          scale={1.5}
+          gridMul={[2, 1]}
+          digitSize={1.2}
+          timeScale={0.5}
+          pause={false}
+          scanlineIntensity={0.5}
+          glitchAmount={1}
+          flickerAmount={1}
+          noiseAmp={1}
+          chromaticAberration={0}
+          dither={0}
+          curvature={0.1}
+          tint="#A7EF9E"
+          mouseReact
+          mouseStrength={0.5}
+          pageLoadAnimation
+          brightness={0.6}
         />
       </div>
 
