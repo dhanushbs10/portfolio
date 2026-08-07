@@ -1,76 +1,11 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
-import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import FaultyTerminal from "@/components/FaultyTerminal";
 import { cn } from "@/lib/utils";
-
-const BOOT_LINES = [
-  "[BOOT] Initializing kernel...",
-  "[BOOT] Loading modules: networking, security, infra...",
-  "[SYS] Memory check: 12 GB DDR3 — OK",
-  "[NET] Interface eth0: connected",
-  "[NET] Interface wlan0: standby",
-  "[SEC] Firewall rules loaded: 42 active",
-  "[OK] System ready.",
-  "",
-];
-
-function BootSequence({ onComplete }: { onComplete: () => void }) {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const started = useRef(false);
-
-  useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-
-    let timer: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      setVisibleLines((l) => {
-        if (l + 1 >= BOOT_LINES.length) {
-          timer = setTimeout(onComplete, 400);
-          return l;
-        }
-        return l + 1;
-      });
-    };
-    timer = setTimeout(tick, 220);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-
-  return (
-    <div className="font-mono text-xs sm:text-sm space-y-0.5 text-left max-w-lg mx-auto">
-      {BOOT_LINES.slice(0, visibleLines).map((line, i) => {
-        const isLast = i === visibleLines - 1;
-        return (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.15, ease: "linear" }}
-            className={cn(
-              line.startsWith("[OK]") && "text-success",
-              line.startsWith("[ERR]") && "text-error",
-              line.startsWith("[NET]") && "text-accent-interactive",
-              line.startsWith("[SEC]") && "text-warning",
-              line.startsWith("[SYS]") && "text-accent-structure-light"
-            )}
-          >
-            {line}
-            {isLast && <span className="cursor-blink ml-0.5" />}
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
-
-type Phase = "booting" | "loaded";
+import FaultyTerminal from "@/components/FaultyTerminal";
 
 export function Hero() {
-  const [phase, setPhase] = useState<Phase>("booting");
   const { scrollY } = useScroll();
   const cueOpacity = useTransform(scrollY, [0, 300], [1, 0]);
   const contentOpacity = useTransform(scrollY, [0, 200], [1, 0]);
@@ -110,83 +45,72 @@ export function Hero() {
         }}
       />
 
-      {/* Content */}
+      {/* Content — always visible, no boot animation */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 mx-auto max-w-3xl px-6 text-center"
       >
-        {phase === "booting" ? (
-          <BootSequence onComplete={() => setPhase("loaded")} />
-        ) : (
-          <div className="flex flex-col gap-6">
-              {/* Terminal-style label */}
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Terminal size={14} className="text-accent-interactive" />
-                <span className="sys-label">profile.dhanush — loaded</span>
-              </div>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Terminal size={14} className="text-accent-interactive" />
+            <span className="sys-label">profile.dhanush — loaded</span>
+          </div>
 
-              {/* Name */}
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
-                Dhanush{" "}
-                <span className="text-accent-interactive">B S</span>
-              </h1>
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
+            Dhanush{" "}
+            <span className="text-accent-interactive">B S</span>
+          </h1>
 
-              {/* Role / tagline */}
-              <div className="font-mono text-sm sm:text-base text-accent-structure-light">
-                <span className="text-text-tertiary">$</span> whoami
-                <br />
-                <span className="text-text-secondary">
-                  Diploma in CSE · Cybersecurity &amp; Networking · Bengaluru, IN
-                </span>
-              </div>
+          <div className="font-mono text-sm sm:text-base text-accent-structure-light">
+            <span className="text-text-tertiary">$</span> whoami
+            <br />
+            <span className="text-text-secondary">
+              Diploma in CSE · Cybersecurity &amp; Networking · Bengaluru, IN
+            </span>
+          </div>
 
-              {/* One-line thesis */}
-              <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-secondary leading-relaxed">
-                Building reliable systems and securing networks — from bare-metal
-                infrastructure to practical cybersecurity labs.
-              </p>
+          <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-secondary leading-relaxed">
+            Building reliable systems and securing networks — from bare-metal
+            infrastructure to practical cybersecurity labs.
+          </p>
 
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4 justify-center pt-4">
-                <a
-                  href="/projects"
-                  className="group relative inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded-md px-6 py-3 font-mono text-sm font-medium tracking-wide transition-all duration-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
-                >
-                  ./view-projects
-                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                </a>
-                <a
-                  href="/about"
-                  className="group inline-flex items-center gap-2 border border-accent-interactive/50 text-accent-interactive hover:bg-accent-interactive/10 hover:border-accent-interactive rounded-md px-6 py-3 font-mono text-sm tracking-wide transition-all duration-200"
-                >
-                  cat about.md
-                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                </a>
-              </div>
-            </div>
-          )}
+          <div className="flex flex-wrap gap-4 justify-center pt-4">
+            <a
+              href="/projects"
+              className="group relative inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded-md px-6 py-3 font-mono text-sm font-medium tracking-wide transition-all duration-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
+            >
+              ./view-projects
+              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+            <a
+              href="/about"
+              className="group inline-flex items-center gap-2 border border-accent-interactive/50 text-accent-interactive hover:bg-accent-interactive/10 hover:border-accent-interactive rounded-md px-6 py-3 font-mono text-sm tracking-wide transition-all duration-200"
+            >
+              cat about.md
+              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
       </motion.div>
 
       {/* Scroll cue */}
-      {phase === "loaded" && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        style={{ opacity: cueOpacity }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+      >
+        <span className="font-mono text-[10px] tracking-widest uppercase text-text-tertiary">
+          scroll
+        </span>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          style={{ opacity: cueOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
         >
-          <span className="font-mono text-[10px] tracking-widest uppercase text-text-tertiary">
-            scroll
-          </span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-          >
-            <ChevronDown size={16} className="text-text-tertiary" />
-          </motion.div>
+          <ChevronDown size={16} className="text-text-tertiary" />
         </motion.div>
-      )}
+      </motion.div>
     </section>
   );
 }
