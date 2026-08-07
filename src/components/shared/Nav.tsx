@@ -49,7 +49,7 @@ export function Nav() {
                 href={item.href}
                 className={cn(
                   "font-mono text-xs tracking-widest uppercase",
-                  "text-text-secondary hover:text-accent-interactive",
+                  "text-text-primary hover:text-accent-interactive",
                   "transition-colors duration-200"
                 )}
               >
@@ -62,7 +62,7 @@ export function Nav() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-text-secondary hover:text-text-primary"
+          className="md:hidden p-2 text-text-primary hover:text-text-primary"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -85,7 +85,7 @@ export function Nav() {
                   <a
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="font-mono text-sm tracking-widest uppercase text-text-secondary hover:text-accent-interactive"
+                    className="font-mono text-sm tracking-widest uppercase text-text-primary hover:text-text-primary"
                   >
                     {item.label}
                   </a>

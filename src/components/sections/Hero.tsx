@@ -1,6 +1,6 @@
 "use client";
 
-import { useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FaultyTerminal from "@/components/FaultyTerminal";
@@ -21,18 +21,18 @@ export function Hero() {
           digitSize={1.2}
           timeScale={0.5}
           pause={false}
-          scanlineIntensity={0.5}
+          scanlineIntensity={0.35}
           glitchAmount={1}
           flickerAmount={1}
           noiseAmp={1}
           chromaticAberration={0}
           dither={0}
           curvature={0.1}
-          tint="#A7EF9E"
+          tint="#0891b2"
           mouseReact
           mouseStrength={0.5}
           pageLoadAnimation
-          brightness={0.6}
+          brightness={0.85}
         />
       </div>
 
@@ -69,7 +69,7 @@ export function Hero() {
             </span>
           </div>
 
-          <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-secondary leading-relaxed">
+          <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-primary leading-relaxed">
             Building reliable systems and securing networks — from bare-metal
             infrastructure to practical cybersecurity labs.
           </p>
