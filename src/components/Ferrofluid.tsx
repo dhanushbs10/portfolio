@@ -217,7 +217,7 @@ const Ferrofluid: React.FC<FerrofluidProps> = ({
   dpr,
   paused = false,
   colors = ['#ffffff', '#ffffff', '#ffffff'],
-  speed = 0.5,
+  speed = 0.1,
   scale = 1.6,
   turbulence = 1,
   fluidity = 0.1,
