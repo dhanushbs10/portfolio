@@ -3,11 +3,11 @@
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { cn } from "@/lib/utils";
-import { bio, interests } from "@/data/about";
-import { skills } from "@/data/skills";
-import { getOsEnvironment } from "@/lib/data";
+import { getAbout, getSkills, getOsEnvironment } from "@/lib/data";
 
 export function AboutMe() {
+  const { bio, interests } = getAbout();
+  const skills = getSkills();
   const env = getOsEnvironment();
   const categories = [
     ...new Map(skills.map((s) => [s.category, s.category])).values(),
