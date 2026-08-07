@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import Topography from "@/components/Topography";
+import Ferrofluid from "@/components/Ferrofluid";
 import { cn } from "@/lib/utils";
 
 // ── Boot sequence lines ──────────────────────────────────────
@@ -70,30 +70,22 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Topography background */}
       <div className="absolute inset-0 z-0">
-        <Topography
-          lowColor="#110b29"
-          midColor="#605dbf"
-          highColor="#FFFFFF"
-          speed={0.35}
-          morphAmount={3}
-          morphSpeed={0.05}
-          bands={2}
-          thickness={0.01}
-          scale={2}
-          pixelSize={1}
-          glow={0.5}
-          colorMode="elevation"
-          contrast={3}
-          brightness={1}
-          fillBands={false}
+        <Ferrofluid
+          colors={["#ffffff", "#ffffff", "#ffffff"]}
+          speed={0.5}
+          scale={1.6}
+          turbulence={1}
+          fluidity={0.1}
+          rimWidth={0.2}
+          sharpness={2.5}
+          shimmer={1.5}
+          glow={2}
+          flowDirection="down"
           opacity={1}
-          grain
-          grainIntensity={0.05}
           mouseInteraction
-          mouseRadius={0.3}
-          mouseStrength={0.4}
+          mouseStrength={1}
+          mouseRadius={0.35}
         />
       </div>
 
