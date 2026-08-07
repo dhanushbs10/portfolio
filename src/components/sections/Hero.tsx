@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import { cn } from "@/lib/utils";
 
-// ── Boot sequence lines ──────────────────────────────────────
 const BOOT_LINES = [
   "[BOOT] Initializing kernel...",
   "[BOOT] Loading modules: networking, security, infra...",
@@ -21,15 +20,25 @@ const BOOT_LINES = [
 
 function BootSequence({ onComplete }: { onComplete: () => void }) {
   const [visibleLines, setVisibleLines] = useState(0);
+  const started = useRef(false);
 
   useEffect(() => {
-    if (visibleLines >= BOOT_LINES.length) {
-      const t = setTimeout(onComplete, 400);
-      return () => clearTimeout(t);
-    }
-    const t = setTimeout(() => setVisibleLines((l) => l + 1), 220);
-    return () => clearTimeout(t);
-  }, [visibleLines, onComplete]);
+    if (started.current) return;
+    started.current = true;
+
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      setVisibleLines((l) => {
+        if (l + 1 >= BOOT_LINES.length) {
+          timer = setTimeout(onComplete, 400);
+          return l;
+        }
+        return l + 1;
+      });
+    };
+    timer = setTimeout(tick, 220);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
 
   return (
     <div className="font-mono text-xs sm:text-sm space-y-0.5 text-left max-w-lg mx-auto">
@@ -58,7 +67,6 @@ function BootSequence({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-// ── Main Hero ────────────────────────────────────────────────
 type Phase = "booting" | "loaded";
 
 export function Hero() {
@@ -70,6 +78,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* FaultyTerminal background */}
       <div className="absolute inset-0 z-0">
         <FaultyTerminal
           scale={1.5}
@@ -109,8 +118,7 @@ export function Hero() {
         {phase === "booting" ? (
           <BootSequence onComplete={() => setPhase("loaded")} />
         ) : (
-          <AnimatedReveal>
-            <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
               {/* Terminal-style label */}
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Terminal size={14} className="text-accent-interactive" />
@@ -142,20 +150,21 @@ export function Hero() {
               <div className="flex flex-wrap gap-4 justify-center pt-4">
                 <a
                   href="/projects"
-                  className="bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded px-6 py-3 font-mono text-sm font-medium tracking-wide transition-colors"
+                  className="group relative inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded-md px-6 py-3 font-mono text-sm font-medium tracking-wide transition-all duration-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
                 >
                   ./view-projects
+                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
                 </a>
                 <a
                   href="/about"
-                  className="border border-accent-structure text-accent-structure-light hover:bg-accent-structure hover:text-text-primary rounded px-6 py-3 font-mono text-sm tracking-wide transition-colors"
+                  className="group inline-flex items-center gap-2 border border-accent-interactive/50 text-accent-interactive hover:bg-accent-interactive/10 hover:border-accent-interactive rounded-md px-6 py-3 font-mono text-sm tracking-wide transition-all duration-200"
                 >
                   cat about.md
+                  <span className="group-hover:translate-x-0.5 transition-transform">→</span>
                 </a>
               </div>
             </div>
-          </AnimatedReveal>
-        )}
+          )}
       </motion.div>
 
       {/* Scroll cue */}
