@@ -7,6 +7,4 @@ export const osEnvironment = {
   desktop: "XFCE",
   displayServer: "X11 / LightDM",
   shell: "Zsh",
-  terminal: "[Your preferred terminal emulator]",
-  editor: "[Your preferred editor]",
 } as const;

@@ -12,10 +12,8 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* FaultyTerminal background */}
-      <div className="absolute inset-0 z-0">
-        <HeroBackground />
-      </div>
+      {/* Animated background layer */}
+      <HeroBackground />
 
       {/* Dark overlay for text readability */}
       <div
@@ -34,12 +32,11 @@ export function Hero() {
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Terminal size={14} className="text-accent-interactive" />
-            <span className="sys-label">profile.dhanush — loaded</span>
+            <span className="eyebrow">profile.dhanush — loaded</span>
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
-            Dhanush{" "}
-            <span className="text-accent-interactive">B S</span>
+            Dhanush B S
           </h1>
 
           <div className="font-mono text-sm sm:text-base text-accent-structure-light">
@@ -55,20 +52,24 @@ export function Hero() {
             infrastructure to practical cybersecurity labs.
           </p>
 
-          <div className="flex flex-wrap gap-4 justify-center pt-4">
+          <div className="flex flex-wrap gap-6 justify-center pt-4">
             <a
               href="/projects"
-              className="group relative inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded-md px-6 py-3 font-mono text-sm font-medium tracking-wide transition-all duration-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
+              className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
             >
               ./view-projects
-              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              <span className="group-hover:translate-x-0.5 transition-transform duration-200">
+                →
+              </span>
             </a>
             <a
               href="/about"
-              className="group inline-flex items-center gap-2 border border-accent-interactive/50 text-accent-interactive hover:bg-accent-interactive/10 hover:border-accent-interactive rounded-md px-6 py-3 font-mono text-sm tracking-wide transition-all duration-200"
+              className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
             >
               cat about.md
-              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              <span className="group-hover:translate-x-0.5 transition-transform duration-200">
+                →
+              </span>
             </a>
           </div>
         </div>

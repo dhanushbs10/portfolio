@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/shared/Nav";
 import { Footer } from "@/components/shared/Footer";
+import PageBackground from "@/components/PageBackground";
 import "./globals.css";
 
 const displayFont = Space_Grotesk({
@@ -60,6 +61,7 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-surface-base text-text-primary">
+        <PageBackground />
         <ThemeProvider defaultTheme="dark">
           <Nav />
           <div className="flex-1">{children}</div>

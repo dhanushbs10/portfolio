@@ -18,7 +18,6 @@ export function SectionHeading({
   className,
   eyebrowClassName,
 }: SectionHeadingProps) {
-  const isSysLabel = eyebrow?.startsWith("[") && eyebrow?.endsWith("]");
   return (
     <div
       className={cn(
@@ -28,11 +27,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        isSysLabel ? (
-          <p className={cn("sys-label mb-3", eyebrowClassName)}>{eyebrow}</p>
-        ) : (
-          <p className="mono-label text-accent-interactive mb-3">{eyebrow}</p>
-        )
+        <p className={cn("eyebrow mb-3", eyebrowClassName)}>{eyebrow}</p>
       )}
       <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight text-text-primary">
         {title}

@@ -254,14 +254,15 @@
     50% { opacity: 0; }
   }
 
-  /* Sys-label — the [SYS.ABOUT] style tags */
-  .sys-label {
+  /* Eyebrow — small quiet mono section label */
+  .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  letter-spacing: 0.1em;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent-interactive);
-    opacity: 0.8;
+    color: var(--text-tertiary);
+    
   }
 
   /* Boot-sequence line */

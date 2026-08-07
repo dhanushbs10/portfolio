@@ -35,7 +35,7 @@ export function ContactSection() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="[NET.CONTACT]"
+            eyebrow="Contact"
             title="Get in Touch"
             subtitle="Have a project in mind, a question, or just want to say hi? Reach out."
           />

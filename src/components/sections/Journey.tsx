@@ -14,22 +14,23 @@ export function Journey() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="[NET.EXP]"
+            eyebrow="Experience"
             title="Professional Journey"
             subtitle="My path from curiosity to focused specialization in cybersecurity and networking."
           />
         </AnimatedReveal>
 
-        <div className="relative mt-14 flex flex-col gap-0">
-          <div className="absolute left-[7px] top-3 bottom-3 w-px bg-border-subtle" />
+        <div className="mt-12 relative flex flex-col gap-8">
+          {/* Timeline spine */}
+          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border-subtle" />
 
           {milestones.map((entry: JourneyMilestone) => (
             <AnimatedReveal key={entry.id}>
-              <div className="relative pl-10 pb-12 last:pb-0">
+              <div className="relative pl-10">
                 <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-accent-interactive/80 border-2 border-surface-base" />
 
                 <div className="flex flex-col gap-1">
-                  <span className="font-mono text-xs text-accent-interactive tracking-wider">
+                  <span className="font-mono text-xs text-text-tertiary tracking-wider">
                     {entry.date}
                   </span>
                   <h3 className="font-display text-lg font-semibold text-text-primary flex items-center gap-2">
