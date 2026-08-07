@@ -2,8 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Terminal } from "lucide-react";
-import { cn } from "@/lib/utils";
-import FaultyTerminal from "@/components/FaultyTerminal";
+import HeroBackground from "./HeroBackground";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -15,25 +14,7 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* FaultyTerminal background */}
       <div className="absolute inset-0 z-0">
-        <FaultyTerminal
-          scale={1.5}
-          gridMul={[2, 1]}
-          digitSize={1.2}
-          timeScale={0.5}
-          pause={false}
-          scanlineIntensity={0.35}
-          glitchAmount={1}
-          flickerAmount={1}
-          noiseAmp={1}
-          chromaticAberration={0}
-          dither={0}
-          curvature={0.1}
-          tint="#0891b2"
-          mouseReact
-          mouseStrength={0.5}
-          pageLoadAnimation
-          brightness={0.85}
-        />
+        <HeroBackground />
       </div>
 
       {/* Dark overlay for text readability */}
