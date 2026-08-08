@@ -1,0 +1,122 @@
+---
+title: "ShellPlay"
+slug: "shellplay"
+summary: "A browser-based Linux terminal simulator built with Next.js for practicing shell commands safely."
+coverImage: "/images/projects/shellplay/cover.png"
+techStack: ["Next.js", "React", "TypeScript", "Web Development"]
+githubRepo: "dhanushbs10/ShellPlay"
+status: "completed"
+featured: false
+---
+
+## Overview
+
+ShellPlay is a browser-based Linux terminal simulator — 100+ commands, a full shell script interpreter, and an in-memory virtual filesystem. All state vanishes when the browser closes. It's built for learning Linux commands safely: no VM to spin up, no cloud sandbox to pay for, no risk of nuking your actual system. Open a tab, start typing.
+
+## Architecture
+
+**Stack:** Next.js 16 (App Router), React 19, TypeScript strict mode. Zero external dependencies for core logic.
+
+**Project Structure:**
+```
+/lib
+  filesystem.ts      # In-memory VFS: tree, permissions, ownership, timestamps, symlinks
+  executor.ts        # 50+ command implementations (ls, cp, grep, awk, sed, chmod, ps, etc.)
+  interpreter.ts     # Shell script runner: variables, loops, conditionals, functions, pipes, redirection
+/components
+  TerminalSimulator.tsx  # Main UI: xterm-style canvas, input line, history, autocomplete
+/app
+  page.tsx           # Next.js entry point
+```
+
+**Virtual Filesystem:** Initializes with a realistic tree (`/home/user`, `/etc`, `/proc`, `/var/log`, `/tmp`, `/root`, `/usr/bin`). Each node tracks: type (file/dir/symlink), permissions (octal), owner/group, timestamps, content (for files), target (for symlinks). Operations mutate this tree in memory — `cp`, `mv`, `rm`, `mkdir`, `touch`, `chmod`, `chown`, `ln -s` all work.
+
+**Command Executor:** Each command is a pure function `(args: string[], ctx: ExecutionContext) => CommandResult`. The context holds: current working directory, environment variables, stdin/stdout/stderr streams, filesystem reference. Built-ins (`cd`, `pwd`, `export`, `alias`, `history`) mutate context; external commands (`ls`, `cat`, `grep`, `find`, `awk`, `sed`, `tar`, `gzip`, `ps`, `top`, `kill`, `useradd`, `passwd`, `ping`, `curl`) read/write the VFS and return formatted output.
+
+**Shell Interpreter:** Parses and executes shell scripts. Supports:
+- Variables: `$VAR`, `${VAR}`, `$((arithmetic))`, `$(command substitution)`
+- Control flow: `if/elif/else/fi`, `for/in`, `while`, `case`, `select`
+- Functions: `name() { ... }`, positional params `$1`..`$9`, `$@`, `$#`
+- Pipelines: `cmd1 | cmd2 | cmd3` (streamed between commands)
+- Redirection: `>`, `>>`, `<`, `2>`, `&>`, `<<HEREDOC`
+- Built-ins: `source`, `.`, `break`, `continue`, `return`, `exit`, `set`, `shift`
+
+**Terminal UI:** Custom xterm-style component (no `xterm.js` dependency). Renders to a `<canvas>` for performance: 80×24 default, responsive resize, dark theme (`#0d0d0d` background, green/amber text), blinking block cursor, scrollback buffer. Input line handles: Tab autocomplete (commands, paths, variables), ↑/↓ history, Ctrl+C (SIGINT simulation), Ctrl+L (clear), Ctrl+U/K (line editing).
+
+## Challenges Faced
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| Command parsing ambiguity | `echo $VAR` vs `echo "$VAR"`, unquoted globs, escaped chars | Custom tokenizer: respects quotes, escapes, expands variables *after* tokenization but *before* execution |
+| Simulating filesystem state | In-memory tree must survive command boundaries, support symlinks, permissions | Immutable-ish pattern: executor returns new tree root; React state holds current root; symlinks resolved at access time with cycle detection |
+| Pipeline streaming | `cat file \| grep foo \| wc -l` needs inter-command streaming, not buffered | Each command returns an async generator; pipeline runner pipes chunks between generators; `head`/`tail` can short-circuit |
+| Terminal keyboard handling | Browser swallows Ctrl+W, Ctrl+T, Meta keys; mobile has no Tab | Custom keydown handler: `e.preventDefault()` on terminal keys; virtual keyboard toolbar on mobile with Tab, Ctrl, arrows, Esc |
+| Script interpreter edge cases | `for i in {1..10}`, `[[ -f $file ]]`, `local` in functions | Incremental implementation: brace expansion in tokenizer, `[[ ]]` as built-in with glob matching, function scope stack for `local` |
+| Performance at scale | 100+ commands, large `ls -R /` output, rapid keystrokes | Canvas rendering (not DOM per line); virtualized scrollback; debounced resize; command output chunked |
+
+## Solutions Implemented
+
+**Tokenizer → AST → Executor Pipeline:**
+```typescript
+// Simplified flow
+const tokens = tokenize(input);           // Handles quotes, escapes, $VAR, $(cmd), `cmd`
+const ast = parse(tokens);                // Pipeline, redirection, control flow
+const result = await execute(ast, ctx);   // Recursively evaluates nodes
+```
+
+**Virtual Filesystem Operations:**
+```typescript
+interface FSNode {
+  type: 'file' | 'dir' | 'symlink';
+  permissions: number;    // 0o755
+  owner: string;          // 'user'
+  group: string;          // 'users'
+  mtime: number;          // Date.now()
+  content?: string;       // for files
+  target?: string;        // for symlinks
+  children?: Map<string, FSNode>;
+}
+```
+
+**Pipeline Execution:**
+```typescript
+async function* runPipeline(cmds: Command[], ctx: Context) {
+  let input: AsyncIterable<string> = emptyStream();
+  for (const cmd of cmds) {
+    input = executeCommand(cmd, { ...ctx, stdin: input });
+  }
+  yield* input;
+}
+```
+
+**Autocomplete Engine:**
+```typescript
+function getCompletions(prefix: string, ctx: Context): string[] {
+  if (isCommandPosition(prefix)) return COMMANDS.filter(c => c.startsWith(prefix));
+  if (isPathPosition(prefix)) return fsList(ctx.cwd, prefix);
+  if (isVariablePosition(prefix)) return Object.keys(ctx.env).filter(v => v.startsWith(prefix));
+  return [];
+}
+```
+
+**Mobile Toolbar:** Floating button bar (Tab, Ctrl, ↑, ↓, ←, →, Esc) injected only on touch devices. Taps dispatch synthetic keydown events the same handler processes.
+
+## Lessons Learned
+
+- **Terminal emulation is a state machine, not a UI component** — The hard part isn't rendering characters; it's modeling the line discipline: raw mode, cooked mode, signals, job control, escape sequences. I built a subset that feels real without implementing a full TTY.
+- **Shell parsing is deceptively complex** — `echo "hello world"` vs `echo hello world` vs `echo $UNSET_VAR` vs `echo "$UNSET_VAR"` all behave differently. A proper tokenizer that tracks quote state and escape sequences is the foundation everything else sits on.
+- **Pipes need streaming, not buffering** — `yes | head -n 5` must not try to buffer infinite output. Async generators let each command pull only what it needs; `head` closes the pipeline early.
+- **In-memory filesystem = instant reset** — No container teardown, no database truncation. Refresh the page and you get a clean `/home/user` every time. That's the killer feature for a learning tool.
+- **Canvas > DOM for terminal rendering** — 2000+ DOM nodes for a full screen of text kills frame rate on mobile. One canvas, one `fillText` per glyph, dirty-rect invalidation = 60fps on a phone.
+- **Mobile terminal UX is its own discipline** — No Tab key, no Ctrl, no hover. The virtual toolbar and swipe-to-scroll aren't nice-to-haves; they're the difference between usable and broken on a phone.
+
+## Future Improvements
+
+- **Persistence Layer** — IndexedDB backup/restore so sessions survive browser close (opt-in).
+- **Multi-Session Tabs** — Browser-tab-style terminal multiplexing within the page.
+- **Remote Backend Mode** — Optional WebSocket connection to a real container for commands that need real execution (Docker, Kubernetes, actual network tools).
+- **Plugin System** — Dynamic command registration so users can add custom tools without forking.
+- **Themes** — Solarized, Dracula, Gruvbox, custom CSS variable palette.
+- **Tutorial Mode** — Guided lessons with inline validation ("Run `ls -la` to see hidden files").
+- **Collaborative Sessions** — Share a terminal via WebRTC for pair debugging or teaching.
+- **Language Server Integration** — Inline diagnostics for shell scripts (shellcheck in the browser via WASM).

@@ -2,63 +2,25 @@
 
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { cn } from "@/lib/utils";
-import { getAbout, getSkills, getOsEnvironment } from "@/lib/data";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  cybersecurity: "Cybersecurity",
-  networking: "Networking",
-  "operating-systems": "Operating Systems",
-  programming: "Programming",
-  "web-development": "Web Development",
-  tools: "Tools",
-  "version-control": "Version Control",
-};
-
-const CATEGORY_ORDER = [
-  "cybersecurity",
-  "networking",
-  "operating-systems",
-  "programming",
-  "web-development",
-  "tools",
-  "version-control",
-];
-
-function SkillChip({ skill }: { skill: { name: string; proficiency: string } }) {
-  const tier =
-    skill.proficiency === "proficient"
-      ? "strong"
-      : skill.proficiency === "comfortable"
-        ? "mid"
-        : "learning";
-
-  return (
-    <span
-      className={cn(
-        "px-2.5 py-1 rounded font-mono text-[11px] border",
-        tier === "strong"
-          ? "border-accent-interactive/50 text-accent-interactive bg-accent-interactive/10"
-          : tier === "mid"
-            ? "border-border-default text-text-secondary bg-surface-overlay"
-            : "border-border-subtle text-text-tertiary bg-surface-sunken"
-      )}
-    >
-      {skill.name}
-    </span>
-  );
-}
+import { getAbout, getInterests } from "@/lib/data";
+import type { InterestCategory } from "@/lib/types";
 
 export function AboutMe() {
-  const { bio, interests } = getAbout();
-  const skills = getSkills();
-  const env = getOsEnvironment();
-  const categories = [
-    ...new Map(skills.map((s) => [s.category, s.category])).values(),
-  ] as string[];
-  const orderedCategories = CATEGORY_ORDER.filter((c) =>
-    categories.includes(c)
+  const { bio } = getAbout();
+  const allInterests = getInterests();
+
+  const technical = allInterests.filter(
+    (i: { category: string }) => i.category === "technical"
   );
+  const general = allInterests.filter(
+    (i: { category: string }) => i.category === "general"
+  );
+
+  const technicalLabels = technical.map((i: { label: string }) => i.label);
+  const technicalSentence =
+    technicalLabels.length > 0
+      ? `Outside of coursework, I build small ${technicalLabels.join(" and ")} for fun — they're a natural extension of the home lab work.`
+      : null;
 
   return (
     <section className="section-container">
@@ -80,85 +42,60 @@ export function AboutMe() {
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
                 {bio.detail}
+                {technicalSentence && ` ${technicalSentence}`}
               </p>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                {interests.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-xs text-text-secondary"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
           </AnimatedReveal>
 
-          {/* Right col — system info */}
+          {/* Right col — static info + quiet hobbies footer */}
           <AnimatedReveal direction="left">
-            <div className="border-panel p-5 flex flex-col gap-4">
-              <h3 className="font-display text-sm font-semibold text-text-primary">
-                Host Configuration
-              </h3>
-              <div className="flex flex-col gap-3 font-mono text-xs">
-                <SysRow label="OS" value={`${env.os} (Rolling)`} />
-                <SysRow label="Desktop" value={env.desktop} />
-                <SysRow label="Display" value={env.displayServer} />
-                <SysRow label="Shell" value={env.shell} />
+            <div className="flex flex-col gap-6">
+              <div className="border-panel p-5 flex flex-col gap-4">
+                <h3 className="font-display text-sm font-semibold text-text-primary">
+                  Host Configuration
+                </h3>
+                <div className="flex flex-col gap-3 font-mono text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-tertiary">Focus</span>
+                    <span className="text-text-primary">Cybersecurity</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-tertiary">Controls</span>
+                    <span className="text-text-primary">
+                      {" "}networking, auditing
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-tertiary">Based in</span>
+                    <span className="text-text-primary">Bengaluru, India</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-tertiary">Since</span>
+                    <span className="text-text-primary">2021</span>
+                  </div>
+                </div>
+                <div className="mt-2 pt-3 border-t border-border-subtle">
+                  <p className="font-mono text-xs text-text-secondary mt-1">
+                    Always learning, always building.
+                  </p>
+                </div>
               </div>
-              <div className="mt-2 pt-3 border-t border-border-subtle">
-                <p className="font-mono text-xs text-text-secondary mt-1">
-                  Learning since 2021 — always online
-                </p>
-              </div>
+
+              {/* General hobbies — quiet footer */}
+              {general.length > 0 && (
+                <div className="mt-2">
+                  <span className="font-mono text-[10px] tracking-widest uppercase text-text-tertiary">
+                    Also into:
+                  </span>
+                  <p className="mt-1.5 font-body text-sm text-text-tertiary leading-relaxed">
+                    {general.map((g: { label: string }) => g.label).join(", ")}
+                  </p>
+                </div>
+              )}
             </div>
           </AnimatedReveal>
         </div>
-
-        {/* Skills grouped by category, tiered by proficiency */}
-        <AnimatedReveal>
-          <div className="mt-12">
-            <h3 className="font-display text-sm font-semibold text-text-primary mb-6">
-              Skills
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {orderedCategories.map((cat) => {
-                const catSkills = skills
-                  .filter((s) => s.category === cat)
-                  .sort((a, b) => {
-                    const order = { proficient: 0, comfortable: 1, learning: 2 };
-                    return (order[a.proficiency] ?? 3) - (order[b.proficiency] ?? 3);
-                  });
-
-                if (catSkills.length === 0) return null;
-
-                return (
-                  <div key={cat} className="flex flex-col gap-2">
-                    <h4 className="font-mono text-[11px] tracking-widest uppercase text-text-tertiary">
-                      {CATEGORY_LABELS[cat] ?? cat}
-                    </h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      {catSkills.map((skill) => (
-                        <SkillChip key={skill.id} skill={skill} />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </AnimatedReveal>
       </div>
     </section>
-  );
-}
-
-function SysRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-text-tertiary">{label}</span>
-      <span className="text-text-primary">{value}</span>
-    </div>
   );
 }

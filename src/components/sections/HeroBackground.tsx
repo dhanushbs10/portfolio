@@ -101,12 +101,12 @@ export default function HeroBackground() {
         frequency={5}
         spread={0.18}
         taper={1}
-        position={0.5}
+        position={0.52}
         fanMode="center"
         glow={0.02}
         falloff={0.6}
-        thickness={1.1}
-        brightness={0.55}
+        thickness={0.8}
+        brightness={0.50}
         opacity={0.9}
         mirror
         shimmer={false}

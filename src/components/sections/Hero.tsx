@@ -1,8 +1,9 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Terminal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import HeroBackground from "./HeroBackground";
+import DecryptedName from "@/components/shared/DecryptedName";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -31,12 +32,12 @@ export function Hero() {
       >
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Terminal size={14} className="text-accent-interactive" />
-            <span className="eyebrow">profile.dhanush — loaded</span>
+            {/* <Terminal size={14} className="text-accent-interactive" /> */}
+            {/* <span className="eyebrow">profile.dhanush — loaded</span> */}
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
-            Dhanush B S
+            <DecryptedName text="Dhanush B S" />
           </h1>
 
           <div className="font-mono text-sm sm:text-base text-accent-structure-light">

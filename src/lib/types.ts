@@ -1,6 +1,5 @@
 /**
  * All shared data types for the portfolio.
- * Used by /data/ seed files and /lib/data.ts getters.
  */
 
 // ── Skills ──────────────────────────────────────────────────
@@ -129,6 +128,16 @@ export interface ToolGroup {
   tools: string[];
 }
 
+// ── Interests ───────────────────────────────────────────────
+export type InterestCategory = "technical" | "general";
+
+export interface Interest {
+  id: string;
+  label: string;
+  category: InterestCategory;
+  icon?: string;
+}
+
 // ── About ───────────────────────────────────────────────────
 export interface AboutBio {
   intro: string;
@@ -138,4 +147,23 @@ export interface AboutBio {
 export interface AboutData {
   bio: AboutBio;
   interests: string[];
+}
+
+// ── Projects ────────────────────────────────────────────────
+export type ProjectStatus = "in-progress" | "completed" | "archived";
+
+export interface ProjectFrontmatter {
+  title: string;
+  slug: string;
+  summary: string;
+  coverImage: string;
+  techStack: string[];
+  githubRepo?: string;
+  liveDemo?: string;
+  status: ProjectStatus;
+  featured: boolean;
+}
+
+export interface Project extends ProjectFrontmatter {
+  content: string; // compiled MDX body
 }

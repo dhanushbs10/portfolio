@@ -1,0 +1,92 @@
+---
+title: "PXE Network Boot Lab"
+slug: "pxe-network-boot-lab"
+summary: "A PXE network boot server that boots a legacy computer over the network using DHCP and TFTP — no local OS required."
+coverImage: "/images/projects/pxe-network-boot-lab/cover.png"
+techStack: ["Linux", "PXE Boot", "DHCP", "TFTP", "Networking"]
+githubRepo: "dhanushbs10/PXE-Network-Boot-Lab"
+status: "completed"
+featured: true
+---
+
+## Overview
+
+PXE (Preboot Execution Environment) enables computers to boot from the network instead of local storage. The client downloads the bootloader, kernel, and root filesystem over the network — no local OS required. This is the backbone of centralized operating system deployment in enterprise environments: data centers, computer labs, and server farms.
+
+**Boot sequence:** Power on → PXE firmware initializes NIC → DHCP Discover → DHCP Offer (IP + TFTP server + bootloader filename) → Download bootloader via TFTP → Download kernel → Download initramfs → Linux boots from RAM.
+
+## Architecture
+
+The lab runs both DHCP and TFTP services on a single Linux server. The client is a legacy desktop with a BIOS/UEFI NIC that supports PXE boot.
+
+**DHCP Server** (`dhcpd` / `isc-dhcp-server`): Hands out an IP address and the critical PXE options:
+- **Option 66** — TFTP server name (IP or hostname)
+- **Option 67** — Bootloader filename (`pxelinux.0` for BIOS, `grubx64.efi` for UEFI)
+- Standard options: subnet mask, gateway, DNS, lease time
+
+**TFTP Server** (`tftpd-hpa`): Serves the boot files from `/srv/tftp`:
+- `pxelinux.0` — SYSLINUX/PXELINUX bootloader (BIOS)
+- `grubx64.efi` — GRUB2 bootloader (UEFI)
+- `vmlinuz` — Linux kernel
+- `initrd.img` — Initial RAM filesystem
+- `pxelinux.cfg/default` — Boot menu configuration
+
+**Client Firmware Flow:**
+1. NIC initializes and broadcasts DHCP Discover
+2. Server replies with Offer containing Options 66/67
+3. Client TFTP-downloads the bootloader specified in Option 67
+4. Bootloader loads kernel and initramfs via TFTP
+5. Kernel executes, system boots entirely from RAM
+
+**Network Topology:** Simple flat network — Client ↔ Switch/Router ↔ Linux PXE Server (runs both DHCP and TFTP). No VLANs, no proxy DHCP, no separate boot server.
+
+## Challenges Faced
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| DHCP gives IP but no boot info | Missing options 66/67 in `dhcpd.conf` | Added `option tftp-server-name "192.168.1.10"; filename "pxelinux.0";` |
+| Kernel "File not found" | TFTP root structure mismatch, typo, restrictive perms | Fixed naming, `chmod 644` on kernel/initrd, verified TFTP root config |
+| "No boot file received" | Firewall, wrong filename, connectivity | Allowed UDP 67/68/69, confirmed same subnet, verified `pxelinux.0` exists, used `tcpdump` |
+| Boots from HDD not PXE | Network boot not prioritized in BIOS | Enabled PXE, moved Network to top of boot order, disabled fast boot |
+| UEFI client fails with `pxelinux.0` | Client UEFI-only, needs `grubx64.efi` | Identified firmware type, used GRUB2, placed in `/srv/tftp/grub2/`, updated DHCP filename |
+
+## Solutions Implemented
+
+**DHCP Configuration** (`/etc/dhcp/dhcpd.conf`):
+```conf
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.100 192.168.1.200;
+  option routers 192.168.1.1;
+  option domain-name-servers 192.168.1.1;
+  option tftp-server-name "192.168.1.10";
+  filename "pxelinux.0";
+}
+```
+
+**TFTP Setup**: Installed `tftpd-hpa`, set `TFTP_DIRECTORY="/srv/tftp"`, `TFTP_OPTIONS="--secure --create"`, ensured world-readable permissions on all boot files.
+
+**Firewall**: Opened UDP 67 (DHCP server), 68 (DHCP client), 69 (TFTP) — critical since both DHCP and TFTP run over UDP.
+
+**BIOS/UEFI Handling**: Detected client firmware type upfront. BIOS gets PXELINUX; UEFI gets GRUB2. DHCP `filename` option must match the client's firmware.
+
+**Troubleshooting Toolkit**: `tcpdump -i eth0 port 67 or port 68 or port 69` to verify DHCP/TFTP exchange; `journalctl -u tftpd-hpa -u isc-dhcp-server` for service logs; `dhcping` to test DHCP responses.
+
+## Lessons Learned
+
+- **DHCP options 66 and 67 are the linchpin** — without them, the client gets an IP but has no idea where to fetch the bootloader. Most "PXE not working" issues trace back here.
+- **TFTP is deliberately primitive** — UDP port 69, no auth, 512-byte blocks, no directory listing. That simplicity is why it fits in NIC firmware. But it means permissions and exact paths matter.
+- **UDP unreliability is a feature, not a bug** — The client firmware handles retransmission. You don't need TCP's overhead in 16KB of boot ROM.
+- **Bootloader mismatch is the silent killer** — Serving `pxelinux.0` to a UEFI-only machine fails with zero useful error. Always verify client firmware type first.
+- **Firewall eats PXE silently** — UDP 67/68/69 must be open on the server. `tcpdump` on the server side confirms whether packets even arrive.
+- **Diskless computing trades local storage for network dependency** — The root filesystem lives in RAM (initramfs) or over NFS/iSCSI/HTTP. Centralized management and security improve, but the network becomes a single point of failure.
+
+## Future Improvements
+
+- **iPXE Integration** — HTTP boot, scripting, SAN boot, chainloading, better UEFI support. iPXE replaces PXELINUX/GRUB with a scriptable, feature-rich bootloader.
+- **HTTP Boot** — More reliable than TFTP, supports larger files, modern UEFI native support.
+- **Automated OS Deployment** — Cobbler/Foreman for provisioning, Kickstart/preseed for unattended installs, Ansible/Puppet for post-install configuration.
+- **Multi-OS Support** — Boot menu offering multiple distributions, live ISO boot via PXE.
+- **Secure Boot** — Signed bootloaders/kernels, `shim.efi`, Microsoft key enrollment for production environments.
+- **NFS Root** — Persistent storage, shared read-only root with overlayfs for true diskless operation.
+- **Centralized Logging** — `syslog-ng`/`rsyslog` over network for audit trails.
+- **HA/Failover** — Multiple DHCP/TFTP servers, `dhcp-failover`, synced TFTP roots for production resilience.

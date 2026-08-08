@@ -97,6 +97,13 @@ export function getTechStack() {
   return toolGroups;
 }
 
+// ── Interests ───────────────────────────────────────────────
+import { interests as interestEntries } from "@/data/interests";
+
+export function getInterests() {
+  return interestEntries;
+}
+
 // ── About ───────────────────────────────────────────────────
 import { bio, interests } from "@/data/about";
 

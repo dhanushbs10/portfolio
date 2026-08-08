@@ -1,0 +1,107 @@
+---
+title: "ESP8266 Wake-on-LAN Trigger"
+slug: "esp8266-wake-on-lan"
+summary: "Microcontroller-based project to remotely power on a computer using an ESP8266 and Wake-on-LAN magic packets."
+coverImage: "/images/projects/esp8266-wake-on-lan/cover.png"
+techStack: ["ESP8266", "Wake-on-LAN", "Embedded Systems", "Networking"]
+githubRepo: "dhanushbs10/ESP8266-Wake-on-LAN"
+status: "completed"
+featured: true
+---
+
+## Overview
+
+You can't Remote Desktop into a machine that's powered off. Wake-on-LAN (WOL) solves this: a "magic packet" sent to the target's MAC address wakes it from a fully-off state (S5) or sleep (S3). This project builds a dedicated, wireless WOL trigger — a NodeMCU ESP8266 with a capacitive touch sensor and a 16×2 I2C LCD. Touch the sensor, the ESP8266 sends the magic packet over Wi-Fi, and your desktop powers on. No phone app, no cloud dependency, just a physical button on your desk.
+
+## Architecture
+
+**Hardware:**
+- **NodeMCU ESP8266 (ESP-12E)** — Wi-Fi microcontroller, runs the firmware
+- **TTP223 Capacitive Touch Sensor** — Digital output, connected to GPIO12 (D6)
+- **16×2 I2C LCD (PCF8574 backpack)** — SDA on GPIO4 (D2), SCL on GPIO5 (D1), powered from VIN (5V)
+- **Power** — Micro-USB to NodeMCU; LCD draws 5V from VIN, touch sensor runs on 3.3V
+
+**Firmware Flow (non-blocking state machine):**
+1. **Boot** → Initialize I2C LCD, show "Connecting WiFi..."
+2. **Wi-Fi Connect** → `ESP8266WiFi` connects to configured SSID; auto-reconnect on disconnect
+3. **Idle** → LCD shows "WiFi Connected" / "Ready to Touch"; `millis()`-based loop polls touch sensor
+4. **Touch Detected** (debounced 200ms) → LCD shows "WAKING PC..."
+5. **Send Magic Packet** → `WakeOnLan` library constructs 6-byte sync stream (`FF×6`) + 16× target MAC, broadcasts to `255.255.255.255:9` (or subnet broadcast)
+6. **Confirm** → LCD shows "Packet Sent!" → returns to idle
+
+**Key Implementation Details:**
+- **No `delay()` anywhere** — Uses `millis()` timestamps for Wi-Fi reconnection backoff, touch debounce, LCD message timing. Keeps the loop responsive.
+- **Broadcast Address** — Magic packet sent to `255.255.255.255` (limited broadcast) so it reaches the target on the same subnet. Works with most consumer routers/switches without config.
+- **Configuration** — All user settings in `Config.h`: Wi-Fi credentials, target MAC as byte array `{0xXX, 0xXX, ...}`, touch pin, LCD I2C address, debounce timing.
+
+## Challenges Faced
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| LCD shows garbage/blank | Wrong I2C address (0x27 vs 0x3F) or 3.3V power | Scanner sketch to detect address; power LCD from VIN (5V), not 3.3V |
+| PC doesn't wake | MAC format wrong, WOL disabled in BIOS/OS, different subnet | Verify MAC as hex bytes `{0x94, 0xDE, ...}`; enable WOL in BIOS + Windows adapter settings; ensure ESP and PC share broadcast domain |
+| Touch triggers multiple times | Electrical bounce, sensor sensitivity | 200ms software debounce in `Config.h` (tunable to 300-500ms); optional 0.1µF capacitor across touch VCC-GND |
+| Wi-Fi disconnect/reconnect loop | Weak signal, wrong credentials, 5GHz network | ESP8266 only supports 2.4GHz; move closer to router; verify SSID/password in `Config.h` |
+| "ERROR" on LCD | I2C communication failure | Check SDA/SCL wiring (D2/D1), confirm 5V power, verify I2C address with scanner |
+
+## Solutions Implemented
+
+**Magic Packet Construction** (via `WakeOnLan` library):
+```cpp
+WakeOnLan wol;
+wol.sendWOL(targetMAC, WiFi.broadcastIP(), 9);
+```
+The library handles the 102-byte packet: 6 bytes `0xFF` + 16 repetitions of the 6-byte MAC address.
+
+**Non-Blocking Loop Structure:**
+```cpp
+void loop() {
+  wifiWatchdog();      // Auto-reconnect if disconnected
+  checkTouch();        // Debounced touch detection
+  updateDisplay();     // Timed LCD message transitions
+}
+```
+
+**Wi-Fi Watchdog:**
+```cpp
+void wifiWatchdog() {
+  if (WiFi.status() != WL_CONNECTED) {
+    if (millis() - lastReconnectAttempt > WIFI_RECONNECT_INTERVAL_MS) {
+      WiFi.reconnect();
+      lastReconnectAttempt = millis();
+    }
+  }
+}
+```
+
+**Target PC Configuration (Windows):**
+1. BIOS/UEFI → Power Management → Enable "Wake-on-LAN" / "PME Event Wake Up"
+2. Device Manager → Network Adapter → Advanced → "Wake on Magic Packet" = Enabled
+3. Power Management tab → "Allow this device to wake the computer" + "Only allow a magic packet to wake the computer"
+
+**Linux Equivalent:**
+```bash
+sudo ethtool -s eth0 wol g  # Enable WOL
+# Persist via systemd or /etc/network/interfaces
+```
+
+## Lessons Learned
+
+- **Broadcast domain is non-negotiable** — Magic packets are Layer 2 broadcasts. They don't cross routers. ESP8266 and target PC must be on the same subnet/VLAN. This is the #1 reason "it works on my network but not yours."
+- **MAC address format trips everyone up** — The firmware expects hex bytes `{0x94, 0xDE, 0x80, 0x7B, 0x2F, 0x99}`, not `94:DE:80:7B:2F:99` and certainly not decimal. Document this clearly.
+- **LCD power matters** — The PCF8574 backpack and LCD panel need 5V for contrast and backlight. NodeMCU's 3.3V pin can't drive it reliably. VIN (5V from USB) works.
+- **Non-blocking code isn't optional on microcontrollers** — `delay()` freezes everything: Wi-Fi stack, touch polling, display updates. `millis()` state machines are the only way to keep multiple concurrent behaviors responsive.
+- **Consumer routers handle limited broadcast fine** — Sending to `255.255.255.255` works on most home gear. No need for subnet-directed broadcast unless you hit a weird AP isolation setting.
+- **WOL is a chain, not a switch** — BIOS → NIC firmware → OS driver → power management. One broken link (usually Windows "Fast Startup" or NIC power management) breaks the whole thing.
+
+## Future Improvements
+
+- **mDNS Support** — Access via `wol.local` instead of IP for easier discovery.
+- **Web Configuration Portal** — Captive portal for Wi-Fi/MAC setup without recompiling.
+- **Multiple PC Support** — Different tap patterns (single/double/long) wake different MACs.
+- **Deep Sleep** — ESP8266 deep sleep between touches for battery operation.
+- **RGB LED Status** — Visual feedback without LCD.
+- **Mode Toggle** — Wake / Sleep / Shutdown via tap patterns.
+- **OTA Updates** — Firmware updates over Wi-Fi.
+- **REST API** — Smart home integration (Home Assistant, MQTT, etc.).
+- **OLED Version** — Smaller footprint, lower power, sharper display.

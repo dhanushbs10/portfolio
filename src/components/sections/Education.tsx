@@ -13,7 +13,7 @@ export function Education() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
-            eyebrow="[EDU.BACK]"
+            eyebrow="EDU.LOG"
             title="Academic Background"
             subtitle="Formal education and structured learning that built my foundation."
           />
