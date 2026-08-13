@@ -40,12 +40,6 @@ const STYLES = `
   border-color: hsl(var(--accent-interactive) / 0.7);
   color: hsl(var(--accent-interactive-hover));
 }
-.pw-fab-glyph {
-  font-family: var(--font-mono);
-  font-size: 20px; font-weight: 600;
-  letter-spacing: -0.02em; line-height: 1;
-}
-
 /* ───── Panel ───── */
 .pw-panel {
   position: fixed; bottom: 86px; right: 22px;
@@ -458,7 +452,9 @@ export default function PingWidget() {
 						</div>
 					) : (
 						<button className="pw-fab" onClick={() => setOpen(true)} aria-label="Open chat">
-							<span className="pw-fab-glyph">◈</span>
+							<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+								<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+							</svg>
 						</button>
 					)}
 				</div>
