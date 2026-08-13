@@ -2,8 +2,9 @@
 
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Send, ExternalLink, Mail } from "lucide-react";
+import { Send, ExternalLink, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { contactInfo } from "@/data/contact";
 
 interface SocialLink {
   href: string;
@@ -11,23 +12,7 @@ interface SocialLink {
   icon: typeof ExternalLink;
 }
 
-const SOCIALS: SocialLink[] = [
-  {
-    href: "https://github.com/dhanushbs10",
-    label: "GitHub",
-    icon: ExternalLink,
-  },
-  {
-    href: "https://www.linkedin.com/in/dhanush-b-s-4b454a368",
-    label: "LinkedIn",
-    icon: ExternalLink,
-  },
-  {
-    href: "mailto:dhanushpoojari101@gmail.com",
-    label: "Email",
-    icon: Mail,
-  },
-];
+const SOCIALS: SocialLink[] = contactInfo.socials.map((s) => ({ href: s.href, label: s.label, icon: s.icon === "github" ? ExternalLink : s.icon === "mail" ? Mail : s.icon === "phone" ? Phone : ExternalLink, }));
 
 export function ContactSection() {
   return (

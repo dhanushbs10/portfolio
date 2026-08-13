@@ -214,7 +214,7 @@ const STYLES = `
   display: flex; gap: 8px; background: var(--surface-base);
 }
 .pw-input {
-  flex: 1; resize: none; max-height: 100px;
+  flex: 1; resize: none; overflow: hidden; max-height: 100px;
   background: var(--surface-overlay); border: 1px solid var(--border-default);
   border-radius: 0.5rem; padding: 9px 12px;
   color: var(--text-primary); font-family: var(--font-body); font-size: 13px;

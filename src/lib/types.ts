@@ -106,6 +106,10 @@ export interface EducationEntry {
   startDate: string;
   endDate?: string;
   coursework: string[];
+  current?: boolean;
+  semester?: string;
+  pathway?: string;
+  highlights?: string[];
 }
 
 // ── Contact ─────────────────────────────────────────────────
@@ -119,6 +123,7 @@ export interface SocialLink {
 export interface ContactInfo {
   email: string;
   location: string;
+  phone?: string;
   socials: SocialLink[];
 }
 

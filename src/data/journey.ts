@@ -3,38 +3,47 @@ import type { JourneyMilestone } from "@/lib/types";
 export const journeyMilestones: JourneyMilestone[] = [
   {
     id: "jrn-001",
-    title: "Diploma Final Year, CSE",
+    title: "Diploma CSE",
     role: "Student",
     org: "Computer Science Engineering, Bengaluru",
-    date: "2024, Present",
+    date: "2023-Present",
     description:
-      "Specializing in Cybersecurity and Networking. Building practical skills through hands-on projects, home labs, and real-world problem solving.",
+      "Currently in Semester 5, focusing on Cybersecurity. Building practical skills through hands-on labs, projects, and coursework in networks, cryptography, and OS internals.",
   },
   {
     id: "jrn-002",
-    title: "Self-Study: Networking & Linux",
+    title: "Self-Directed Learning",
     role: "Self-Learner",
-    org: "Personal Learning",
-    date: "2023",
+    org: "Personal Projects & Labs",
+    date: "2021-Present",
     description:
-      "Built foundational skills in TCP/IP, DNS, DHCP, routing, switching, and Linux system administration through home lab experimentation.",
+      "Pursuing technology driven by curiosity. Built projects across web dev, Linux, networking, hardware, and cybersecurity — learn-by-breaking, YouTube-tutored, no formal training.",
   },
   {
     id: "jrn-003",
     title: "Cybersecurity Exploration",
-    role: "Self-Learner",
-    org: "Personal Learning",
-    date: "2022",
+    role: "Security Enthusiast",
+    org: "Independent Study",
+    date: "2022-Present",
     description:
-      "Started exploring ethical hacking, Kali Linux, Wireshark, Nmap, and vulnerability assessment. Built first cybersecurity-focused projects.",
+      "Diving into ethical hacking, Kali Linux, Wireshark, Nmap, vulnerability assessment, and incident response. Active in CTF-style learning and home-lab threat simulation.",
   },
   {
     id: "jrn-004",
-    title: "Web Development",
-    role: "Self-Learner",
+    title: "Electronics / Robotics / Hardware",
+    role: "Maker",
     org: "Personal Projects",
-    date: "2021",
+    date: "2022-Present",
     description:
-      "Learned HTML, CSS, JavaScript, and started building web applications. Discovered passion for combining security with development.",
+      "Exploring ESP8266/ESP32, microcontrollers, sensors, robotics, and hardware troubleshooting. Built a Wake-on-LAN device and experimented with IoT monitoring.",
+  },
+  {
+    id: "jrn-005",
+    title: "Web Development",
+    role: "Full-Stack Learner",
+    org: "Personal Projects",
+    date: "2021-Present",
+    description:
+      "Learned HTML, CSS, JavaScript, then React, Next.js, Node.js, and SQL. Built portfolio sites, e-commerce experiments, and AI-assisted tooling. Still actively building.",
   },
 ];

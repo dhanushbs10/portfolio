@@ -103,13 +103,13 @@ const TOOLS: ToolEntry[] = [
   { name: "Nmap", slug: "nmap", url: "https://nmap.org" },
 ];
 
-function BrandIcon({ name, slug, url }: { name: string; slug: string; url: string }) {
-  const color = TOOL_COLORS[slug] || "#E8E8E8";
-  const inner = ICON_INNERS[slug];
-  const noIconStyle = NO_ICON_COLORS[slug];
+function BrandIcon({ name, url, slug: explicitSlug }: { name: string; url: string; slug: string }) {
+  const color = TOOL_COLORS[explicitSlug] || "#E8E8E8";
+  const inner = ICON_INNERS[explicitSlug];
+  const noIconStyle = NO_ICON_COLORS[explicitSlug];
 
   // No Simple Icons entry → brand-colored pill badge
-  if (NO_ICON_SLUGS.has(slug) && noIconStyle) {
+  if (NO_ICON_SLUGS.has(explicitSlug) && noIconStyle) {
     return (
       <a
         href={url}

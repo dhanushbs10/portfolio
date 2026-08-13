@@ -30,6 +30,30 @@ export async function getEmbedding(text: string): Promise<number[]> {
   return data.data[0].embedding;
 }
 
+export async function chatCompletion(
+  messages: ChatMessage[],
+  signal?: AbortSignal
+): Promise<string> {
+  const res = await fetch(`${BASE}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${NVIDIA_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "meta/llama-3.1-8b-instruct",
+      messages,
+      stream: false,
+      max_tokens: 256,
+      frequency_penalty: 0.6,
+    }),
+    signal,
+  });
+  if (!res.ok) throw new Error(`NVIDIA chat ${res.status}: ${await res.text()}`);
+  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+  return data.choices?.[0]?.message?.content?.trim() ?? "";
+}
+
 export async function* chatCompletionStream(
   messages: ChatMessage[],
   signal?: AbortSignal
