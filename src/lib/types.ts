@@ -150,7 +150,11 @@ export interface AboutData {
 }
 
 // ── Projects ────────────────────────────────────────────────
-export type ProjectStatus = "in-progress" | "completed" | "archived";
+// "reference" marks internal knowledge docs (e.g. dhanush-ping-profile.mdx)
+// used by the Ping chatbot — they're never rendered as a project card, so
+// getAllProjects() filters them out. Kept in the union so frontmatter typing +
+// the filter comparison stay sound.
+export type ProjectStatus = "in-progress" | "completed" | "archived" | "reference";
 
 export interface ProjectFrontmatter {
   title: string;

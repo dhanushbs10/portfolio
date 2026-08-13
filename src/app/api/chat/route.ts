@@ -3,8 +3,12 @@ import { chatCompletionStream, ChatMessage } from "@/lib/nvidia";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 
-const MAX_MESSAGES = parseInt(process.env.RATE_LIMIT_MAX_MESSAGES || "20", 10);
-const WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_HOURS || "1", 10) * 60 * 60 * 1000;
+// ponytail: a portfolio visitor reading about Dhanush should never get locked
+// out for a full hour. Keep an abuse backstop but make it forgiving + short.
+// 40 messages / 15 min lets a real conversation + browsing breathe; the lock
+// clears in minutes, not an hour.
+const MAX_MESSAGES = parseInt(process.env.RATE_LIMIT_MAX_MESSAGES || "40", 10);
+const WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_HOURS || "0.25", 10) * 60 * 60 * 1000;
 
 // ponytail: in-memory rate map, resets on server restart — fine for a portfolio bot
 const rateMap = new Map<string, { count: number; resetAt: number }>();
@@ -86,8 +90,13 @@ function getClientIp(req: NextRequest): string {
 export async function POST(req: NextRequest) {
 	try {
 		const ip = getClientIp(req);
+		const entry = rateMap.get(ip);
 		if (!checkRate(ip)) {
-			return NextResponse.json({ error: `Rate limit reached. Try again in ${WINDOW_MS / 3600000} hour(s).` }, { status: 429 });
+			const waitMin = entry ? Math.ceil((entry.resetAt - Date.now()) / 60000) : 0;
+			return NextResponse.json(
+				{ error: `Rate limit reached. Try again in ${waitMin} min.` },
+				{ status: 429 },
+			);
 		}
 
 		const body = await req.json();

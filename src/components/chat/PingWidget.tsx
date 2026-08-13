@@ -23,38 +23,28 @@ const STYLES = `
 
 .pw-host { position: fixed; bottom: 22px; right: 22px; z-index: var(--z-overlay); }
 
-/* ───── FAB — a quiet signal node ───── */
+/* ───── FAB — a quiet signal node (no perpetual motion) ───── */
 .pw-fab {
+  position: relative;
   width: 52px; height: 52px; border-radius: 50%;
-  border: 1px solid hsl(var(--accent-interactive) / 0.45);
-  background: color-mix(in srgb, hsl(var(--accent-interactive)) 12%, var(--surface-raised));
+  border: 1px solid var(--border-default);
+  background: var(--surface-raised);
   color: hsl(var(--accent-interactive));
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--shadow-glow);
-  transition: transform var(--duration-fast) var(--ease-standard),
-              box-shadow var(--duration-fast) var(--ease-standard),
-              border-color var(--duration-fast) var(--ease-standard);
+  box-shadow: var(--shadow-md);
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
 }
 .pw-fab:hover {
-  transform: scale(1.06);
-  border-color: hsl(var(--accent-interactive));
-  box-shadow: 0 0 28px -2px hsl(var(--accent-interactive) / 0.55);
+  border-color: hsl(var(--accent-interactive) / 0.7);
+  color: hsl(var(--accent-interactive-hover));
 }
 .pw-fab-glyph {
   font-family: var(--font-mono);
   font-size: 20px; font-weight: 600;
   letter-spacing: -0.02em; line-height: 1;
 }
-/* the live status dot pinned to the FAB corner */
-.pw-fab-dot {
-  position: absolute; top: 3px; right: 3px;
-  width: 7px; height: 7px; border-radius: 50%;
-  background: hsl(var(--success));
-  box-shadow: 0 0 5px hsl(var(--success) / 0.8);
-  animation: pw-pulse 2s ease-in-out infinite;
-}
-@keyframes pw-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
 /* ───── Panel ───── */
 .pw-panel {
@@ -94,8 +84,7 @@ const STYLES = `
 .pw-status-dot {
   display: inline-block; width: 8px; height: 8px; border-radius: 50%;
   background: hsl(var(--accent-interactive));
-  box-shadow: 0 0 7px hsl(var(--accent-interactive));
-  animation: pw-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 7px hsl(var(--accent-interactive) / 0.6);
   flex-shrink: 0;
 }
 .pw-header-text h3 {
@@ -470,7 +459,6 @@ export default function PingWidget() {
 					) : (
 						<button className="pw-fab" onClick={() => setOpen(true)} aria-label="Open chat">
 							<span className="pw-fab-glyph">◈</span>
-							<span className="pw-fab-dot" />
 						</button>
 					)}
 				</div>
