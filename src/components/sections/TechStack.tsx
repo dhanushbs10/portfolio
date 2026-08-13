@@ -103,11 +103,10 @@ const TOOLS: ToolEntry[] = [
   { name: "Nmap", slug: "nmap", url: "https://nmap.org" },
 ];
 
-function BrandIcon({ name, url }: { name: string; url: string }) {
-  const slug = name.split(" ")[0].toLowerCase();
+function BrandIcon({ name, slug, url }: { name: string; slug: string; url: string }) {
   const color = TOOL_COLORS[slug] || "#E8E8E8";
   const inner = ICON_INNERS[slug];
-  const noIconStyle = NO_ICON_COLORS[name];
+  const noIconStyle = NO_ICON_COLORS[slug];
 
   // No Simple Icons entry → brand-colored pill badge
   if (NO_ICON_SLUGS.has(slug) && noIconStyle) {
@@ -183,7 +182,7 @@ export function TechStack() {
           </AnimatedReveal>
           <div className="mt-10 flex flex-wrap gap-5 justify-center">
             {TOOLS.map((t) => (
-              <BrandIcon key={t.slug} name={t.name} url={t.url} />
+              <BrandIcon key={t.slug} name={t.name} slug={t.slug} url={t.url} />
             ))}
           </div>
         </div>
@@ -222,7 +221,7 @@ export function TechStack() {
             onMouseLeave={() => setPaused(false)}
           >
             {[...TOOLS, ...TOOLS].map((t, i) => (
-              <BrandIcon key={`${t.slug}-${i}`} name={t.name} url={t.url} />
+              <BrandIcon key={`${t.slug}-${i}`} name={t.name} slug={t.slug} url={t.url} />
             ))}
           </div>
         </div>
