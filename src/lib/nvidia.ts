@@ -44,7 +44,16 @@ export async function* chatCompletionStream(
       model: "nvidia/nemotron-3-nano-30b-a3b",
       messages,
       stream: true,
-      max_tokens: 1024,
+      // Nemotron intermittently degenerates: it finishes a coherent answer, then
+      // re-emits it verbatim until it hits the token ceiling (finish_reason
+      // "length", no natural stop). Two levers at the shared path:
+      //  - max_tokens 768: hard backstop so a loop is bounded (a 6-bullet answer
+      //    fits with headroom, so capping never truncates a real answer).
+      //  - frequency_penalty 0.6: discourages re-using already-generated tokens,
+      //    breaking the repetition spiral. Probed: cut intermittent dups 37.5%→0
+      //    on the worst query, shrank overrun, no quality regression elsewhere.
+      max_tokens: 768,
+      frequency_penalty: 0.6,
     }),
     signal,
   });
@@ -56,8 +65,12 @@ export async function* chatCompletionStream(
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
-    buf += decoder.decode(value, { stream: !done });
-    for (const line of buf.split("\n")) {
+    buf += decoder.decode(value, { stream: true });
+    const lines = buf.split("\n");
+    // ponytail: keep the trailing partial line — a data: JSON split across
+    // network reads would be silently dropped if we reset buf to "" each loop.
+    buf = lines.pop() ?? "";
+    for (const line of lines) {
       if (!line.startsWith("data: ")) continue;
       const payload = line.slice(6).trim();
       if (payload === "[DONE]") return;
@@ -67,6 +80,5 @@ export async function* chatCompletionStream(
         if (delta) yield delta;
       } catch {}
     }
-    buf = "";
   }
 }

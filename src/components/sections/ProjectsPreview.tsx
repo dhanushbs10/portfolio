@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/types";
 
@@ -68,12 +68,12 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
                   )}
                 </div>
 
-                <a
+                <Link
                   href={`/projects/${proj.slug}`}
                   className="inline-flex items-center gap-2 font-mono text-xs text-accent-interactive hover:text-accent-interactive-hover transition-colors mt-1"
                 >
                   Read more →
-                </a>
+                </Link>
               </article>
             </AnimatedReveal>
           ))}
@@ -81,13 +81,13 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
 
         <AnimatedReveal>
           <div className="mt-10 text-center">
-            <a
+            <Link
               href="/projects"
-              className="inline-flex items-center gap-2 font-mono text-sm text-accent-interactive hover:text-accent-interactive-hover transition-colors"
+              className="group inline-flex items-center gap-2 font-mono text-sm text-accent-interactive hover:text-accent-interactive-hover transition-colors"
             >
               View all projects
-              <ExternalLink size={14} />
-            </a>
+              <span className="group-hover:translate-x-0.5 transition-transform duration-200">→</span>
+            </Link>
           </div>
         </AnimatedReveal>
       </div>

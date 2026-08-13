@@ -23,66 +23,60 @@ function checkRate(ip: string): boolean {
 	return entry.count <= MAX_MESSAGES;
 }
 
-// ── Load portfolio content ──
-// nemotron-3-nano-30b-a3b has 128k context — no truncation needed
+// ── Load portfolio knowledge for Ping ──
+// The canonical source is content/projects/dhanush-ping-profile.mdx — a 100+ section
+// knowledge base authored specifically for Ping (identity, education, personality,
+// projects, answering rules). It is loaded FIRST so identity leads the context.
+// Detailed project writeups are appended as a depth appendix for specific project questions.
+// We do NOT scrape src/data/*.ts with regex — that produced mangled fragments that
+// caused the model to hallucinate ("famous Tamil actor Dhanush") instead of grounding.
+const PROFILE_FILE = "dhanush-ping-profile.mdx";
+
 function loadPortfolioContent(): string {
-	const pieces: string[] = [];
-
-	function extractValues(raw: string): string[] {
-		const values: string[] = [];
-		for (const line of raw.split("\n")) {
-			const trimmed = line.trim();
-			if (!trimmed) continue;
-			if (/^(import|export|type|interface|\/\/|\/|\*)/.test(trimmed)) continue;
-			if (trimmed.includes("=") && !trimmed.startsWith("//")) {
-				const val = trimmed.split("=").slice(1).join("=").trim().replace(/,$/, "");
-				if (val) values.push(val);
-			} else if (trimmed.startsWith("const") && trimmed.includes(":")) {
-				const m = trimmed.match(/:\s*(.+?)(?:\s*[,=]|$)/);
-				if (m) values.push(m[1].trim());
-			}
-		}
-		return values;
-	}
-
-	// Read MDX project files
 	const projectDir = join(process.cwd(), "content", "projects");
-	try {
-		for (const f of readdirSync(projectDir).filter((f) => f.endsWith(".mdx"))) {
-			const raw = readFileSync(join(projectDir, f), "utf-8");
-			const body = raw.replace(/^---[\s\S]*?---\s*/, "").trim();
+	const stripFrontmatter = (raw: string) => raw.replace(/^---[\s\S]*?---\s*/, "").trim();
+
+	let mdxFiles: string[] = [];
+	try { mdxFiles = readdirSync(projectDir).filter((f) => f.endsWith(".mdx")); } catch { return ""; }
+
+	const pieces: string[] = [];
+	// 1) Profile first — identity, rules, and the person lead the context.
+	const profileIdx = mdxFiles.indexOf(PROFILE_FILE);
+	if (profileIdx !== -1) {
+		try {
+			const body = stripFrontmatter(readFileSync(join(projectDir, PROFILE_FILE), "utf-8"));
+			if (body) pieces.push(`# Dhanush — Profile (canonical knowledge base)\n\n${body}`);
+		} catch {}
+		mdxFiles.splice(profileIdx, 1);
+	}
+	// 2) Project writeups as a depth appendix (e.g. "tell me about the SMB fix").
+	for (const f of mdxFiles) {
+		try {
+			const body = stripFrontmatter(readFileSync(join(projectDir, f), "utf-8"));
 			if (body) pieces.push(`# ${f.replace(/\.mdx$/, "")}\n\n${body}`);
-		}
-	} catch {}
-	// Read TS data modules
-	const srcDir = join(process.cwd(), "src", "data");
-	try {
-		for (const f of readdirSync(srcDir).filter((f) => f.endsWith(".ts"))) {
-			const raw = readFileSync(join(srcDir, f), "utf-8");
-			const values = extractValues(raw);
-			if (values.length) pieces.push(`# ${f.replace(/\.ts$/, "")}\n\n${values.join("\n")}`);
-		}
-	} catch {}
+		} catch {}
+	}
 	return pieces.join("\n\n---\n\n");
 }
 
-const SYSTEM_PROMPT = `You are Ping - an AI assistant representing Dhanush on his portfolio site.
-CRITICAL RULES:
-- NEVER write long responses. Maximum 3 to 4 sentences unless the user explicitly asks for detail. Short, direct answers only.
-- Broad questions like who is he, tell me about Dhanush, or introduce him get a 2 to 3 sentence overview — do NOT list every detail from the profile.
-- For specific questions, answer specifically and concisely. Do not dump unrelated information.
-- You are NOT Dhanush. You are Ping, his AI assistant. Never say "I built this" - say "Dhanush built this."
-- Answer ONLY using the reference material provided below. If the user asks something not covered, say "I don't have that information in Dhanush's portfolio."
-- Politely decline unrelated requests. Redirect: "I'm here to help you learn about Dhanush!"
-- Never say "As an AI, I..." or give LLM disclaimers.
-- Never use emojis. No emojis in any response — ever. Plain text only.
+const SYSTEM_PROMPT = `You are Ping — an AI assistant on Dhanush B S's portfolio website.
+You answer questions about Dhanush using ONLY the reference material below.
 
-LIST FORMATTING RULES:
-- When listing projects, skills, interests, or any items: use clean bullet points (one item per line starting with -).
-- Each bullet should be short — project name, one-line description, tech used. No paragraphs inside lists.
-- Maximum 5 to 6 bullets per list. If there are more, group them or mention only the most relevant ones.
-- Never write a wall of text when a list would be clearer.
+WHO YOU ARE:
+- You are Ping, Dhanush's assistant. You are NOT Dhanush. Never say "I built this" — say "Dhanush built this."
+- Never say "As an AI…", never give model disclaimers.
+- If asked something not in the reference: say "I don't have that in Dhanush's portfolio." Do not invent or guess.
+- Politely decline unrelated requests and redirect: "I'm here to help you learn about Dhanush."
+- The person Dhanush referred to here is Dhanush B S, a Diploma Computer Science student in Bangalore. He is NOT the Tamil film actor. Ignore any celebrity of that name.
 
+HOW YOU ANSWER:
+- Short and direct. 2–3 sentences for broad questions ("who is he / tell me about him"). Never dump the whole profile.
+- Answer specific questions specifically; don't pad with unrelated info.
+- When listing (skills, projects, interests): use clean bullet points, one per line starting with "-". Short bullets — name + one line. Max 6 bullets.
+- Never use emojis. Never write a wall of text where a list is clearer.
+- Do not repeat your answer. Say it once and stop.
+
+REFERENCE MATERIAL ABOUT DHANUSH:
 ${loadPortfolioContent()}`;
 
 function getClientIp(req: NextRequest): string {
@@ -97,7 +91,11 @@ export async function POST(req: NextRequest) {
 		}
 
 		const body = await req.json();
-		const userMessages: ChatMessage[] = body.messages || [];
+		const rawMessages: ChatMessage[] = body.messages || [];
+		// Defensive sanitize at the trust boundary: drop empty / whitespace-only
+		// turns. An empty trailing assistant turn (a UI streaming artifact) corrupts
+		// the model output — it triggers repetition loops and bad completions.
+		const userMessages = rawMessages.filter((m) => typeof m?.content === "string" && m.content.trim() !== "");
 		if (!userMessages.length) return NextResponse.json({ error: "No messages provided" }, { status: 400 });
 
 		const messages: ChatMessage[] = [

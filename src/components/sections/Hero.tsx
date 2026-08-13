@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 import HeroBackground from "./HeroBackground";
 import DecryptedName from "@/components/shared/DecryptedName";
 
@@ -54,7 +55,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-6 justify-center pt-4">
-            <a
+            <Link
               href="/projects"
               className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
             >
@@ -62,8 +63,8 @@ export function Hero() {
               <span className="group-hover:translate-x-0.5 transition-transform duration-200">
                 →
               </span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="/about"
               className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
             >
@@ -71,7 +72,7 @@ export function Hero() {
               <span className="group-hover:translate-x-0.5 transition-transform duration-200">
                 →
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>

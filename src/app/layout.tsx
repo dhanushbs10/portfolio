@@ -62,13 +62,13 @@ export default function RootLayout({
       className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-surface-base text-text-primary">
-    <PingWidget />
         <PageBackground />
         <ThemeProvider defaultTheme="dark">
           <Nav />
           <div className="flex-1">{children}</div>
           <Footer />
         </ThemeProvider>
+        <PingWidget />
       </body>
     </html>
   );

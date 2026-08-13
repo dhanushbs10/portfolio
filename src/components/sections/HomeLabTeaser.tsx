@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { ExternalLink } from "lucide-react";
 
 export function HomeLabTeaser() {
   return (
@@ -25,13 +25,13 @@ export function HomeLabTeaser() {
         </AnimatedReveal>
 
         <AnimatedReveal>
-          <a
+          <Link
             href="/homelab"
-            className="inline-flex items-center gap-2 font-mono text-sm text-accent-interactive hover:text-accent-interactive-hover transition-colors mt-8"
+            className="group inline-flex items-center gap-2 font-mono text-sm text-accent-interactive hover:text-accent-interactive-hover transition-colors mt-8"
           >
             Explore my setup
-            <ExternalLink size={14} />
-          </a>
+            <span className="group-hover:translate-x-0.5 transition-transform duration-200">→</span>
+          </Link>
         </AnimatedReveal>
       </div>
     </section>

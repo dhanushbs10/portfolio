@@ -29,9 +29,11 @@ export function getProjectBySlug(slug: string): Project | null {
 }
 
 export function getAllProjects(): Project[] {
+  // Reference docs (e.g. dhanush-ping-profile.mdx, status:"reference") are
+  // internal knowledge for the Ping chatbot — never rendered as a project card.
   return getAllProjectSlugs()
     .map((slug) => getProjectBySlug(slug))
-    .filter((p): p is Project => p !== null);
+    .filter((p): p is Project => p !== null && p.status !== "reference");
 }
 
 export function getFeaturedProjects(): Project[] {
