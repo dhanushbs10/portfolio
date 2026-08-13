@@ -101,7 +101,7 @@ export const hardwareComponents: HardwareComponent[] = [
     id: "network",
     name: "Onboard Networking",
     category: "network",
-    specs: ["Ethernet (eth0) — active", "WiFi (wlan0) — present, currently down"],
+    specs: ["Ethernet (eth0), active", "WiFi (wlan0), present, currently down"],
     whyIChoseIt: "",
     upgradeHistory: "",
     currentPurpose: "",

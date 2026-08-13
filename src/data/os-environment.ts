@@ -1,5 +1,5 @@
 /**
- * OS environment details — displayed as a callout card in About/System section.
+ * OS environment details, displayed as a callout card in About/System section.
  * Strong signal for the security/ops identity.
  */
 export const osEnvironment = {

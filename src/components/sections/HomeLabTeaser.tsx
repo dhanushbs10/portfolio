@@ -19,7 +19,7 @@ export function HomeLabTeaser() {
         <AnimatedReveal>
           <p className="mt-6 text-lg text-text-secondary leading-relaxed max-w-xl mx-auto">
             A hands-on environment for networking experiments, security
-            tooling, and infrastructure practice — running on real hardware
+            tooling, and infrastructure practice, running on real hardware
             you can touch.
           </p>
         </AnimatedReveal>

@@ -11,7 +11,7 @@ featured: false
 
 ## Overview
 
-ShellPlay is a browser-based Linux terminal simulator — 100+ commands, a full shell script interpreter, and an in-memory virtual filesystem. All state vanishes when the browser closes. It's built for learning Linux commands safely: no VM to spin up, no cloud sandbox to pay for, no risk of nuking your actual system. Open a tab, start typing.
+ShellPlay is a browser-based Linux terminal simulator, 100+ commands, a full shell script interpreter, and an in-memory virtual filesystem. All state vanishes when the browser closes. It's built for learning Linux commands safely: no VM to spin up, no cloud sandbox to pay for, no risk of nuking your actual system. Open a tab, start typing.
 
 ## Architecture
 
@@ -29,7 +29,7 @@ ShellPlay is a browser-based Linux terminal simulator — 100+ commands, a full 
   page.tsx           # Next.js entry point
 ```
 
-**Virtual Filesystem:** Initializes with a realistic tree (`/home/user`, `/etc`, `/proc`, `/var/log`, `/tmp`, `/root`, `/usr/bin`). Each node tracks: type (file/dir/symlink), permissions (octal), owner/group, timestamps, content (for files), target (for symlinks). Operations mutate this tree in memory — `cp`, `mv`, `rm`, `mkdir`, `touch`, `chmod`, `chown`, `ln -s` all work.
+**Virtual Filesystem:** Initializes with a realistic tree (`/home/user`, `/etc`, `/proc`, `/var/log`, `/tmp`, `/root`, `/usr/bin`). Each node tracks: type (file/dir/symlink), permissions (octal), owner/group, timestamps, content (for files), target (for symlinks). Operations mutate this tree in memory, `cp`, `mv`, `rm`, `mkdir`, `touch`, `chmod`, `chown`, `ln -s` all work.
 
 **Command Executor:** Each command is a pure function `(args: string[], ctx: ExecutionContext) => CommandResult`. The context holds: current working directory, environment variables, stdin/stdout/stderr streams, filesystem reference. Built-ins (`cd`, `pwd`, `export`, `alias`, `history`) mutate context; external commands (`ls`, `cat`, `grep`, `find`, `awk`, `sed`, `tar`, `gzip`, `ps`, `top`, `kill`, `useradd`, `passwd`, `ping`, `curl`) read/write the VFS and return formatted output.
 
@@ -103,20 +103,20 @@ function getCompletions(prefix: string, ctx: Context): string[] {
 
 ## Lessons Learned
 
-- **Terminal emulation is a state machine, not a UI component** — The hard part isn't rendering characters; it's modeling the line discipline: raw mode, cooked mode, signals, job control, escape sequences. I built a subset that feels real without implementing a full TTY.
-- **Shell parsing is deceptively complex** — `echo "hello world"` vs `echo hello world` vs `echo $UNSET_VAR` vs `echo "$UNSET_VAR"` all behave differently. A proper tokenizer that tracks quote state and escape sequences is the foundation everything else sits on.
-- **Pipes need streaming, not buffering** — `yes | head -n 5` must not try to buffer infinite output. Async generators let each command pull only what it needs; `head` closes the pipeline early.
-- **In-memory filesystem = instant reset** — No container teardown, no database truncation. Refresh the page and you get a clean `/home/user` every time. That's the killer feature for a learning tool.
-- **Canvas > DOM for terminal rendering** — 2000+ DOM nodes for a full screen of text kills frame rate on mobile. One canvas, one `fillText` per glyph, dirty-rect invalidation = 60fps on a phone.
-- **Mobile terminal UX is its own discipline** — No Tab key, no Ctrl, no hover. The virtual toolbar and swipe-to-scroll aren't nice-to-haves; they're the difference between usable and broken on a phone.
+- **Terminal emulation is a state machine, not a UI component**: The hard part isn't rendering characters; it's modeling the line discipline: raw mode, cooked mode, signals, job control, escape sequences. I built a subset that feels real without implementing a full TTY.
+- **Shell parsing is deceptively complex**: `echo "hello world"` vs `echo hello world` vs `echo $UNSET_VAR` vs `echo "$UNSET_VAR"` all behave differently. A proper tokenizer that tracks quote state and escape sequences is the foundation everything else sits on.
+- **Pipes need streaming, not buffering**: `yes | head -n 5` must not try to buffer infinite output. Async generators let each command pull only what it needs; `head` closes the pipeline early.
+- **In-memory filesystem = instant reset**: No container teardown, no database truncation. Refresh the page and you get a clean `/home/user` every time. That's the killer feature for a learning tool.
+- **Canvas > DOM for terminal rendering**: 2000+ DOM nodes for a full screen of text kills frame rate on mobile. One canvas, one `fillText` per glyph, dirty-rect invalidation = 60fps on a phone.
+- **Mobile terminal UX is its own discipline**: No Tab key, no Ctrl, no hover. The virtual toolbar and swipe-to-scroll aren't nice-to-haves; they're the difference between usable and broken on a phone.
 
 ## Future Improvements
 
-- **Persistence Layer** — IndexedDB backup/restore so sessions survive browser close (opt-in).
-- **Multi-Session Tabs** — Browser-tab-style terminal multiplexing within the page.
-- **Remote Backend Mode** — Optional WebSocket connection to a real container for commands that need real execution (Docker, Kubernetes, actual network tools).
-- **Plugin System** — Dynamic command registration so users can add custom tools without forking.
-- **Themes** — Solarized, Dracula, Gruvbox, custom CSS variable palette.
-- **Tutorial Mode** — Guided lessons with inline validation ("Run `ls -la` to see hidden files").
-- **Collaborative Sessions** — Share a terminal via WebRTC for pair debugging or teaching.
-- **Language Server Integration** — Inline diagnostics for shell scripts (shellcheck in the browser via WASM).
+- **Persistence Layer**: IndexedDB backup/restore so sessions survive browser close (opt-in).
+- **Multi-Session Tabs**: Browser-tab-style terminal multiplexing within the page.
+- **Remote Backend Mode**: Optional WebSocket connection to a real container for commands that need real execution (Docker, Kubernetes, actual network tools).
+- **Plugin System**: Dynamic command registration so users can add custom tools without forking.
+- **Themes**: Solarized, Dracula, Gruvbox, custom CSS variable palette.
+- **Tutorial Mode**: Guided lessons with inline validation ("Run `ls -la` to see hidden files").
+- **Collaborative Sessions**: Share a terminal via WebRTC for pair debugging or teaching.
+- **Language Server Integration**: Inline diagnostics for shell scripts (shellcheck in the browser via WASM).

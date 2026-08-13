@@ -11,20 +11,20 @@ featured: true
 
 ## Overview
 
-SMB file sharing between two Windows computers on my home network stopped working — shared folders were inaccessible and Network Neighborhood showed nothing. I traced it to a Wi-Fi range extender silently running in Router mode, creating a second DHCP pool and a separate broadcast domain that broke NetBIOS/LLMNR discovery even though raw IP routing still worked.
+SMB file sharing between two Windows computers on my home network stopped working, shared folders were inaccessible and Network Neighborhood showed nothing. I traced it to a Wi-Fi range extender silently running in Router mode, creating a second DHCP pool and a separate broadcast domain that broke NetBIOS/LLMNR discovery even though raw IP routing still worked.
 
-A quick networking primer: SMB (Server Message Block) discovery on Windows relies on NetBIOS Name Service and LLMNR broadcasts — both of which are broadcast-only and require all devices to sit on the same Layer 2/Layer 3 subnet. When broadcasts can't reach another device, name resolution fails and file sharing appears broken even if the machines can reach each other by IP.
+A quick networking primer: SMB (Server Message Block) discovery on Windows relies on NetBIOS Name Service and LLMNR broadcasts, both of which are broadcast-only and require all devices to sit on the same Layer 2/Layer 3 subnet. When broadcasts can't reach another device, name resolution fails and file sharing appears broken even if the machines can reach each other by IP.
 
 ## Architecture / Network Environment
 
 The home network at the time:
 
-- **Windows desktop** — Ethernet to the main router (wired, always-on)
-- **Windows laptop** — Wi-Fi to a range extender (mobile, moves between rooms)
-- **Main router** — provides DHCP and Internet (gateway 192.168.1.1)
-- **Wi-Fi range extender** — positioned mid-house to extend signal coverage
+- **Windows desktop**: Ethernet to the main router (wired, always-on)
+- **Windows laptop**: Wi-Fi to a range extender (mobile, moves between rooms)
+- **Main router**: provides DHCP and Internet (gateway 192.168.1.1)
+- **Wi-Fi range extender**: positioned mid-house to extend signal coverage
 
-### Before Fix — Broken Topology
+### Before Fix, Broken Topology
 
 ```
 [Internet]
@@ -42,7 +42,7 @@ The home network at the time:
   - [Laptop]  192.168.2.x  (Wi-Fi)
 ```
 
-The extender was running in **Router/NAT mode** — a default many consumer extenders ship with. In this mode it creates its own entirely separate network, complete with a second DHCP server. Both networks routed out to the Internet through NAT, so browsing worked fine. But they were isolated L3 domains.
+The extender was running in **Router/NAT mode**, a default many consumer extenders ship with. In this mode it creates its own entirely separate network, complete with a second DHCP server. Both networks routed out to the Internet through NAT, so browsing worked fine. But they were isolated L3 domains.
 
 Table summary:
 
@@ -63,22 +63,22 @@ Table summary:
 
 - Shared folders showed as inaccessible from either machine
 - Network Neighborhood / "This PC → Network" was empty
-- `ping <hostname>` failed — "Ping request could not find host"
-- `ping <IP>` succeeded — the machines could reach each other at the IP level
+- `ping <hostname>` failed, "Ping request could not find host"
+- `ping <IP>` succeeded, the machines could reach each other at the IP level
 - Disabling both Windows Firewall instances made no difference
 
 **Systematic elimination:**
 
 1. Verified SMB services were running on both machines (LanmanServer, FDResPub, SSDPSRV).
-2. Checked sharing permissions — both folders were set to "Everyone read" and network discovery was enabled in Settings.
-3. Disabled both Windows Firewalls completely — no improvement.
+2. Checked sharing permissions, both folders were set to "Everyone read" and network discovery was enabled in Settings.
+3. Disabled both Windows Firewalls completely, no improvement.
 4. Ran `ipconfig /all` on both machines and compared outputs. This was the turning point:
    - Desktop: `192.168.1.15`, gateway `192.168.1.1`, DHCP server `192.168.1.1`
    - Laptop: `192.168.2.45`, gateway `192.168.2.1`, DHCP server `192.168.2.1`
 5. Two different subnets. Two different DHCP servers. The extender was assigning addresses from its own pool.
-6. Logged into the extender's admin panel (192.168.2.1) and checked its operation mode — it was set to **Router / NAT mode**, running its own DHCP server on a separate subnet with full NAT traversal to the main router.
+6. Logged into the extender's admin panel (192.168.2.1) and checked its operation mode, it was set to **Router / NAT mode**, running its own DHCP server on a separate subnet with full NAT traversal to the main router.
 
-**Why ping worked but SMB did not:** ICMP echo requests (ping) are routed — NAT on the extender forwarded them. NetBIOS and LLMNR name-resolution broadcasts, however, are Layer 2 broadcast frames and **do not cross subnet boundaries**. The machines could reach each other by IP because the extender's NAT translated and routed the traffic, but broadcast-based discovery required devices to be on the same network segment.
+**Why ping worked but SMB did not:** ICMP echo requests (ping) are routed, NAT on the extender forwarded them. NetBIOS and LLMNR name-resolution broadcasts, however, are Layer 2 broadcast frames and **do not cross subnet boundaries**. The machines could reach each other by IP because the extender's NAT translated and routed the traffic, but broadcast-based discovery required devices to be on the same network segment.
 
 ## Solutions Implemented
 
@@ -92,19 +92,19 @@ Table summary:
 4. Rebooted the extender.
 5. Re-connected the laptop and confirmed it received a `192.168.1.x` address from the main router with gateway `192.168.1.1`.
 
-Result: both machines on the same subnet, same broadcast domain, SMB discovery working immediately — no further changes needed.
+Result: both machines on the same subnet, same broadcast domain, SMB discovery working immediately, no further changes needed.
 
 ## Lessons Learned
 
-- **Broadcast domains matter more than routing.** Ping succeeding across "broken" networks is misleading — routed traffic and broadcast traffic have fundamentally different delivery models.
+- **Broadcast domains matter more than routing.** Ping succeeding across "broken" networks is misleading, routed traffic and broadcast traffic have fundamentally different delivery models.
 - **NAT isolates at Layer 3, not just Layer 4.** Many people think of NAT as an Internet-access mechanism, but it silently creates network isolation that breaks broadcast-reliant protocols.
 - **One DHCP server per subnet.** Running two DHCP servers on overlapping logical networks causes address conflicts and split-brain resolution.
-- **Consumer networking gear defaults are often wrong.** Range extenders and mesh systems frequently ship with Router/NAT mode as the default rather than Access Point/Bridge mode — users who don't understand the distinction silently get a second network.
+- **Consumer networking gear defaults are often wrong.** Range extenders and mesh systems frequently ship with Router/NAT mode as the default rather than Access Point/Bridge mode, users who don't understand the distinction silently get a second network.
 - **SMB/Windows file sharing depends entirely on broadcast name resolution.** NetBIOS Name Service and LLMNR won't cross a router, even when the underlying IP routing is functional.
 - **Top-down troubleshooting works.** Physical connectivity → L2 switching/ bridging → L3 routing/subnetting → application-layer protocols (SMB, DNS, HTTP) systematically eliminates possibilities and isolates the real issue faster than changing settings at random.
 
 ## Future Improvements
 
-- Document a repeatable diagnostic checklist for cross-subnet home network issues — something I can run through in under 10 minutes when a new symptom appears.
+- Document a repeatable diagnostic checklist for cross-subnet home network issues, something I can run through in under 10 minutes when a new symptom appears.
 - Test the same top-down troubleshooting process against other common misconfigurations: double-NAT with ISP gateways, mixed static/DHCP pools, VLAN misconfigurations on managed switches.
 - Write a follow-up comparing consumer extenders (Router mode vs AP/Bridge mode vs Repeater mode) with a recommendation matrix based on home network topology.

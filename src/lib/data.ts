@@ -1,5 +1,5 @@
 /**
- * Data access layer — all components import from here, never from /data/* directly.
+ * Data access layer, all components import from here, never from /data/* directly.
  * Swapping to a real DB later only changes this file.
  */
 

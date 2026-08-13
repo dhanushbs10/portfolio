@@ -19,7 +19,7 @@ export function Footer() {
     <footer className="border-t border-border-subtle mt-auto">
       <div className="mx-auto max-w-6xl px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="font-mono text-xs text-text-tertiary">
-          Dhanush B S — Bengaluru, Karnataka, India
+          Dhanush B S, Bengaluru, Karnataka, India
         </p>
 
         <div className="flex items-center gap-6">

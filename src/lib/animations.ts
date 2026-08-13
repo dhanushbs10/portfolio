@@ -1,5 +1,5 @@
 /**
- * Motion tokens — standard easing curves + durations.
+ * Motion tokens, standard easing curves + durations.
  * Every Framer Motion / GSAP call should reference these constants
  * instead of inventing new values per component.
  */

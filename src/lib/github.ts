@@ -8,7 +8,7 @@ export interface RepoStats {
 
 export async function getRepoStats(repo: string): Promise<RepoStats | null> {
   const token = process.env.GITHUB_TOKEN;
-  // Server-side only — never expose token via NEXT_PUBLIC_ prefix.
+  // Server-side only, never expose token via NEXT_PUBLIC_ prefix.
   // If no token is configured, skip gracefully so the badge hides itself.
   if (!token) return null;
 

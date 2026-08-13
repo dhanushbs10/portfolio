@@ -214,7 +214,7 @@ export default function KitchenSinkPage() {
                 </div>
               ))}
               <p className="body-base text-text-secondary mt-2">
-                Body text — Inter, 16px, leading-relaxed. The default reading
+                Body text, Inter, 16px, leading-relaxed. The default reading
                 size for paragraphs, descriptions, and long-form content.
               </p>
               <p className="font-mono text-xs text-text-tertiary mt-2">

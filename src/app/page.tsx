@@ -38,7 +38,7 @@ export default function HomePage() {
   );
 }
 
-// Server wrapper — fetches data, passes as props to client component
+// Server wrapper, fetches data, passes as props to client component
 function ProjectsFeaturedSection({
   projects,
 }: {

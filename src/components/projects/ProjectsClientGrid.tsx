@@ -58,7 +58,7 @@ export function ProjectsClientGrid({
           onChange={(e) => setSortBy(e.target.value as "title" | "status")}
           className="ml-auto bg-surface-overlay border border-border-subtle rounded px-2 py-1.5 font-mono text-xs text-text-secondary"
         >
-          <option value="title">Sort: A – Z</option>
+          <option value="title">Sort: A, Z</option>
           <option value="status">Sort: Status</option>
         </select>
       </div>

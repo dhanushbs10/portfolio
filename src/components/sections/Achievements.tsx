@@ -15,13 +15,13 @@ export function Achievements() {
         <div className="mx-auto max-w-4xl">
           <AnimatedReveal>
             <SectionHeading
-              eyebrow="10 — Achievements"
+              eyebrow="10, Achievements"
               title="By the Numbers"
               subtitle="Building toward my first competition entries and milestones."
             />
           </AnimatedReveal>
           <p className="mt-8 text-text-secondary">
-            No achievements yet — filling these in as I earn them. Coming soon.
+            No achievements yet, filling these in as I earn them. Coming soon.
           </p>
         </div>
       </section>

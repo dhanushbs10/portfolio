@@ -23,7 +23,7 @@ const STYLES = `
 
 .pw-host { position: fixed; bottom: 22px; right: 22px; z-index: var(--z-overlay); }
 
-/* ───── FAB — a quiet signal node (no perpetual motion) ───── */
+/* ───── FAB, a quiet signal node (no perpetual motion) ───── */
 .pw-fab {
   position: relative;
   width: 52px; height: 52px; border-radius: 50%;
@@ -63,7 +63,7 @@ const STYLES = `
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* scanline overlay — same motif as the site terminals */
+/* scanline overlay, same motif as the site terminals */
 .pw-panel::after {
   content: ''; position: absolute; inset: 0;
   pointer-events: none; opacity: 0.5; z-index: 1;
@@ -300,7 +300,7 @@ export default function PingWidget() {
 		streamRef.current = '';
 
 		try {
-			// Send only REAL turns to the model — the empty assistant placeholder is a
+			// Send only REAL turns to the model, the empty assistant placeholder is a
 			// client-side streaming artifact; if it reaches the model it corrupts output.
 			const historyForModel = nextMessages
 				.filter(m => m.content.trim() !== '')
@@ -399,7 +399,7 @@ export default function PingWidget() {
 									<div className="pw-empty">
 										<div className="pw-empty-mark">ping</div>
 										<div className="pw-empty-text">
-											Ask me anything about Dhanush — his work, skills, projects, or background.
+											Ask me anything about Dhanush, his work, skills, projects, or background.
 										</div>
 										<div className="pw-empty-suggest">
 											{SUGGESTIONS.map((s) => (

@@ -21,7 +21,7 @@ export function SkillsPreview() {
           <SectionHeading
             eyebrow="Skills"
             title="Core Competencies"
-            subtitle="Cybersecurity and networking fundamentals — the foundation of everything else."
+            subtitle="Cybersecurity and networking fundamentals, the foundation of everything else."
           />
         </AnimatedReveal>
 

@@ -3,10 +3,10 @@ import type { JourneyMilestone } from "@/lib/types";
 export const journeyMilestones: JourneyMilestone[] = [
   {
     id: "jrn-001",
-    title: "Diploma Final Year — CSE",
+    title: "Diploma Final Year, CSE",
     role: "Student",
     org: "Computer Science Engineering, Bengaluru",
-    date: "2024 — Present",
+    date: "2024, Present",
     description:
       "Specializing in Cybersecurity and Networking. Building practical skills through hands-on projects, home labs, and real-world problem solving.",
   },

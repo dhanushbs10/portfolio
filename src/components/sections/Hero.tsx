@@ -26,7 +26,7 @@ export function Hero() {
         }}
       />
 
-      {/* Content — always visible, no boot animation */}
+      {/* Content, always visible, no boot animation */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 mx-auto max-w-3xl px-6 text-center"
@@ -34,7 +34,7 @@ export function Hero() {
         <div className="flex flex-col gap-6">
           <div className="flex items-center justify-center gap-2 mb-2">
             {/* <Terminal size={14} className="text-accent-interactive" /> */}
-            {/* <span className="eyebrow">profile.dhanush — loaded</span> */}
+            {/* <span className="eyebrow">profile.dhanush, loaded</span> */}
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
@@ -50,7 +50,7 @@ export function Hero() {
           </div>
 
           <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-primary leading-relaxed">
-            Building reliable systems and securing networks — from bare-metal
+            Building reliable systems and securing networks, from bare-metal
             infrastructure to practical cybersecurity labs.
           </p>
 

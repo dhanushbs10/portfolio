@@ -26,12 +26,12 @@ export function CertificationsPreview() {
           <SectionHeading
             eyebrow="SEC.CERT"
             title="Credentials & Certifications"
-            subtitle="Placeholder data — real certificates will be populated in a later chapter."
+            subtitle="Placeholder data, real certificates will be populated in a later chapter."
           />
         </AnimatedReveal>
 
         {certs.length === 0 ? (
-          <p className="mt-8 text-text-secondary">No certifications yet — stay tuned.</p>
+          <p className="mt-8 text-text-secondary">No certifications yet, stay tuned.</p>
         ) : (
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {certs.map((cert, i) => {

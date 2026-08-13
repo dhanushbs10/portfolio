@@ -138,7 +138,7 @@ function valueToChunks(source: string, value: unknown): { source: string; conten
         else if (typeof v === "string" && v) parts.push(`${k}: ${v}`);
         else if (typeof v === "number" || typeof v === "boolean") parts.push(`${k}: ${v}`);
       }
-      const text = parts.join(" — ");
+      const text = parts.join(", ");
       if (text.trim()) chunkText(text).forEach((c) => out.push({ source, content: c }));
     }
   } else if (typeof value === "object" && value !== null) {

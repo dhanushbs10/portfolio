@@ -4,7 +4,7 @@ import { ProjectsClientGrid } from "@/components/projects/ProjectsClientGrid";
 
 export const metadata = {
   title: "Projects | Dhanush B S",
-  description: "All projects — completed, in-progress, and archived.",
+  description: "All projects, completed, in-progress, and archived.",
 };
 
 export default function ProjectsPage() {

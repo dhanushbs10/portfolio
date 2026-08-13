@@ -41,7 +41,7 @@ export async function* chatCompletionStream(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      // ponytail: Nemotron-3-Nano (30B) could not hold Ping's policy — strict
+      // ponytail: Nemotron-3-Nano (30B) could not hold Ping's policy, strict
       // Dhanush-only scope with two distinct fallbacks, a hard em-dash ban,
       // length caps, and an anti-narration rule. Each rule held only ~60% of
       // the time across 5 prompt-tuning rounds (whack-a-mole): it wrote code
@@ -54,7 +54,7 @@ export async function* chatCompletionStream(
       // instruct times out (120s, never returns) on this account; nvidia/
       // llama-3.1/3.3-nemotron-* 70B/49B return 404 or empty; mistral-large-2
       // returns 404. llama-3.1-70b is the one available stronger model that
-      // actually responds. Latency is erratic (2–56s on a ping) but always
+      // actually responds. Latency is erratic (2 to 56s on a ping) but always
       // answers; the SSE stream masks first-token latency for the UI.
       model: "meta/llama-3.1-70b-instruct",
       messages,
@@ -82,7 +82,7 @@ export async function* chatCompletionStream(
     if (done) break;
     buf += decoder.decode(value, { stream: true });
     const lines = buf.split("\n");
-    // ponytail: keep the trailing partial line — a data: JSON split across
+    // ponytail: keep the trailing partial line, a data: JSON split across
     // network reads would be silently dropped if we reset buf to "" each loop.
     buf = lines.pop() ?? "";
     for (const line of lines) {

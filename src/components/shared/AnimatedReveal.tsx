@@ -42,7 +42,7 @@ interface AnimatedRevealProps {
 }
 
 /**
- * AnimatedReveal — consistent scroll-reveal wrapper used by every section.
+ * AnimatedReveal, consistent scroll-reveal wrapper used by every section.
  *
  * - Non-stagger: fades + slides children in together
  * - Stagger: each direct child fades up individually with stagger delay
@@ -110,7 +110,7 @@ export function AnimatedReveal({
               {child}
             </motion.div>
           ))
-        : // Single child — still wrap to participate in stagger
+        : // Single child, still wrap to participate in stagger
           (<motion.div variants={childVariants}>{children}</motion.div>)}
     </motion.div>
   );

@@ -3,7 +3,7 @@
 import { useScroll, useTransform, motion } from "framer-motion";
 
 /**
- * ScrollBackground — a fixed-position gradient/canvas that shifts
+ * ScrollBackground, a fixed-position gradient/canvas that shifts
  * color intensity as the user scrolls. All sections share this one
  * background layer so the page feels continuous rather than
  * "stack of isolated cards."

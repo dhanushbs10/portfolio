@@ -19,7 +19,7 @@ export function AboutMe() {
   const technicalLabels = technical.map((i: { label: string }) => i.label);
   const technicalSentence =
     technicalLabels.length > 0
-      ? `Outside of coursework, I build small ${technicalLabels.join(" and ")} for fun — they're a natural extension of the home lab work.`
+      ? `Outside of coursework, I build small ${technicalLabels.join(" and ")} for fun, they're a natural extension of the home lab work.`
       : null;
 
   return (
@@ -34,7 +34,7 @@ export function AboutMe() {
         </AnimatedReveal>
 
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left col — bio + interests */}
+          {/* Left col, bio + interests */}
           <AnimatedReveal className="lg:col-span-2">
             <div className="flex flex-col gap-5">
               <p className="text-lg text-text-secondary leading-relaxed">
@@ -47,7 +47,7 @@ export function AboutMe() {
             </div>
           </AnimatedReveal>
 
-          {/* Right col — static info + quiet hobbies footer */}
+          {/* Right col, static info + quiet hobbies footer */}
           <AnimatedReveal direction="left">
             <div className="flex flex-col gap-6">
               <div className="border-panel p-5 flex flex-col gap-4">
@@ -81,7 +81,7 @@ export function AboutMe() {
                 </div>
               </div>
 
-              {/* General hobbies — quiet footer */}
+              {/* General hobbies, quiet footer */}
               {general.length > 0 && (
                 <div className="mt-2">
                   <span className="font-mono text-[10px] tracking-widest uppercase text-text-tertiary">

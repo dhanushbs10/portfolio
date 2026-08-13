@@ -10,7 +10,7 @@ import { join } from "path";
 const MAX_MESSAGES = parseInt(process.env.RATE_LIMIT_MAX_MESSAGES || "40", 10);
 const WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_HOURS || "0.25", 10) * 60 * 60 * 1000;
 
-// ponytail: in-memory rate map, resets on server restart — fine for a portfolio bot
+// ponytail: in-memory rate map, resets on server restart, fine for a portfolio bot
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 function pruneRates() {
 	const now = Date.now();
@@ -28,9 +28,9 @@ function checkRate(ip: string): boolean {
 }
 
 // ── Load portfolio knowledge for Ping ──
-// The canonical source is content/projects/dhanush-ping-profile.mdx — a 100+ section,
+// The canonical source is content/projects/dhanush-ping-profile.mdx, a 100+ section,
 // 681-line knowledge base authored for Ping. We do NOT feed that raw dump to the model:
-// Nemotron-3-Nano (30B) cannot constrained-summarize 65KB of unstructured narrative — it
+// Nemotron-3-Nano (30B) cannot constrained-summarize 65KB of unstructured narrative, it
 // alternated between overrunning into verbatim reference dumps and hallucinating details
 // a real home address was invented on a simple "who is he" with no address anywhere in
 // the source. So we extract a tight, hand-curated FACT SHEET (below) as the grounding
@@ -39,7 +39,7 @@ function checkRate(ip: string): boolean {
 // not the prose profile.
 const PROFILE_FILE = "dhanush-ping-profile.mdx";
 
-// Concise fact sheet distilled from dhanush-ping-profile.mdx. Grounded only — every line
+// Concise fact sheet distilled from dhanush-ping-profile.mdx. Grounded only, every line
 // is backed by the source. Broad questions are answerable from this alone.
 const FACT_SHEET = `# Dhanush, Fact Sheet (grounded)
 
@@ -87,24 +87,24 @@ const FACT_SHEET = `# Dhanush, Fact Sheet (grounded)
 
 function loadPortfolioContent(): string {
 	const projectDir = join(process.cwd(), "content", "projects");
-	// Strip frontmatter + normalize dashes: the MDX writeups use em/en dashes ("—"/"–")
-	// and non-breaking hyphens ("‑") throughout. We forbid dashes in Ping's output, so
+	// Strip frontmatter + normalize dashes: the MDX writeups use em/en dashes (", "/", ")
+	// and non-breaking hyphens ("-") throughout. We forbid dashes in Ping's output, so
 	// feeding them as reference just tempts the model to copy them. Replace em/en with
 	// ", " (reads fine) and non-breaking hyphen with a plain "-" at the shared path
 	// rather than scrubbing each source file.
 	const stripFrontmatter = (raw: string) =>
 		raw
 			.replace(/^---[\s\S]*?---\s*/, "")
-			.replace(/——/g, ", ")
-			.replace(/—/g, ", ")
-			.replace(/–/g, ", ")
-			.replace(/‑/g, "-")
+			.replace(/, /g, ", ")
+			.replace(/, /g, ", ")
+			.replace(/, /g, ", ")
+			.replace(/-/g, "-")
 			.trim();
 
 	let mdxFiles: string[] = [];
 	try { mdxFiles = readdirSync(projectDir).filter((f) => f.endsWith(".mdx")); } catch { return FACT_SHEET; }
 
-	// Drop the prose profile — its facts are distilled into FACT_SHEET above so the
+	// Drop the prose profile, its facts are distilled into FACT_SHEET above so the
 	// model ground on a tight summary instead of a 65KB narrative it can't summarize.
 	const profileIdx = mdxFiles.indexOf(PROFILE_FILE);
 	if (profileIdx !== -1) mdxFiles.splice(profileIdx, 1);
@@ -168,7 +168,7 @@ HOW YOU ANSWER:
 - Do not repeat your answer. Say it once and stop. Do NOT keep going to fill space, if you are done, stop rather than overrun.
 
 FORMAT (no em or en dashes):
-- NEVER use the em dash character ("—") or en dash ("–") anywhere. Zero of them.
+- NEVER use the em dash character (", ") or en dash (", ") anywhere. Zero of them.
   The reference and this prompt may contain them; do NOT copy. Use a comma,
   colon, or a period (separate sentence) instead. Scan your output before
   finishing and remove any dash that slipped in.
@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
 		const rawMessages: ChatMessage[] = body.messages || [];
 		// Defensive sanitize at the trust boundary: drop empty / whitespace-only
 		// turns. An empty trailing assistant turn (a UI streaming artifact) corrupts
-		// the model output — it triggers repetition loops and bad completions.
+		// the model output, it triggers repetition loops and bad completions.
 		const userMessages = rawMessages.filter((m) => typeof m?.content === "string" && m.content.trim() !== "");
 		if (!userMessages.length) return NextResponse.json({ error: "No messages provided" }, { status: 400 });
 

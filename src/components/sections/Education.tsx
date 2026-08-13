@@ -32,7 +32,7 @@ export function Education() {
                   </p>
                   <span className="font-mono text-xs text-accent-interactive mt-1 block">
                     {entry.startDate}
-                    {entry.endDate ? ` — ${entry.endDate}` : " — Present"}
+                    {entry.endDate ? `, ${entry.endDate}` : ", Present"}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">

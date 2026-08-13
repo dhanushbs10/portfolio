@@ -61,7 +61,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
         {project.githubRepo && <GithubStatsBadge repo={project.githubRepo} />}
 
-        {/* Render MDX body — MDXRemote is an RSC-compatible component */}
+        {/* Render MDX body, MDXRemote is an RSC-compatible component */}
         <div className="prose mt-10 max-w-none
           [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-10 [&_h2]:mb-4
           [&_h3]:font-display [&_h3]:text-lg [&_h3]:font-medium [&_h3]:mt-8 [&_h3]:mb-3

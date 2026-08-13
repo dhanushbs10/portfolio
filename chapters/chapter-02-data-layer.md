@@ -1,4 +1,4 @@
-# Chapter 2 — Content Data Layer
+# Chapter 2, Content Data Layer
 
 **Goal of this chapter:** define every data shape the site needs and seed it with your real content, so every later chapter is wiring components to real data instead of inventing schemas on the fly.
 
@@ -85,13 +85,13 @@ export type EducationEntry = {
 
 ## 2.2 Seed Files to Create in `/data/`
 
-- `skills.ts` — your real skills, honestly leveled (don't inflate "learning" to "proficient").
-- `certifications.ts` — real certs, including planned/in-progress ones with honest status.
-- `roadmap.ts` — real done/doing/next items.
-- `achievements.ts` — real achievements; if you don't have any yet, this file can be empty/near-empty — do not fabricate placeholder achievements as if real.
-- `journey.ts` — real milestones in your path so far.
-- `education.ts` — your real program/institution/coursework.
-- `hardware.ts` — **pre-seeded from your actual machine specs**, use this as the starting content (fill in the `whyIChoseIt`/`personalExperience`/`futureUpgradePlans` fields yourself — the rest is accurate as given):
+- `skills.ts`, your real skills, honestly leveled (don't inflate "learning" to "proficient").
+- `certifications.ts`, real certs, including planned/in-progress ones with honest status.
+- `roadmap.ts`, real done/doing/next items.
+- `achievements.ts`, real achievements; if you don't have any yet, this file can be empty/near-empty, do not fabricate placeholder achievements as if real.
+- `journey.ts`, real milestones in your path so far.
+- `education.ts`, your real program/institution/coursework.
+- `hardware.ts`, **pre-seeded from your actual machine specs**, use this as the starting content (fill in the `whyIChoseIt`/`personalExperience`/`futureUpgradePlans` fields yourself, the rest is accurate as given):
 
 ```ts
 export const hardwareComponents: HardwareComponent[] = [
@@ -171,7 +171,7 @@ export const hardwareComponents: HardwareComponent[] = [
     id: "network",
     name: "Onboard Networking",
     category: "network",
-    specs: ["Ethernet (eth0) — active", "WiFi (wlan0) — present, currently down"],
+    specs: ["Ethernet (eth0), active", "WiFi (wlan0), present, currently down"],
     whyIChoseIt: "", upgradeHistory: "", currentPurpose: "",
     performanceNotes: "", personalExperience: "", futureUpgradePlans: "",
     sceneAnchor: { x: 0, y: 0, zoom: 1 },
@@ -179,11 +179,11 @@ export const hardwareComponents: HardwareComponent[] = [
 ];
 ```
 
-Also seed `os-environment.ts` (or fold into an `Achievements`/`About`-adjacent data point) capturing: Kali Linux Rolling, XFCE desktop, X11/LightDM, Zsh shell — this is a strong signal for the security identity and deserves its own callout card, not just a spec-sheet line.
+Also seed `os-environment.ts` (or fold into an `Achievements`/`About`-adjacent data point) capturing: Kali Linux Rolling, XFCE desktop, X11/LightDM, Zsh shell, this is a strong signal for the security identity and deserves its own callout card, not just a spec-sheet line.
 
 ## 2.3 Data-Access Layer
 
-- `/lib/data.ts`: thin typed getter functions (`getSkills()`, `getCertifications()`, etc.) — even though these just return the local arrays today, routing all component data-fetching through these functions means swapping to a real DB later only touches this one file, nothing downstream.
+- `/lib/data.ts`: thin typed getter functions (`getSkills()`, `getCertifications()`, etc.), even though these just return the local arrays today, routing all component data-fetching through these functions means swapping to a real DB later only touches this one file, nothing downstream.
 
 ---
 
@@ -192,7 +192,7 @@ Also seed `os-environment.ts` (or fold into an `Achievements`/`About`-adjacent d
 - [ ] Every type in 2.1 exists in `/lib/types.ts` with no `any`.
 - [ ] Every seed file in 2.2 exists with real (not placeholder) content, except achievements if genuinely empty.
 - [ ] `/lib/data.ts` getters exist and are what components will import (never import `/data/*` directly from a component).
-- [ ] No section built in Chapter 1 has been rewired to this data yet — that happens per-section as you rebuild each one in later chapters. This chapter is data-only.
+- [ ] No section built in Chapter 1 has been rewired to this data yet, that happens per-section as you rebuild each one in later chapters. This chapter is data-only.
 
 ---
 
@@ -203,10 +203,10 @@ Read chapter-02-data-layer.md and implement everything in it. Create the
 types in /lib/types.ts exactly as specified, the seed data files in /data/
 (using the real hardware specs given in 2.2 verbatim for the factual fields,
 leaving the narrative fields like whyIChoseIt as empty strings for me to
-fill in personally — do not invent personal narrative content on my behalf),
+fill in personally, do not invent personal narrative content on my behalf),
 and the typed getter functions in /lib/data.ts.
 
 Do not rewire any existing Chapter 1 section components to use this data
-yet — that happens in later chapters. This chapter only creates the data
+yet, that happens in later chapters. This chapter only creates the data
 layer. When done, report against the Acceptance Criteria.
 ```

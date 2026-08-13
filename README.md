@@ -1,4 +1,4 @@
-# Dhanush Nagishetti — Portfolio
+# Dhanush Nagishetti, Portfolio
 
 Next.js 15 + TypeScript + Tailwind CSS portfolio with a "structured signal" aesthetic (network/circuit-inspired, dark-mode-first).
 
@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — visit `/dev/kitchen-sink` to see the design tokens.
+Open http://localhost:3000, visit `/dev/kitchen-sink` to see the design tokens.
 
 ## Development
 

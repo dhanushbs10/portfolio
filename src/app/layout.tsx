@@ -27,11 +27,11 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhanush B S — Network Security Engineer",
+    default: "Dhanush B S, Network Security Engineer",
     template: "%s | Dhanush B S",
   },
   description:
-    "Portfolio of Dhanush B S — Diploma student in Computer Science Engineering from Bengaluru, focused on cybersecurity, networking, and infrastructure. Building toward a career as a Network Security Engineer.",
+    "Portfolio of Dhanush B S, Diploma student in Computer Science Engineering from Bengaluru, focused on cybersecurity, networking, and infrastructure. Building toward a career as a Network Security Engineer.",
   keywords: [
     "Dhanush B S",
     "network security",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Dhanush B S" }],
   openGraph: {
-    title: "Dhanush B S — Network Security Engineer",
+    title: "Dhanush B S, Network Security Engineer",
     description:
       "Cybersecurity and networking enthusiast from Bengaluru. Building practical skills through hands-on projects and home lab experimentation.",
     type: "website",
