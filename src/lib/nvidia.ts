@@ -44,6 +44,13 @@ export async function* chatCompletionStream(
       model: "nvidia/nemotron-3-nano-30b-a3b",
       messages,
       stream: true,
+      // Nemotron-3-Nano is a reasoning model and defaults to emitting its
+      // chain-of-thought as visible content — Ping's answers leaked as
+      // "We need to answer the user's question... Let me check the reference..."
+      // (1644 chars of self-narration on a simple project query). Disabling
+      // thinking mode via the template kwarg collapses that to the 73-char
+      // bullet list the user actually asked for. Probed against the endpoint.
+      chat_template_kwargs: { thinking: false },
       // Nemotron intermittently degenerates: it finishes a coherent answer, then
       // re-emits it verbatim until it hits the token ceiling (finish_reason
       // "length", no natural stop). Two levers at the shared path:
