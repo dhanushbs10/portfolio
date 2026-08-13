@@ -27,7 +27,7 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhanush B S, Network Security Engineer",
+    default: "Dhanush B S, Cybersecurity & Networking Student",
     template: "%s | Dhanush B S",
   },
   description:
@@ -48,6 +48,7 @@ export const metadata: Metadata = {
       "Cybersecurity and networking enthusiast from Bengaluru. Building practical skills through hands-on projects and home lab experimentation.",
     type: "website",
     locale: "en_IN",
+    images: ["/og-image.png"],
   },
 };
 

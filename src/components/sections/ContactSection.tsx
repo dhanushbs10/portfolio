@@ -2,7 +2,7 @@
 
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { Send, ExternalLink, Mail, Phone } from "lucide-react";
+import { Mail, ExternalLink, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { contactInfo } from "@/data/contact";
 
@@ -28,27 +28,17 @@ export function ContactSection() {
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-5 gap-10">
           <AnimatedReveal className="md:col-span-3">
-            <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="font-mono text-xs tracking-wide text-text-secondary">Name</label>
-                <input id="name" type="text" placeholder="Your name"
-                  className={cn("w-full rounded bg-surface-raised border border-border-default px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-interactive focus:ring-1 focus:ring-accent-interactive/40 transition-colors")} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="font-mono text-xs tracking-wide text-text-secondary">Email</label>
-                <input id="email" type="email" placeholder="you@example.com"
-                  className={cn("w-full rounded bg-surface-raised border border-border-default px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-interactive focus:ring-1 focus:ring-accent-interactive/40 transition-colors")} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="font-mono text-xs tracking-wide text-text-secondary">Message</label>
-                <textarea id="message" rows={5} placeholder="What's on your mind?"
-                  className={cn("w-full rounded bg-surface-raised border border-border-default px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent-interactive focus:ring-1 focus:ring-accent-interactive/40 transition-colors resize-none")} />
-              </div>
-              <button type="submit"
-                className={cn("self-start inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded px-6 py-3 font-mono text-sm font-medium tracking-wide transition-colors")}>
-                <Send size={14} /> Send message
-              </button>
-            </form>
+            <div className="flex flex-col gap-5">
+              <p className="text-text-secondary leading-relaxed">
+                I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out through any of the channels below.
+              </p>
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className={cn("self-start inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded px-6 py-3 font-mono text-sm font-medium tracking-wide transition-colors")}
+              >
+                <Mail size={14} /> Send an email
+              </a>
+            </div>
           </AnimatedReveal>
 
           <AnimatedReveal direction="left">

@@ -433,15 +433,16 @@ export default function PingWidget() {
 							</div>
 
 							<div className="pw-input-bar">
-								<textarea
-									className="pw-input"
-									rows={1}
-									value={input}
-									placeholder="Ask anything…"
-									onChange={(e) => setInput(e.target.value)}
-									onKeyDown={onKeyDown}
-									disabled={streaming}
-								/>
+                                <textarea
+                                  className="pw-input"
+                                  rows={1}
+                                  value={input}
+                                  placeholder="Ask anything…"
+                                  aria-label="Chat with Ping"
+                                  onChange={(e) => setInput(e.target.value)}
+                                  onKeyDown={onKeyDown}
+                                  disabled={streaming}
+                                />
 								<button className="pw-send" onClick={() => send(input)} disabled={streaming || !input.trim()} aria-label="Send">
 									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 										<line x1="22" y1="2" x2="11" y2="13" />

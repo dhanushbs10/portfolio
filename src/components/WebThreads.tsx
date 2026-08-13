@@ -201,6 +201,7 @@ const WebThreads: React.FC<WebThreadsProps> = ({
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     canvas.style.display = 'block';
+    canvas.setAttribute('aria-hidden', 'true');
     container.appendChild(canvas);
 
     const geometry = new Triangle(gl);

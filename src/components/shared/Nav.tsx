@@ -86,7 +86,7 @@ export function Nav() {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="font-mono text-sm tracking-widest uppercase text-text-primary hover:text-text-primary"
+                    className="font-mono text-sm tracking-widest uppercase text-text-primary hover:text-accent-interactive"
                   >
                     {item.label}
                   </Link>
