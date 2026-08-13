@@ -41,25 +41,33 @@ export async function* chatCompletionStream(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "nvidia/nemotron-3-nano-30b-a3b",
+      // ponytail: Nemotron-3-Nano (30B) could not hold Ping's policy — strict
+      // Dhanush-only scope with two distinct fallbacks, a hard em-dash ban,
+      // length caps, and an anti-narration rule. Each rule held only ~60% of
+      // the time across 5 prompt-tuning rounds (whack-a-mole): it wrote code
+      // on some phrasings, used the wrong fallback on others, leaked reasoning
+      // ("Let me check the reference..."), and invented a home address from
+      // nothing. The cause was model quality, not the prompt. meta/llama-3.1-
+      // 70b-instruct is 70B dense instruct (not a reasoning model → no thinking
+      // leakage, no chat_template_kwargs needed) and obeys short-output + scope
+      // instructions on probe. Verified candidate choice: meta/llama-3.3-70b-
+      // instruct times out (120s, never returns) on this account; nvidia/
+      // llama-3.1/3.3-nemotron-* 70B/49B return 404 or empty; mistral-large-2
+      // returns 404. llama-3.1-70b is the one available stronger model that
+      // actually responds. Latency is erratic (2–56s on a ping) but always
+      // answers; the SSE stream masks first-token latency for the UI.
+      model: "meta/llama-3.1-70b-instruct",
       messages,
       stream: true,
-      // Nemotron-3-Nano is a reasoning model and defaults to emitting its
-      // chain-of-thought as visible content — Ping's answers leaked as
-      // "We need to answer the user's question... Let me check the reference..."
-      // (1644 chars of self-narration on a simple project query). Disabling
-      // thinking mode via the template kwarg collapses that to the 73-char
-      // bullet list the user actually asked for. Probed against the endpoint.
-      chat_template_kwargs: { thinking: false },
-      // Nemotron intermittently degenerates: it finishes a coherent answer, then
-      // re-emits it verbatim until it hits the token ceiling (finish_reason
-      // "length", no natural stop). Two levers at the shared path:
-      //  - max_tokens 768: hard backstop so a loop is bounded (a 6-bullet answer
-      //    fits with headroom, so capping never truncates a real answer).
-      //  - frequency_penalty 0.6: discourages re-using already-generated tokens,
-      //    breaking the repetition spiral. Probed: cut intermittent dups 37.5%→0
-      //    on the worst query, shrank overrun, no quality regression elsewhere.
+      // max_tokens 768: hard backstop so a repetition loop is bounded (a 6-bullet
+      // answer fits with headroom, so capping never truncates a real answer). Kept
+      // from the Nemotron config; Llama-3.1-70B stops cleanly on its own, so this
+      // is now pure insurance rather than a load-bearing loop-breaker.
       max_tokens: 768,
+      // frequency_penalty 0.6: discourages re-using already-generated tokens. Was
+      // added for Nemotron's repetition spiral; Llama-3.1 does not exhibit it, but
+      // a mild penalty is harmless and guards any future regression. Keep until a
+      // concrete overrun shows it hurting.
       frequency_penalty: 0.6,
     }),
     signal,
