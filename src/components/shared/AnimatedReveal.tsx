@@ -66,7 +66,6 @@ export function AnimatedReveal({
     ease: easeEmphasized,
   };
 
-  // Non-stagger: single container
   if (!stagger) {
     const variants: Record<string, Variant> = {
       hidden: {
@@ -106,12 +105,11 @@ export function AnimatedReveal({
     >
       {Array.isArray(children)
         ? children.map((child, i) => (
-            <motion.div key={i} variants={childVariants}>
-              {child}
-            </motion.div>
+            <motion.div key={i} variants={childVariants}>{child}</motion.div>
           ))
-        : // Single child, still wrap to participate in stagger
-          (<motion.div variants={childVariants}>{children}</motion.div>)}
+        : (
+            <motion.div variants={childVariants}>{children}</motion.div>
+          )}
     </motion.div>
   );
 }

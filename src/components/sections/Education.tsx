@@ -69,7 +69,7 @@ export function Education() {
                     >
                       {[...(entry.highlights || []), ...(entry.highlights || [])].map((h, i) => (
                         <li
-                          key={i}
+                          key={`${entry.id}-hl-${i}`}
                           className="font-mono text-xs text-text-secondary whitespace-nowrap flex-shrink-0"
                         >
                           {h}
@@ -100,7 +100,7 @@ export function Education() {
                   >
                     {[...(entry.coursework || []), ...(entry.coursework || [])].map((c, i) => (
                       <span
-                        key={i}
+                        key={`${entry.id}-cw-${i}`}
                         className="px-2.5 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary whitespace-nowrap flex-shrink-0"
                       >
                         {c}
