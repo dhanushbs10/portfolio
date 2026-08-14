@@ -4,7 +4,7 @@ export const educationEntries: EducationEntry[] = [
   {
     id: "edu-001",
     program: "Diploma in Computer Science Engineering",
-    institution: "SAPTAC, Bengaluru, Karnataka",
+    institution: "[Institution Name], Bengaluru, Karnataka",
     startDate: "2023",
     endDate: "2026",
     current: true,
@@ -31,8 +31,8 @@ export const educationEntries: EducationEntry[] = [
   {
     id: "edu-002",
     program: "SSLC",
-    institution: "St. Joseph's High School, Bengaluru, Karnataka",
-    startDate: "2020",
+    institution: "[School Name], Bengaluru, Karnataka",
+    startDate: "2016",
     endDate: "2024",
     highlights: [
       "Completed secondary education with strong academic performance",
