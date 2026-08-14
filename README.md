@@ -1,6 +1,18 @@
-# Dhanush B S, Portfolio
+# Dhanush B S — Portfolio
 
-Next.js 15 + TypeScript + Tailwind CSS portfolio with a "structured signal" aesthetic (network/circuit-inspired, dark-mode-first).
+A personal portfolio site built around a "structured signal" aesthetic — dark-mode-first,
+network/circuit-inspired visuals, and a terminal-flavored voice throughout. Includes **Ping**,
+an AI assistant grounded on my own background that visitors can actually talk to instead of
+just reading a static bio.
+
+**Live:** [bsdhanush.qzz.io](https://bsdhanush.qzz.io)
+
+## Highlights
+
+- **Ping** — an AI chat assistant (NVIDIA NIM / Nemotron) that answers visitor questions about
+  me, grounded on a curated fact sheet with abuse/jailbreak guarding
+- Animated tech-stack marquee, hover-reveal project cards, and scroll-triggered reveals
+- Fully responsive, dark-mode-first design system
 
 ## Tech Stack
 
@@ -18,8 +30,18 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000, visit `/dev/kitchen-sink` to see the design tokens.
+Open [http://localhost:3000](http://localhost:3000). Visit `/dev/kitchen-sink` to see the
+design tokens and component sandbox.
 
-## Development
+You'll need your own `.env.local` with API keys for the chat assistant to work locally — see
+`.env.example` for the required variable names.
 
-Built chapter-by-chapter from a design-system-first scaffold.
+## Project Structure
+
+Built chapter-by-chapter from a design-system-first scaffold — see `src/app`, `src/components`,
+and `src/data` for the main structure.
+
+## Contact
+
+- GitHub: [@dhanushbs10](https://github.com/dhanushbs10)
+- Email: dhanushpoojari101@gmail.com
