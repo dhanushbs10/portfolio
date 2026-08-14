@@ -63,6 +63,7 @@ export function Education() {
                         animation: "marqueeScroll 30s linear infinite",
                         animationPlayState: paused ? "paused" : "running",
                         width: "max-content",
+        minWidth: "none",
                       }}
                       onMouseEnter={() => setPaused(true)}
                       onMouseLeave={() => setPaused(false)}
@@ -94,6 +95,7 @@ export function Education() {
                       animation: "marqueeScroll 40s linear infinite",
                       animationPlayState: paused ? "paused" : "running",
                       width: "max-content",
+        minWidth: "none",
                     }}
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}

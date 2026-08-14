@@ -105,7 +105,7 @@ export interface EducationEntry {
   institution: string;
   startDate: string;
   endDate?: string;
-  coursework: string[];
+  coursework?: string[];
   current?: boolean;
   semester?: string;
   pathway?: string;

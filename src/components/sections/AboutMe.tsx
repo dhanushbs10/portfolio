@@ -69,15 +69,6 @@ export function AboutMe() {
                     <span className="text-text-tertiary">Based in</span>
                     <span className="text-text-primary">Bengaluru, India</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-text-tertiary">Since</span>
-                    <span className="text-text-primary">2021</span>
-                  </div>
-                </div>
-                <div className="mt-2 pt-3 border-t border-border-subtle">
-                  <p className="font-mono text-xs text-text-secondary mt-1">
-                    Always learning, always building.
-                  </p>
                 </div>
               </div>
 

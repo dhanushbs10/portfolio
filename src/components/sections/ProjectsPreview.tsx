@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { TechBadge } from "@/components/shared/TechBadge";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/types";
 
@@ -40,10 +41,16 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
                   <h3 className="font-display text-lg font-semibold text-text-primary">
                     {proj.title}
                   </h3>
-                  <span className={cn(
-                    "shrink-0 font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded",
-                    proj.status === "completed" ? "bg-success/10 text-success" : proj.status === "in-progress" ? "bg-warning/10 text-warning" : "bg-surface-overlay text-text-tertiary"
-                  )}>
+                  <span
+                    className={cn(
+                      "shrink-0 font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded",
+                      proj.status === "completed"
+                        ? "bg-success/10 text-success"
+                        : proj.status === "in-progress"
+                          ? "bg-warning/10 text-warning"
+                          : "bg-surface-overlay text-text-tertiary"
+                    )}
+                  >
                     {STATUS_LABEL[proj.status] ?? proj.status}
                   </span>
                 </div>
@@ -54,12 +61,7 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
 
                 <div className="flex flex-wrap gap-2">
                   {proj.techStack.slice(0, 4).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary"
-                    >
-                      {tag}
-                    </span>
+                    <TechBadge key={tag} name={tag} />
                   ))}
                   {proj.techStack.length > 4 && (
                     <span className="px-2 py-0.5 font-mono text-[11px] text-text-tertiary">

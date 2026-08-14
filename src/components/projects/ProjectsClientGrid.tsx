@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import type { Project } from "@/lib/types";
+import { TechBadge } from "@/components/shared/TechBadge";
 
 type StatusFilter = "all" | "in-progress" | "completed" | "archived";
 
@@ -39,21 +40,19 @@ export function ProjectsClientGrid({
             <button
               key={s}
               onClick={() => setFilter(s)}
-              className={`
-                px-3 py-1 rounded font-mono text-xs tracking-wide transition-colors border
-                ${
-                  filter === s
-                    ? "bg-accent-interactive text-bg-primary border-accent-interactive"
-                    : "bg-surface-overlay text-text-secondary border-border-subtle hover:border-accent-interactive"
-                }
-              `}
+              className={`px-3 py-1 rounded font-mono text-xs tracking-wide transition-colors border ${
+                filter === s
+                  ? "bg-accent-interactive text-bg-primary border-accent-interactive"
+                  : "bg-surface-overlay text-text-secondary border-border-subtle hover:border-accent-interactive"
+              }`}
             >
               {s === "all" ? "All" : s.replace("-", " ")}
               <span className="ml-1 opacity-60">{counts[s] ?? 0}</span>
             </button>
           ))}
         </div>
-        <select
+        <div className="w-full mt-2 sm:mt-0 sm:ml-auto sm:w-auto">
+<select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as "title" | "status")}
           className="ml-auto bg-surface-overlay border border-border-subtle rounded px-2 py-1.5 font-mono text-xs text-text-secondary"
@@ -83,12 +82,7 @@ export function ProjectsClientGrid({
             </p>
             <div className="flex flex-wrap gap-2">
               {proj.techStack.slice(0, 4).map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary"
-                >
-                  {tag}
-                </span>
+                <TechBadge key={tag} name={tag} />
               ))}
               {proj.techStack.length > 4 && (
                 <span className="px-2 py-0.5 font-mono text-[11px] text-text-tertiary">

@@ -21,7 +21,7 @@ const STYLES = `
   color: var(--text-primary);
 }
 
-.pw-host { position: fixed; bottom: 22px; right: 22px; z-index: var(--z-overlay); }
+.pw-host { position: fixed; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); right: calc(22px + env(safe-area-inset-right, 0px)); z-index: var(--z-overlay); }
 
 /* ───── FAB, a quiet signal node (no perpetual motion) ───── */
 .pw-fab {

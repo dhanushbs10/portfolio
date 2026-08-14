@@ -41,9 +41,18 @@ export function CertificationsPreview() {
                 <AnimatedReveal key={cert.id}>
                   <div className="card p-5 flex flex-col gap-3">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-display text-base font-semibold text-text-primary">
-                        {cert.name}
-                      </h3>
+                      <div className="flex items-center gap-3">
+                        {cert.logo && (
+                          <img
+                            src={cert.logo}
+                            alt={`${cert.name} badge`}
+                            className="w-9 h-9 object-contain shrink-0"
+                          />
+                        )}
+                        <h3 className="font-display text-base font-semibold text-text-primary">
+                          {cert.name}
+                        </h3>
+                      </div>
                       <Icon size={18} className={cn("shrink-0 mt-0.5", stateMeta.cls)} />
                     </div>
                     <p className="text-sm text-text-secondary">{cert.issuer}</p>
