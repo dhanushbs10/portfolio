@@ -27,7 +27,7 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dhanush B S, Cybersecurity & Networking Student",
+    default: "Dhanush B S",
     template: "%s | Dhanush B S",
   },
   description:

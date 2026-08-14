@@ -260,6 +260,9 @@ export default function PingWidget() {
 	const [input, setInput] = useState('');
 	const [streaming, setStreaming] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const MAX_MESSAGES = 15;
+	const userMsgCount = messages.filter(m => m.role === 'user').length;
+	const locked = userMsgCount >= MAX_MESSAGES;
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const abortRef = useRef<AbortController | null>(null);
 	const streamRef = useRef<string>('');
@@ -275,14 +278,16 @@ export default function PingWidget() {
 
 	const send = async (text: string) => {
 		const trimmed = text.trim();
-		if (!trimmed || streaming) return;
+		if (!trimmed || streaming || locked) return;
 		setInput('');
 		setError(null);
 
 		const userMsg: Message = { id: crypto.randomUUID(), role: 'user', content: trimmed };
 		const current = messagesRef.current;
-		const assistantPlaceholder: Message = { id: crypto.randomUUID(), role: 'assistant', content: '' };
-		const nextMessages = [...current, userMsg, assistantPlaceholder];
+		const userCount = current.filter(m => m.role === 'user').length;
+		const nextMessages = userCount >= MAX_MESSAGES - 1
+			? [...current, userMsg, { id: crypto.randomUUID(), role: 'assistant' as const, content: 'You have reached the limit. Please refresh the page to continue.' }]
+			: [...current, userMsg, { id: crypto.randomUUID(), role: 'assistant' as const, content: '' }];
 
 		setMessages(nextMessages);
 		messagesRef.current = nextMessages;
@@ -401,7 +406,7 @@ export default function PingWidget() {
 													key={s.tag}
 													className="pw-suggest-btn"
 													onClick={() => send(s.text)}
-													disabled={streaming}
+													disabled={streaming || locked}
 												>
 													<span className="pw-suggest-tag">{s.tag}</span>{s.text}
 												</button>
@@ -437,13 +442,13 @@ export default function PingWidget() {
                                   className="pw-input"
                                   rows={1}
                                   value={input}
-                                  placeholder="Ask anything…"
+                                  placeholder={locked ? "Refresh to get more info" : "Ask anything…"}
                                   aria-label="Chat with Ping"
                                   onChange={(e) => setInput(e.target.value)}
                                   onKeyDown={onKeyDown}
-                                  disabled={streaming}
+                                  disabled={streaming || locked}
                                 />
-								<button className="pw-send" onClick={() => send(input)} disabled={streaming || !input.trim()} aria-label="Send">
+								<button className="pw-send" onClick={() => send(input)} disabled={streaming || locked || !input.trim()} aria-label="Send">
 									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 										<line x1="22" y1="2" x2="11" y2="13" />
 										<polygon points="22 2 15 22 11 13 2 9" />
