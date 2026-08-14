@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import HeroBackground from "./HeroBackground";
-import DecryptedName from "@/components/shared/DecryptedName";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -26,7 +25,7 @@ export function Hero() {
         }}
       />
 
-      {/* Content, always visible, no boot animation */}
+      {/* Content, always visible */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 mx-auto max-w-3xl px-6 text-center"
@@ -38,7 +37,7 @@ export function Hero() {
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
-            <DecryptedName text="Dhanush B S" />
+            Dhanush B S
           </h1>
 
           <div className="font-mono text-sm sm:text-base text-accent-structure-light">
@@ -60,15 +59,6 @@ export function Hero() {
               className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
             >
               ./view-projects
-              <span className="group-hover:translate-x-0.5 transition-transform duration-200">
-                →
-              </span>
-            </Link>
-            <Link
-              href="/about"
-              className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
-            >
-              cat about.md
               <span className="group-hover:translate-x-0.5 transition-transform duration-200">
                 →
               </span>

@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/shared/Nav";
 import { Footer } from "@/components/shared/Footer";
 import PageBackground from "@/components/PageBackground";
-import PingWidget from "@/components/chat/PingWidget";
 import "./globals.css";
 
 const displayFont = Space_Grotesk({
@@ -69,8 +68,7 @@ export default function RootLayout({
           <div className="flex-1">{children}</div>
           <Footer />
         </ThemeProvider>
-        <PingWidget />
-      </body>
+              </body>
     </html>
   );
 }

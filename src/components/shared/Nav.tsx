@@ -9,11 +9,7 @@ import type { NavItem } from "@/types/nav";
 
 const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
-  { href: "/homelab", label: "Homelab" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export function Nav() {
@@ -63,7 +59,7 @@ export function Nav() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-text-primary hover:text-text-primary"
+          className="md:hidden p-2 text-text-primary hover:text-accent-interactive transition-colors"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
