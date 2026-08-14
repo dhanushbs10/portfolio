@@ -202,7 +202,7 @@ export function TechStack() {
         </AnimatedReveal>
 
         <div
-          className="mt-10"
+          className="mt-10 overflow-hidden"
           style={{
             maskImage:
               "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",

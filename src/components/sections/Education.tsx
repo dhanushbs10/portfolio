@@ -49,7 +49,7 @@ export function Education() {
 
                 {entry.highlights && entry.highlights.length > 0 && (
                   <div
-                    className="relative"
+                    className="relative overflow-hidden"
                     style={{
                       maskImage:
                         "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
@@ -67,7 +67,7 @@ export function Education() {
                       onMouseEnter={() => setPaused(true)}
                       onMouseLeave={() => setPaused(false)}
                     >
-                      {[...entry.highlights, ...entry.highlights].map((h, i) => (
+                      {[...(entry.highlights || []), ...(entry.highlights || [])].map((h, i) => (
                         <li
                           key={i}
                           className="font-mono text-xs text-text-secondary whitespace-nowrap flex-shrink-0"
@@ -80,7 +80,7 @@ export function Education() {
                 )}
 
                 <div
-                  className="relative"
+                  className="relative overflow-hidden"
                   style={{
                     maskImage:
                       "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
@@ -98,7 +98,7 @@ export function Education() {
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}
                   >
-                    {[...entry.coursework, ...entry.coursework].map((c, i) => (
+                    {[...(entry.coursework || []), ...(entry.coursework || [])].map((c, i) => (
                       <span
                         key={i}
                         className="px-2.5 py-1 rounded bg-surface-overlay border border-border-subtle font-mono text-[11px] text-text-secondary whitespace-nowrap flex-shrink-0"
