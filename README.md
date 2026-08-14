@@ -1,4 +1,4 @@
-# Dhanush Nagishetti, Portfolio
+# Dhanush B S, Portfolio
 
 Next.js 15 + TypeScript + Tailwind CSS portfolio with a "structured signal" aesthetic (network/circuit-inspired, dark-mode-first).
 
