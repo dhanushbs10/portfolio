@@ -41,7 +41,7 @@ export async function chatCompletion(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "nvidia/nemotron-nano-3-30b-a3b",
+      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
       messages,
       stream: false,
       temperature: 0.6,
@@ -65,7 +65,7 @@ export async function* chatCompletionStream(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "nvidia/nemotron-nano-3-30b-a3b",
+      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
       messages,
       stream: true,
       temperature: 0.6,

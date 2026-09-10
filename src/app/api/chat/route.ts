@@ -85,7 +85,9 @@ const FACT_SHEET = `# Dhanush, Fact Sheet (grounded)
 - To a portfolio visitor: chill, intelligent, honest, supportive, brief. Never emojis. Never formal-corporate tone.
 - Honest about project status: does not hide unfinished work, does not overstate or over-emphasize it negatively either.`;
 
+let cachedPortfolioContent: string | null = null;
 function loadPortfolioContent(): string {
+	if (cachedPortfolioContent !== null) return cachedPortfolioContent;
 	const projectDir = join(process.cwd(), "content", "projects");
 	// Strip frontmatter + normalize dashes: the MDX writeups use em/en dashes (", "/", ")
 	// and non-breaking hyphens ("-") throughout. We forbid dashes in Ping's output, so
@@ -117,7 +119,8 @@ function loadPortfolioContent(): string {
 			if (body) pieces.push(`# Project: ${f.replace(/\.mdx$/, "")}\n\n${body}`);
 		} catch {}
 	}
-	return pieces.join("\n\n---\n\n");
+	cachedPortfolioContent = pieces.join("\n\n---\n\n");
+	return cachedPortfolioContent;
 }
 
 const SYSTEM_PROMPT = `You are Ping, Dhanush B S's assistant on his portfolio site.
@@ -240,49 +243,17 @@ export async function POST(req: NextRequest) {
 		if (!userMessages.length) return NextResponse.json({ error: "No messages provided" }, { status: 400 });
 
 		const latestUserMessage = userMessages[userMessages.length - 1];
-		const guardLabel = await classifyMessage(latestUserMessage.content, req.signal);
-		if (guardLabel !== "SAFE") {
-			const teasingLines: Record<string, string[]> = {
-				ADVERSARIAL: [
-					"Nice try, but I'm not spilling my secrets. Better luck next time!",
-					"Good effort! Unfortunately, that's not happening. Ask me about Dhanush instead.",
-					"Almost had me there. I only talk about Dhanush, sorry!",
-				],
-				JAILBREAK: [
-					"Nice attempt, but I'm still Ping. Better luck next time!",
-					"Good effort, but that won't work on me. Ask me about Dhanush instead.",
-					"Almost had me there. I'm still here for Dhanush only!",
-				],
-				PROMPT_INJECTION: [
-					"Nice try, but I'm not changing my rules. Better luck next time!",
-					"Good effort! Unfortunately, that won't work. Ask me about Dhanush instead.",
-				],
-			};
-			const pool = teasingLines[guardLabel] || ["I can't help with that — ask me about Dhanush instead."];
-			const teasing = pool[Math.floor(Math.random() * pool.length)];
-			return new Response(
-				new ReadableStream({
-					async start(controller) {
-						const encoder = new TextEncoder();
-						controller.enqueue(encoder.encode(`event: chunk\ndata: {"content":"${teasing}"}\n\n`));
-						controller.enqueue(encoder.encode(`event: done\ndata: {"content":"${teasing}"}\n\n`));
-						controller.close();
-					},
-				}),
-				{
-					headers: {
-						"Content-Type": "text/event-stream",
-						"Cache-Control": "no-cache, no-transform",
-						Connection: "keep-alive",
-					},
-				}
-			);
-		}
 
 		const messages: ChatMessage[] = [
 			{ role: "system", content: SYSTEM_PROMPT },
 			...userMessages.slice(-20),
 		];
+
+		// Fire guard classifier and main stream in parallel.
+		// The classifier runs while we already start streaming the response.
+		// If the classifier rejects, we send the rejection and close the stream.
+		const guardPromise = classifyMessage(latestUserMessage.content, req.signal);
+		let guardResolved = false;
 
 		const stream = new ReadableStream({
 			async start(controller) {
@@ -292,7 +263,45 @@ export async function POST(req: NextRequest) {
 				};
 				try {
 					let fullResponse = "";
-					for await (const chunk of chatCompletionStream(messages)) {
+					let aborted = false;
+
+					const mainIterator = chatCompletionStream(messages);
+					const mainNext = mainIterator.next();
+
+					const [guardLabel] = await Promise.all([guardPromise, mainNext]);
+
+					if (guardLabel !== "SAFE") {
+						aborted = true;
+						if (typeof mainIterator.return === "function") await mainIterator.return();
+						const teasingLines: Record<string, string[]> = {
+							ADVERSARIAL: [
+								"Nice try, but I'm not spilling my secrets. Better luck next time!",
+								"Good effort! Unfortunately, that's not happening. Ask me about Dhanush instead.",
+								"Almost had me there. I only talk about Dhanush, sorry!",
+							],
+							JAILBREAK: [
+								"Nice attempt, but I'm still Ping. Better luck next time!",
+								"Good effort, but that won't work on me. Ask me about Dhanush instead.",
+								"Almost had me there. I'm still here for Dhanush only!",
+							],
+							PROMPT_INJECTION: [
+								"Nice try, but I'm not changing my rules. Better luck next time!",
+								"Good effort! Unfortunately, that won't work. Ask me about Dhanush instead.",
+							],
+						};
+						const pool = teasingLines[guardLabel] || ["I can't help with that -- ask me about Dhanush instead."];
+						const teasing = pool[Math.floor(Math.random() * pool.length)];
+						sendEvent("chunk", { content: teasing });
+						sendEvent("done", { content: teasing });
+						return;
+					}
+
+					const first = await mainNext;
+					if (!first.done && first.value) {
+						fullResponse += first.value;
+						sendEvent("chunk", { content: first.value });
+					}
+					for await (const chunk of mainIterator) {
 						fullResponse += chunk;
 						sendEvent("chunk", { content: chunk });
 					}
