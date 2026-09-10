@@ -209,7 +209,6 @@ export async function POST(req: NextRequest) {
 		const stream = new ReadableStream({
 			async start(controller) {
 				const encoder = new TextEncoder();
-				const t0 = Date.now();
 				const sendEvent = (event: string, data: unknown) => {
 					controller.enqueue(encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
 				};
@@ -218,14 +217,9 @@ export async function POST(req: NextRequest) {
 					let aborted = false;
 
 					const mainIterator = chatCompletionStream(messages);
-					let mainFirstAt = 0;
-					const mainNext = mainIterator.next().then((v) => {
-						if (!mainFirstAt) mainFirstAt = Date.now();
-						return v;
-					});
+					const mainNext = mainIterator.next();
 
 					const [guardLabel] = await Promise.all([guardPromise, mainNext]);
-					sendEvent("meta", { t0, tGuardDone: Date.now(), tFirstChunk: mainFirstAt || Date.now() });
 
 					if (guardLabel !== "SAFE") {
 						aborted = true;

@@ -198,13 +198,18 @@ const STYLES = `
   border: 1px solid var(--border-subtle); border-radius: 0.75rem;
   width: fit-content;
 }
-.pw-loading span {
+.pw-loading-text {
+  margin-right: 5px; font-size: 12.5px; color: var(--text-secondary);
+  white-space: nowrap;
+}
+.pw-loading span:not(.pw-loading-text) {
   width: 6px; height: 6px; border-radius: 50%;
   background: hsl(var(--accent-interactive) / 0.7);
   animation: pw-dot 1.4s infinite ease-in-out;
 }
-.pw-loading span:nth-child(2) { animation-delay: 0.2s; }
-.pw-loading span:nth-child(3) { animation-delay: 0.4s; }
+.pw-loading span:not(.pw-loading-text):nth-of-type(2) { animation-delay: 0.2s; }
+.pw-loading span:not(.pw-loading-text):nth-of-type(3) { animation-delay: 0.4s; }
+.pw-loading span:not(.pw-loading-text):nth-of-type(4) { animation-delay: 0.6s; }
 @keyframes pw-dot { 0%,80%,100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
 
 /* ───── Input ───── */
@@ -260,12 +265,25 @@ export default function PingWidget() {
 	const [input, setInput] = useState('');
 	const [streaming, setStreaming] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [waitIdx, setWaitIdx] = useState(0);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const abortRef = useRef<AbortController | null>(null);
 	const streamRef = useRef<string>('');
 	const messagesRef = useRef<Message[]>([]);
 
 	useEffect(() => { messagesRef.current = messages; }, [messages]);
+
+	const WAIT_MESSAGES = [
+		"Warming up the GPU…",
+		"Still warming up… bear with me",
+		"Querying Dhanush's profile…",
+		"Thinking really hard…",
+	];
+	useEffect(() => {
+		if (!streaming) { setWaitIdx(0); return; }
+		const id = setInterval(() => setWaitIdx((i) => i + 1), 6000);
+		return () => clearInterval(id);
+	}, [streaming]);
 
 	const scrollToBottom = useCallback(() => {
 		setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 40);
@@ -426,9 +444,9 @@ export default function PingWidget() {
 										</div>
 									</div>
 								))}
-								{streaming && messages.length > 0 && messages[messages.length - 1]!.role === 'assistant' && messages[messages.length - 1]!.content === '' && (
-									<div className="pw-loading"><span /><span /><span /></div>
-								)}
+{streaming && messages.length > 0 && messages[messages.length - 1]!.role === 'assistant' && messages[messages.length - 1]!.content === '' && (
+								<div className="pw-loading"><span className="pw-loading-text">{WAIT_MESSAGES[waitIdx % WAIT_MESSAGES.length]}</span><span /><span /><span /></div>
+							)}
 								<div ref={messagesEndRef} />
 							</div>
 
