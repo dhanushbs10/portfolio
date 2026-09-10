@@ -41,7 +41,7 @@ export async function chatCompletion(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "mistralai/mistral-7b-instruct-v0.3",
+      model: "nvidia/llama-3.1-nemotron-51b-instruct",
       messages,
       stream: false,
       max_tokens: 256,
@@ -69,10 +69,11 @@ export async function* chatCompletionStream(
       // - meta/llama-3.1-8b-instruct: retired 2026-08-26 (EOL)
       // - meta/llama-3.1-70b-instruct: latency 7-120s, frequent 429s
       // - Nemotron-3-Nano 30B: poor policy compliance
+      // - mistralai/mistral-7b-instruct-v0.3: 404 function not found
       //
-      // mistralai/mistral-7b-instruct-v0.3: fast (1-5s), good instruction following,
-      // solid on a focused chatbot system prompt with safety guardrails.
-      model: "mistralai/mistral-7b-instruct-v0.3",
+      // nvidia/llama-3.1-nemotron-51b-instruct: NVIDIA's own instruct model,
+      // likely to have stable endpoint availability.
+      model: "nvidia/llama-3.1-nemotron-51b-instruct",
       messages,
       stream: true,
       // max_tokens 768: hard backstop so a repetition loop is bounded (a 6-bullet
