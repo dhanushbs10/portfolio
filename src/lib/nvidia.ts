@@ -41,7 +41,7 @@ export async function chatCompletion(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "nvidia/llama-3.1-nemotron-nano-8b-v1",
+      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
       messages,
       stream: false,
       max_tokens: 256,
@@ -72,9 +72,9 @@ export async function* chatCompletionStream(
       // - mistralai/mistral-7b-instruct-v0.3: 404 function not found
       // - nvidia/llama-3.1-nemotron-51b-instruct: 404 function not found
       //
-      // nvidia/llama-3.1-nemotron-nano-8b-v1: free endpoint, 8B reasoning model,
-      // 128K context, built on Llama 3.1 8B with improved accuracy.
-      model: "nvidia/llama-3.1-nemotron-nano-8b-v1",
+      // nvidia/nemotron-3.5-lightning-30b-a3b: free serverless endpoint,
+      // 30B A3B MoE, fast with good instruction following.
+      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
       messages,
       stream: true,
       // max_tokens 768: hard backstop so a repetition loop is bounded (a 6-bullet
