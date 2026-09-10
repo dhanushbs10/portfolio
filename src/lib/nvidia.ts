@@ -49,6 +49,7 @@ export async function chatCompletion(
       stream: false,
       temperature: 0.6,
       max_tokens: 256,
+      thinking: { type: "disabled" },
     }),
     signal,
   });
@@ -75,6 +76,7 @@ export async function* chatCompletionStream(
       temperature: 0.6,
       top_p: 0.95,
       max_tokens: 512,
+      thinking: { type: "disabled" },
     }),
     signal,
   });
