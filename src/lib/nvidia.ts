@@ -78,23 +78,34 @@ export async function* chatCompletionStream(
   const reader = res.body?.getReader();
   if (!reader) throw new Error("No response body");
   const decoder = new TextDecoder();
-  let buf = "";
+  let lineBuf = "";
+  let outputBuf = "";
+  let lastYielded = 0;
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
-    buf += decoder.decode(value, { stream: true });
-    const lines = buf.split("\n");
-    // ponytail: keep the trailing partial line, a data: JSON split across
-    // network reads would be silently dropped if we reset buf to "" each loop.
-    buf = lines.pop() ?? "";
+    lineBuf += decoder.decode(value, { stream: true });
+    const lines = lineBuf.split("\n");
+    lineBuf = lines.pop() ?? "";
     for (const line of lines) {
       if (!line.startsWith("data: ")) continue;
       const payload = line.slice(6).trim();
-      if (payload === "[DONE]") return;
+      if (payload === "[DONE]") {
+        // Yield any remaining clean content
+        if (outputBuf.length > lastYielded) yield outputBuf.slice(lastYielded);
+        return;
+      }
       try {
         const parsed = JSON.parse(payload);
         const delta = parsed?.choices?.[0]?.delta?.content;
-        if (delta) yield delta;
+        if (delta) {
+          outputBuf += delta;
+          const cleaned = outputBuf.replace(/<think>[\s\S]*?<\/think>/g, "");
+          if (cleaned.length > lastYielded) {
+            yield cleaned.slice(lastYielded);
+            lastYielded = cleaned.length;
+          }
+        }
       } catch {}
     }
   }
