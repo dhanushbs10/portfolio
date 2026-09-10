@@ -100,7 +100,9 @@ export async function* chatCompletionStream(
         const delta = parsed?.choices?.[0]?.delta?.content;
         if (delta) {
           outputBuf += delta;
-          const cleaned = outputBuf.replace(/<think>[\s\S]*?<\/think>/g, "");
+          // Strip ALL <think> blocks (complete or in-progress). The Nemotron model
+          // leaks chain-of-thought; we only want the final answer.
+          const cleaned = outputBuf.replace(/<think>[\s\S]*?<\/think>/g, "").replace(/<think>[\s\S]*$/, "");
           if (cleaned.length > lastYielded) {
             yield cleaned.slice(lastYielded);
             lastYielded = cleaned.length;
