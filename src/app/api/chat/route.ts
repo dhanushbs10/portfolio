@@ -209,6 +209,7 @@ export async function POST(req: NextRequest) {
 		const stream = new ReadableStream({
 			async start(controller) {
 				const encoder = new TextEncoder();
+				const t0 = Date.now();
 				const sendEvent = (event: string, data: unknown) => {
 					controller.enqueue(encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
 				};
@@ -220,6 +221,9 @@ export async function POST(req: NextRequest) {
 					const mainNext = mainIterator.next();
 
 					const [guardLabel] = await Promise.all([guardPromise, mainNext]);
+					if (process.env.NODE_ENV !== "production" || true) {
+						sendEvent("meta", { t0, tGuardDone: Date.now(), tFirstChunk: Date.now() });
+					}
 
 					if (guardLabel !== "SAFE") {
 						aborted = true;
