@@ -218,12 +218,15 @@ export async function POST(req: NextRequest) {
 					let aborted = false;
 
 					const mainIterator = chatCompletionStream(messages);
-					const mainNext = mainIterator.next();
+					const guardOnlyDone = guardPromise.then(() => Date.now()).catch(() => Date.now());
+					const mainNext = mainIterator.next().then(
+						(v) => ({ firstChunkAt: Date.now(), v }),
+						(e) => { throw e; }
+					);
 
-					const [guardLabel] = await Promise.all([guardPromise, mainNext]);
-					if (process.env.NODE_ENV !== "production" || true) {
-						sendEvent("meta", { t0, tGuardDone: Date.now(), tFirstChunk: Date.now() });
-					}
+					const [guardLabel, firstInfo] = await Promise.all([guardPromise, mainNext]);
+					const mainFirstAt = (firstInfo as { firstChunkAt: number })?.firstChunkAt ?? Date.now();
+					sendEvent("meta", { t0, tGuardDone: Date.now(), tFirstChunk: Date.now(), guardDoneAt: await guardOnlyDone, mainFirstAt });
 
 					if (guardLabel !== "SAFE") {
 						aborted = true;
