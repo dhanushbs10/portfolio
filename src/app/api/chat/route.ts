@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { chatCompletionStream, chatCompletion, ChatMessage } from "@/lib/nvidia";
+import { chatCompletionStream, chatCompletion, ChatMessage, NVIDIA_KEY_GUARD } from "@/lib/nvidia";
 
 // ponytail: a portfolio visitor reading about Dhanush should never get locked
 // out for a full hour. Keep an abuse backstop but make it forgiving + short.
@@ -153,7 +153,8 @@ async function classifyMessage(content: string, signal?: AbortSignal): Promise<S
   try {
     const result = await chatCompletion(
       [GUARD_CLASSIFIER_PROMPT, { role: "user", content }],
-      signal
+      signal,
+      NVIDIA_KEY_GUARD
     );
     const upper = result.trim().toUpperCase();
     if (

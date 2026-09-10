@@ -4,9 +4,11 @@ export interface ChatMessage {
 }
 
 const NVIDIA_KEY = process.env.NVIDIA_API_KEY;
+const NVIDIA_KEY_GUARD = process.env.NVIDIA_API_KEY_GUARD || NVIDIA_KEY;
 if (!NVIDIA_KEY) throw new Error("Missing NVIDIA_API_KEY");
 
 const BASE = "https://integrate.api.nvidia.com/v1";
+export { NVIDIA_KEY_GUARD };
 
 async function post(path: string, body: unknown) {
   const res = await fetch(BASE + path, {
@@ -32,13 +34,14 @@ export async function getEmbedding(text: string): Promise<number[]> {
 
 export async function chatCompletion(
   messages: ChatMessage[],
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  apiKey?: string
 ): Promise<string> {
   const res = await fetch(`${BASE}/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${NVIDIA_KEY}`,
+      Authorization: `Bearer ${apiKey || NVIDIA_KEY}`,
     },
     body: JSON.stringify({
       model: "nvidia/nemotron-3.5-lightning-30b-a3b",
@@ -56,13 +59,14 @@ export async function chatCompletion(
 
 export async function* chatCompletionStream(
   messages: ChatMessage[],
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  apiKey?: string
 ) {
   const res = await fetch(BASE + "/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${NVIDIA_KEY}`,
+      Authorization: `Bearer ${apiKey || NVIDIA_KEY}`,
     },
     body: JSON.stringify({
       model: "nvidia/nemotron-3.5-lightning-30b-a3b",
