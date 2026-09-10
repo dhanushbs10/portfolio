@@ -41,11 +41,11 @@ export async function chatCompletion(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
+      model: "nvidia/nemotron-nano-3-30b-a3b",
       messages,
       stream: false,
+      temperature: 0.6,
       max_tokens: 256,
-      frequency_penalty: 0.6,
     }),
     signal,
   });
@@ -65,28 +65,12 @@ export async function* chatCompletionStream(
       Authorization: `Bearer ${NVIDIA_KEY}`,
     },
     body: JSON.stringify({
-      // Model selection history:
-      // - meta/llama-3.1-8b-instruct: retired 2026-08-26 (EOL)
-      // - meta/llama-3.1-70b-instruct: latency 7-120s, frequent 429s
-      // - Nemotron-3-Nano 30B: poor policy compliance
-      // - mistralai/mistral-7b-instruct-v0.3: 404 function not found
-      // - nvidia/llama-3.1-nemotron-51b-instruct: 404 function not found
-      //
-      // nvidia/nemotron-3.5-lightning-30b-a3b: free serverless endpoint,
-      // 30B A3B MoE, fast with good instruction following.
-      model: "nvidia/nemotron-3.5-lightning-30b-a3b",
+      model: "nvidia/nemotron-nano-3-30b-a3b",
       messages,
       stream: true,
-      // max_tokens 768: hard backstop so a repetition loop is bounded (a 6-bullet
-      // answer fits with headroom, so capping never truncates a real answer). Kept
-      // from the Nemotron config; the llama instruct models stop cleanly on their
-      // own, so this is pure insurance rather than a load-bearing loop-breaker.
-      max_tokens: 768,
-      // frequency_penalty 0.6: discourages re-using already-generated tokens. Was
-      // added for Nemotron's repetition spiral; the llama models do not exhibit
-      // it, but a mild penalty is harmless and guards any future regression. Keep
-      // until a concrete overrun shows it hurting.
-      frequency_penalty: 0.6,
+      temperature: 0.6,
+      top_p: 0.95,
+      max_tokens: 512,
     }),
     signal,
   });
