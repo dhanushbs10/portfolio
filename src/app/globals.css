@@ -2,45 +2,47 @@
 
 /* ============================================================
    DESIGN SYSTEM — "Structured Signal"
-   Dark-mode-first. Monochrome steel, network/circuit-inspired.
+   Dark-mode, professional build. Neutral zinc surfaces, one
+   restrained signal-blue accent, no glow. Cards are defined by
+   border + elevation, not color drama.
    ============================================================ */
 
 /* ---- PRIMITIVE TOKENS ---- */
 :root {
-  /* --- Surfaces (neutral graphite, near-black) --- */
-  --surface-base: #0b0c0e;
-  --surface-raised: #111317;
-  --surface-overlay: #171a1f;
-  --surface-sunken: #060708;
+  /* --- Surfaces (pure neutral zinc, no color cast) --- */
+  --surface-base: #09090b;
+  --surface-raised: #131316;
+  --surface-overlay: #1b1b1f;
+  --surface-sunken: #050506;
 
-  /* --- Structure accent (desaturated slate-steel) --- */
-  --accent-structure: 215 15% 46%;
-  --accent-structure-light: 215 14% 60%;
-  --accent-structure-muted: 215 12% 30%;
+  /* --- Structure accent (desaturated steel, structural lines only) --- */
+  --accent-structure: 220 12% 40%;
+  --accent-structure-light: 220 10% 58%;
+  --accent-structure-muted: 220 10% 26%;
 
-  /* --- Interactive accent (monochrome steel, links/focus only) --- */
-  --color-thread-1: 214 26% 55%;   /* primary strand: steel */
-  --color-thread-2: 215 14% 36%;   /* deep strand: slate */
-  --color-thread-3: 220 16% 94%;   /* bright core: near-white */
-  --accent-interactive: 214 26% 55%;
-  --accent-interactive-hover: 214 30% 66%;
-  --accent-interactive-glow: 214 26% 55%;
+  /* --- Interactive accent (single signal blue, links/focus only) --- */
+  --color-thread-1: 220 40% 34%;   /* background thread: subdued blue */
+  --color-thread-2: 220 14% 22%;   /* background thread: deep slate  */
+  --color-thread-3: 220 30% 55%;   /* background thread: soft core   */
+  --accent-interactive: 219 62% 60%;
+  --accent-interactive-hover: 219 62% 68%;
+  --accent-interactive-glow: 219 62% 60%;
 
-  /* --- Text (neutral slate) --- */
-  --text-primary: #eceef2;
-  --text-secondary: #a4a9b1;
-  --text-tertiary: #7e8490;
-  --text-inverse: #0b0c0e;
+  /* --- Text (neutral, slight warm-cool balance) --- */
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #73737a;
+  --text-inverse: #09090b;
 
-  /* --- Borders --- */
-  --border-subtle: #1c1f24;
-  --border-default: #262a31;
+  /* --- Borders (crisp, do the elevation work) --- */
+  --border-subtle: #1e1e22;
+  --border-default: #28282e;
   --border-accent: var(--accent-structure);
 
-  /* --- Status (muted for restraint) --- */
-  --success: 150 42% 46%;
-  --warning: 36 68% 52%;
-  --error: 5 52% 56%;
+  /* --- Status (muted, authoritative) --- */
+  --success: 150 45% 45%;
+  --warning: 38 80% 52%;
+  --error: 4 55% 55%;
 
   /* --- Semantic layer (shadcn-compatible mapping) --- */
   --background: var(--surface-base);
@@ -58,7 +60,8 @@
   --ring: var(--accent-interactive);
   --border: var(--border-default);
   --input: var(--border-default);
-  --radius: 0.375rem;
+  /* --- Radius (modern but restrained) --- */
+  --radius: 0.5rem;
 
   /* --- Typography (font families as CSS vars) --- */
   --font-display: "Space Grotesk", "Chakra Petch", system-ui, sans-serif;
@@ -83,7 +86,7 @@
 
   /* --- Shadows (neutral, no colored glow) --- */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 14px -2px rgb(0 0 0 / 0.5);
   --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.6);
   --shadow-glow: 0 18px 40px -16px rgb(0 0 0 / 0.65);
 

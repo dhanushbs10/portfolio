@@ -12,14 +12,14 @@ export function ScrollBackground() {
   const { scrollY } = useScroll();
 
   const gradientA = useTransform(scrollY, [0, 1200], [
-    "hsl(215 28% 4%)",
-    "hsl(215 28% 7%)",
+    "hsl(220 15% 5%)",
+    "hsl(220 15% 8%)",
   ]);
 
   const gradientB = useTransform(scrollY, [0, 800, 1600], [
-    "hsl(214 22% 10%)",
-    "hsl(215 28% 5%)",
-    "hsl(215 25% 5%)",
+    "hsl(220 35% 13%)",
+    "hsl(220 12% 6%)",
+    "hsl(220 12% 6%)",
   ]);
 
   return (

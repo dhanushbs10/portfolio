@@ -57,16 +57,6 @@ const STYLES = `
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* scanline overlay, same motif as the site terminals */
-.pw-panel::after {
-  content: ''; position: absolute; inset: 0;
-  pointer-events: none; opacity: 0.5; z-index: 1;
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0), rgba(255,255,255,0) 50%,
-    rgba(0,0,0,0.10) 50%, rgba(0,0,0,0.10));
-  background-size: 100% 4px;
-}
-
 /* ───── Header ───── */
 .pw-header {
   position: relative; z-index: 2;
@@ -78,7 +68,6 @@ const STYLES = `
 .pw-status-dot {
   display: inline-block; width: 8px; height: 8px; border-radius: 50%;
   background: hsl(var(--accent-interactive));
-  box-shadow: 0 0 7px hsl(var(--accent-interactive) / 0.6);
   flex-shrink: 0;
 }
 .pw-header-text h3 {
