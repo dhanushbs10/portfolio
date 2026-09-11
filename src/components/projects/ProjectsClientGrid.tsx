@@ -42,7 +42,7 @@ export function ProjectsClientGrid({
               onClick={() => setFilter(s)}
               className={`px-3 py-1 rounded font-mono text-xs tracking-wide transition-colors border ${
                 filter === s
-                  ? "bg-accent-interactive text-bg-primary border-accent-interactive"
+                  ? "bg-accent-interactive text-surface-base border-accent-interactive"
                   : "bg-surface-overlay text-text-secondary border-border-subtle hover:border-accent-interactive"
               }`}
             >

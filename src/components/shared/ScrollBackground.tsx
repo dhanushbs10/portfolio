@@ -17,7 +17,7 @@ export function ScrollBackground() {
   ]);
 
   const gradientB = useTransform(scrollY, [0, 800, 1600], [
-    "hsl(195 100% 12%)",
+    "hsl(214 22% 10%)",
     "hsl(215 28% 5%)",
     "hsl(215 25% 5%)",
   ]);

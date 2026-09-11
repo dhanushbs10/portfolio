@@ -2,45 +2,45 @@
 
 /* ============================================================
    DESIGN SYSTEM — "Structured Signal"
-   Dark-mode-first. Network/circuit-inspired aesthetic.
+   Dark-mode-first. Monochrome steel, network/circuit-inspired.
    ============================================================ */
 
 /* ---- PRIMITIVE TOKENS ---- */
 :root {
-  /* --- Surfaces (near-black, NOT pure #000) --- */
-  --surface-base: #0a0b0f;
-  --surface-raised: #12131a;
-  --surface-overlay: #1a1b24;
-  --surface-sunken: #06070a;
+  /* --- Surfaces (neutral graphite, near-black) --- */
+  --surface-base: #0b0c0e;
+  --surface-raised: #111317;
+  --surface-overlay: #171a1f;
+  --surface-sunken: #060708;
 
-  /* --- Structure accent (desaturated steel / graphite blue) --- */
-  --accent-structure: 215 28% 42%;
-  --accent-structure-light: 215 25% 55%;
-  --accent-structure-muted: 215 20% 28%;
+  /* --- Structure accent (desaturated slate-steel) --- */
+  --accent-structure: 215 15% 46%;
+  --accent-structure-light: 215 14% 60%;
+  --accent-structure-muted: 215 12% 30%;
 
-  /* --- Interactive accent (saturated cyan-blue — for focus/highlight) --- */
-  --color-thread-1: 195 100% 50%;   /* accent-interactive (cyan) */
-  --color-thread-2: 215 28% 42%;    /* accent-structure (steel) */
-  --color-thread-3: 195 100% 95%;   /* near-white with cyan warmth */
-  --accent-interactive: 195 100% 50%;
-  --accent-interactive-hover: 195 100% 60%;
-  --accent-interactive-glow: 195 100% 50%;
+  /* --- Interactive accent (monochrome steel, links/focus only) --- */
+  --color-thread-1: 214 26% 55%;   /* primary strand: steel */
+  --color-thread-2: 215 14% 36%;   /* deep strand: slate */
+  --color-thread-3: 220 16% 94%;   /* bright core: near-white */
+  --accent-interactive: 214 26% 55%;
+  --accent-interactive-hover: 214 30% 66%;
+  --accent-interactive-glow: 214 26% 55%;
 
-  /* --- Text (monochrome with cool undertone) --- */
-  --text-primary: #e8eaf0;
-  --text-secondary: #9499aa;
-  --text-tertiary: #7a7f94;
-  --text-inverse: #0a0b0f;
+  /* --- Text (neutral slate) --- */
+  --text-primary: #eceef2;
+  --text-secondary: #a4a9b1;
+  --text-tertiary: #7e8490;
+  --text-inverse: #0b0c0e;
 
   /* --- Borders --- */
-  --border-subtle: #1e1f2a;
-  --border-default: #2a2c3a;
+  --border-subtle: #1c1f24;
+  --border-default: #262a31;
   --border-accent: var(--accent-structure);
 
-  /* --- Status --- */
-  --success: 142 76% 46%;
-  --warning: 38 92% 55%;
-  --error: 0 84% 60%;
+  /* --- Status (muted for restraint) --- */
+  --success: 150 42% 46%;
+  --warning: 36 68% 52%;
+  --error: 5 52% 56%;
 
   /* --- Semantic layer (shadcn-compatible mapping) --- */
   --background: var(--surface-base);
@@ -81,11 +81,11 @@
   --duration-slow: 400ms;
   --duration-slower: 600ms;
 
-  /* --- Shadows --- */
+  /* --- Shadows (neutral, no colored glow) --- */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
   --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.6);
-  --shadow-glow: 0 0 24px -4px hsl(var(--accent-interactive) / 0.3);
+  --shadow-glow: 0 18px 40px -16px rgb(0 0 0 / 0.65);
 
   /* --- Z-index --- */
   --z-nav: 100;
