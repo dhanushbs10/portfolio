@@ -19,6 +19,7 @@ export function SkillsPreview() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
+            index="04"
             eyebrow="Skills"
             title="Core Competencies"
             subtitle="Cybersecurity and networking fundamentals, the foundation of everything else."

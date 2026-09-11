@@ -55,9 +55,9 @@ export default function HeroBackground() {
   const [mode, setMode] = useState<Mode>('loading');
   const [isMobile, setIsMobile] = useState(false);
   const [colors, setColors] = useState({
-    c1: '#344B79',
-    c2: '#303540',
-    c3: '#6A81AF',
+    c1: '#1F5138',
+    c2: '#1F2824',
+    c3: '#35D485',
   });
 
   useEffect(() => {
@@ -67,9 +67,9 @@ export default function HeroBackground() {
     const mobile = window.matchMedia('(max-width: 768px)').matches;
     setIsMobile(mobile);
     setColors({
-      c1: resolveCssColor('--color-thread-1', '#344B79'),
-      c2: resolveCssColor('--color-thread-2', '#303540'),
-      c3: resolveCssColor('--color-thread-3', '#6A81AF'),
+      c1: resolveCssColor('--color-thread-1', '#1F5138'),
+      c2: resolveCssColor('--color-thread-2', '#1F2824'),
+      c3: resolveCssColor('--color-thread-3', '#35D485'),
     });
     setMode(reducedMotion || !supportsWebGL2() ? 'static' : 'animated');
   }, []);

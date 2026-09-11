@@ -155,9 +155,9 @@ type WebThreadsCtx = {
 const ctxMap = new WeakMap<HTMLDivElement, WebThreadsCtx>();
 
 const WebThreads: React.FC<WebThreadsProps> = ({
-  color1 = '#344B79',
-  color2 = '#303540',
-  color3 = '#6A81AF',
+  color1 = '#1F5138',
+  color2 = '#1F2824',
+  color3 = '#35D485',
   speed = 0.2,
   threadCount = 6,
   frequency = 5.0,
