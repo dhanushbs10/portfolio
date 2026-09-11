@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { TOOL_ICONS } from "@/lib/techIcons";
 
+const cache = new Map<string, string>();
+
 interface IconImageProps {
   name: string;
   width?: number;
@@ -12,19 +14,20 @@ interface IconImageProps {
 
 export function IconImage({ name, width = 22, height = 22, className }: IconImageProps) {
   const meta = TOOL_ICONS[name];
-  const [svg, setSvg] = useState<string | null>(null);
+  const [svg, setSvg] = useState<string | null>(() => (meta ? cache.get(meta.slug) ?? null : null));
 
   useEffect(() => {
     if (!meta) return;
     const slug = meta.slug;
+    if (cache.has(slug)) return;
     fetch(`/icons/${slug}.svg`)
       .then((r) => {
         if (!r.ok) throw new Error(`Icon not found: /icons/${slug}.svg (${r.status})`);
         return r.text();
       })
       .then((text) => {
-        // Wrap path elements so they inherit color via CSS
         const colored = text.replace(/<path /g, '<path fill="currentColor" ');
+        cache.set(slug, colored);
         setSvg(colored);
       })
       .catch((err) => {

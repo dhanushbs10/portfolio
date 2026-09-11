@@ -6,6 +6,6 @@ export const certifications: Certification[] = [
     name: "CCNA",
     issuer: "Cisco",
     logo: "/certs/ccna-200-301.png",
-    status: "planned",
+    status: "in-progress",
   },
 ];

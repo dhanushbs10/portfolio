@@ -13,7 +13,7 @@ export default function AboutPage() {
                 Dhanush <span className="text-accent-interactive">B S</span>
               </span>
             }
-            subtitle="Diploma in Computer Science & Engineering — Cybersecurity pathway, Semester 5 · Bengaluru, IN"
+            subtitle="Diploma in Computer Science & Engineering, Cybersecurity pathway, Semester 5 · Bengaluru, IN"
           />
           <p className="font-mono text-sm text-text-tertiary">
             Born 7 October 2008 · prefers Dhanush or Dhanu
@@ -25,19 +25,19 @@ export default function AboutPage() {
           <p className="text-lg text-text-secondary leading-relaxed">
             I'm a curious, practical technical learner currently pursuing a Diploma in
             Computer Science and Engineering at Bengaluru, focusing on cybersecurity.
-            My strongest interests are hardware, networking, and cybersecurity — but
+            My strongest interests are hardware, networking, and cybersecurity, but
             I've explored a lot of things: electronics, robotics, Linux, programming,
             AI, gaming infrastructure, you name it.
           </p>
           <p className="text-lg text-text-secondary leading-relaxed">
-            I learn by doing — see something, get curious, try it, break it,
+            I learn by doing, see something, get curious, try it, break it,
             investigate, understand it, move on. Theory-first learning never
             clicked for me. I chose a Diploma over a theory-heavy degree because
             I'd rather build something broken than study a textbook about how it
             could work.
           </p>
           <p className="text-text-tertiary font-mono text-sm">
-            &gt; "being good is enough" — that's my standard.
+            &gt; "being good is enough", that's my standard.
           </p>
         </div>
 
@@ -48,20 +48,20 @@ export default function AboutPage() {
           </h2>
           <p className="text-text-secondary leading-relaxed">
             Around Pre-KG, there was a computer at home belonging to my father. I
-            watched him use it, then tried turning it on myself the next day —
+            watched him use it, then tried turning it on myself the next day, 
             curious enough to press buttons without knowing what they did. That
             curiosity became a recurring pattern.
           </p>
           <p className="text-text-secondary leading-relaxed">
             Around 4th grade I corrupted the family Windows install while gaming.
-            No other computer, no Wi-Fi at the time. Six months later — after
+            No other computer, no Wi-Fi at the time. Six months later, after
             YouTube tutorials and a cousin's laptop used to build a Windows
-            installer — the machine was working again. That's how I learned
+            installer, the machine was working again. That's how I learned
             computer repair: not from a class, but because something was broken
             and I wanted to understand how to fix it.
           </p>
           <p className="text-text-secondary leading-relaxed">
-            COVID amplified that. Suddenly I had time to explore — gaming,
+            COVID amplified that. Suddenly I had time to explore, gaming,
             tech content, YouTube tutorials, random software. By the end of it
             technology wasn't something I just used anymore. It was something I
             wanted to understand.
@@ -76,7 +76,7 @@ export default function AboutPage() {
           <div className="space-y-6">
             <div className="border-l-2 border-accent-interactive pl-4">
               <p className="font-mono text-xs text-text-tertiary mb-1">
-                2023 — Present
+                2023 to Present
               </p>
               <h3 className="font-display text-lg font-medium text-text-primary">
                 Diploma in Computer Science & Engineering
@@ -94,7 +94,7 @@ export default function AboutPage() {
 
             <div className="border-l-2 border-border-subtle pl-4">
               <p className="font-mono text-xs text-text-tertiary mb-1">
-                2016 — 2024
+                2016 to 2024
               </p>
               <h3 className="font-display text-lg font-medium text-text-primary">
                 SSLC
@@ -103,7 +103,7 @@ export default function AboutPage() {
                 Sri Vidya Public School · Bengaluru, Karnataka
               </p>
               <p className="mt-2 text-sm text-text-tertiary">
-                Built the foundation — mathematics, science, and the first
+                Built the foundation, mathematics, science, and the first
                 exposure to computers and programming.
               </p>
             </div>
@@ -181,18 +181,18 @@ export default function AboutPage() {
           <div className="space-y-4 text-text-secondary leading-relaxed">
             <p>
               Near term: land a solid Network Engineering job. Networking is
-              the direction I'm most intentional about — CCNA/Cisco is on the
+              the direction I'm most intentional about, CCNA/Cisco is on the
               horizon.
             </p>
             <p>
               Long term: get to a point where I have financial independence and
-              the freedom to build what I want. Not chasing fame or status — I
+              the freedom to build what I want. Not chasing fame or status, I
               just want to be good at what I do and have the space to keep
               exploring.
             </p>
             <p>
-              Dream project: a dedicated home lab room — servers, a SOC/security
-              analysis environment, private cloud, 3–4 interconnected multi-OS
+              Dream project: a dedicated home lab room, servers, a SOC/security
+              analysis environment, private cloud, 3 to 4 interconnected multi-OS
               machines, IoT automation, strong privacy and isolation. I want
               maximum capability from a minimal, well-engineered setup.
             </p>
@@ -204,7 +204,7 @@ export default function AboutPage() {
           <p className="text-text-secondary leading-relaxed">
             I'm not an expert at everything. I'm curious about a lot of things,
             I learn fast, and I build things to understand them. Sometimes I
-            finish projects, sometimes I don't — but I always learn something
+            finish projects, sometimes I don't, but I always learn something
             from the attempt.
           </p>
           <p className="text-text-tertiary font-mono text-sm">

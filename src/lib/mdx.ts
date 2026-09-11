@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Project, ProjectFrontmatter } from "./types";
 
 const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
@@ -42,8 +41,4 @@ export function getFeaturedProjects(): Project[] {
 
 export function getProjectsByStatus(status: string): Project[] {
   return getAllProjects().filter((p) => p.status === status);
-}
-
-export function renderMDX(content: string) {
-  return MDXRemote({ source: content });
 }

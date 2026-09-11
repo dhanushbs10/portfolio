@@ -10,28 +10,6 @@ if (!NVIDIA_KEY) throw new Error("Missing NVIDIA_API_KEY");
 const BASE = "https://integrate.api.nvidia.com/v1";
 export { NVIDIA_KEY_GUARD };
 
-async function post(path: string, body: unknown) {
-  const res = await fetch(BASE + path, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${NVIDIA_KEY}`,
-    },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`NVIDIA ${path} ${res.status}: ${await res.text()}`);
-  return res.json();
-}
-
-export async function getEmbedding(text: string): Promise<number[]> {
-  const data = await post("/embeddings", {
-    model: "nvidia/nv-embed-v1",
-    input: text,
-    encoding_format: "float",
-  });
-  return data.data[0].embedding;
-}
-
 export async function chatCompletion(
   messages: ChatMessage[],
   signal?: AbortSignal,

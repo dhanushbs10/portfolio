@@ -26,7 +26,7 @@ export function CertificationsPreview() {
           <SectionHeading
             eyebrow="SEC.CERT"
             title="Credentials & Certifications"
-            subtitle="Placeholder data, real certificates will be populated in a later chapter."
+            subtitle="Studying for CCNA, more credentials on the way."
           />
         </AnimatedReveal>
 

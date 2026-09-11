@@ -20,9 +20,9 @@
 
   /* --- Interactive accent (saturated cyan-blue — for focus/highlight) --- */
   --color-thread-1: 195 100% 50%;   /* accent-interactive (cyan) */
---color-thread-2: 215 28% 42%;    /* accent-structure (steel) */
---color-thread-3: 195 100% 95%;   /* near-white with cyan warmth */
---accent-interactive: 195 100% 50%;
+  --color-thread-2: 215 28% 42%;    /* accent-structure (steel) */
+  --color-thread-3: 195 100% 95%;   /* near-white with cyan warmth */
+  --accent-interactive: 195 100% 50%;
   --accent-interactive-hover: 195 100% 60%;
   --accent-interactive-glow: 195 100% 50%;
 
@@ -185,7 +185,7 @@
   .section-container {
     padding-top: var(--section-padding);
     padding-bottom: var(--section-padding);
-  overflow-x: clip;
+    overflow-x: clip;
   }
 
   .section-container-sm {
@@ -201,76 +201,9 @@
     box-shadow: var(--shadow-sm);
   }
 
-  /* Glow effect (for interactive focus states) */
-  .glow {
-    box-shadow: var(--shadow-glow);
-  }
-
   /* Monospace label */
-  .mono-label {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-  }
-
-  /* ∿∿∿ TERMINAL / CYBER UTILITIES ∿∿∿ */
-
-  /* Scanline overlay */
-  .scanlines {
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0) 50%,
-      rgba(0, 0, 0, 0.1) 50%,
-      rgba(0, 0, 0, 0.1)
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
-  }
-
-  /* CRT flicker */
-  .crt-flicker {
-    animation: flicker 0.15s infinite;
-  }
-  @keyframes flicker {
-    0% { opacity: 0.98; }
-    50% { opacity: 1; }
-    100% { opacity: 0.98; }
-  }
-
-  /* Blinking cursor */
-  .cursor-blink {
-    display: inline-block;
-    width: 0.6em;
-    height: 1.1em;
-    background: var(--accent-interactive);
-    margin-left: 0.1em;
-    vertical-align: text-bottom;
-    animation: blink 1s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
 
   /* Eyebrow — small quiet mono section label */
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-  }
-
-  /* Boot-sequence line */
-  .boot-line {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--text-tertiary);
-    line-height: 1.6;
-  }
 
   /* Thin border-panel */
   .border-panel {
@@ -278,33 +211,10 @@
     border-radius: 2px;
     background: var(--surface-sunken);
   }
-
-  /* Status dot */
-  .status-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-interactive);
-    box-shadow: 0 0 6px var(--accent-interactive);
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
 }
 
 /* ---- UTILITY ---- */
 @layer utilities {
-  /* Text gradient for highlighted words */
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--accent-interactive)) 0%, hsl(var(--accent-structure-light)) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   /* Grid pattern background (circuit-board feel) */
   .bg-grid {
     background-image:

@@ -165,7 +165,6 @@ export interface ProjectFrontmatter {
   title: string;
   slug: string;
   summary: string;
-  coverImage: string;
   techStack: string[];
   githubRepo?: string;
   liveDemo?: string;

@@ -17,7 +17,7 @@ export const journeyMilestones: JourneyMilestone[] = [
     org: "Personal Projects & Labs",
     date: "2021-Present",
     description:
-      "Pursuing technology driven by curiosity. Built projects across web dev, Linux, networking, hardware, and cybersecurity — learn-by-breaking, YouTube-tutored, no formal training.",
+      "Pursuing technology driven by curiosity. Built projects across web dev, Linux, networking, hardware, and cybersecurity, learn-by-breaking, YouTube-tutored, no formal training.",
   },
   {
     id: "jrn-003",

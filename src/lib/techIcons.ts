@@ -216,7 +216,7 @@ export const TOOL_ICONS: Record<string, ToolMeta> = {
   },
 };
 
-// Tools shown in the TechStack marquee — core languages, frameworks, platforms
+// Tools shown in the TechStack marquee, core languages, frameworks, platforms
 export interface StackTool extends ToolMeta {
   name: string;
 }

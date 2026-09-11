@@ -4,7 +4,7 @@ export const educationEntries: EducationEntry[] = [
   {
     id: "edu-001",
     program: "Diploma in Computer Science Engineering",
-    institution: "[Institution Name], Bengaluru, Karnataka",
+    institution: "Ramaiah Polytechnic, Bengaluru, Karnataka",
     startDate: "2023",
     endDate: "2026",
     current: true,
@@ -31,7 +31,7 @@ export const educationEntries: EducationEntry[] = [
   {
     id: "edu-002",
     program: "SSLC",
-    institution: "[School Name], Bengaluru, Karnataka",
+    institution: "Sri Vidya Public School, Bengaluru, Karnataka",
     startDate: "2016",
     endDate: "2024",
     highlights: [

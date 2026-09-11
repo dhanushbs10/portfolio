@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/shared/Nav";
 import { Footer } from "@/components/shared/Footer";
 import PageBackground from "@/components/PageBackground";
@@ -42,8 +41,9 @@ export const metadata: Metadata = {
     "portfolio",
   ],
   authors: [{ name: "Dhanush B S" }],
+  metadataBase: new URL("https://bsdhanush.qzz.io"),
   openGraph: {
-    title: "Dhanush B S, Network Security Engineer",
+    title: "Dhanush B S, Cybersecurity & Networking Student",
     description:
       "Cybersecurity and networking enthusiast from Bengaluru. Building practical skills through hands-on projects and home lab experimentation.",
     type: "website",
@@ -64,11 +64,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-surface-base text-text-primary">
         <PageBackground />
-        <ThemeProvider defaultTheme="dark">
-          <Nav />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </ThemeProvider>
+        <Nav />
+        <div className="flex-1">{children}</div>
+        <Footer />
         <PingWidget />
       </body>
     </html>
