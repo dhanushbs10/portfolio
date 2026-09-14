@@ -10,7 +10,6 @@ export function HomeLabTeaser() {
       <div className="mx-auto max-w-3xl text-center">
         <AnimatedReveal>
           <SectionHeading
-            index="08"
             eyebrow="Homelab"
             title="The Home Lab"
             subtitle="Where theory meets bare metal."

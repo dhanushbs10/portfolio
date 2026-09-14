@@ -1,49 +1,46 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN SYSTEM — "Phosphor Terminal"
-   Warm phosphor-glass glow meets a hardened terminal. Surfaces
-   are warm near-black so the single phosphor-green signal stays
-   dominant; everything answers to the CRT: grain, faint scanlines,
-   mono annotations, a crosshair cursor, and boot-log choreography.
+   DESIGN SYSTEM — "Structured Signal"
+   Dark-mode-first. Network/circuit-inspired aesthetic.
    ============================================================ */
 
 /* ---- PRIMITIVE TOKENS ---- */
 :root {
-  /* --- Surfaces (warm near-black, CRT glass undertone) --- */
-  --surface-base: #0b0a08;
-  --surface-raised: #151310;
-  --surface-overlay: #1e1a15;
-  --surface-sunken: #050403;
+  /* --- Surfaces (near-black, NOT pure #000) --- */
+  --surface-base: #0a0b0f;
+  --surface-raised: #12131a;
+  --surface-overlay: #1a1b24;
+  --surface-sunken: #06070a;
 
-  /* --- Structure accent (warm taupe, structural lines only) --- */
-  --accent-structure: 35 12% 40%;
-  --accent-structure-light: 35 10% 56%;
-  --accent-structure-muted: 35 12% 24%;
+  /* --- Structure accent (desaturated steel / graphite blue) --- */
+  --accent-structure: 215 28% 42%;
+  --accent-structure-light: 215 25% 55%;
+  --accent-structure-muted: 215 20% 28%;
 
-  /* --- Interactive accent (single phosphor-green signal) --- */
-  --color-thread-1: 150 45% 22%;   /* background thread: deep phosphor  */
-  --color-thread-2: 150 12% 14%;   /* background thread: dark phosphor  */
-  --color-thread-3: 150 65% 52%;   /* background thread: soft core      */
-  --accent-interactive: 149 82% 55%;
-  --accent-interactive-hover: 149 86% 63%;
-  --accent-interactive-glow: 149 82% 55%;
+  /* --- Interactive accent (saturated cyan-blue — for focus/highlight) --- */
+  --color-thread-1: 195 100% 50%;   /* accent-interactive (cyan) */
+  --color-thread-2: 215 28% 42%;    /* accent-structure (steel) */
+  --color-thread-3: 195 100% 95%;   /* near-white with cyan warmth */
+  --accent-interactive: 195 100% 50%;
+  --accent-interactive-hover: 195 100% 60%;
+  --accent-interactive-glow: 195 100% 50%;
 
-  /* --- Text (phosphor warm-white, slight green afterglow) --- */
-  --text-primary: #ece9e1;
-  --text-secondary: #a8a394;
-  --text-tertiary: #736e60;
-  --text-inverse: #0b0a08;
+  /* --- Text (monochrome with cool undertone) --- */
+  --text-primary: #e8eaf0;
+  --text-secondary: #9499aa;
+  --text-tertiary: #7a7f94;
+  --text-inverse: #0a0b0f;
 
-  /* --- Borders (warm graphite, do the elevation work) --- */
-  --border-subtle: #262119;
-  --border-default: #332d23;
+  /* --- Borders --- */
+  --border-subtle: #1e1f2a;
+  --border-default: #2a2c3a;
   --border-accent: var(--accent-structure);
 
-  /* --- Status (phosphor console grammars) --- */
-  --success: 150 55% 45%;
-  --warning: 40 80% 52%;
-  --error: 8 60% 52%;
+  /* --- Status --- */
+  --success: 142 76% 46%;
+  --warning: 38 92% 55%;
+  --error: 0 84% 60%;
 
   /* --- Semantic layer (shadcn-compatible mapping) --- */
   --background: var(--surface-base);
@@ -61,8 +58,7 @@
   --ring: var(--accent-interactive);
   --border: var(--border-default);
   --input: var(--border-default);
-  /* --- Radius (terminal-crisp, slight rounding) --- */
-  --radius: 0.5rem;
+  --radius: 0.375rem;
 
   /* --- Typography (font families as CSS vars) --- */
   --font-display: "Space Grotesk", "Chakra Petch", system-ui, sans-serif;
@@ -85,12 +81,11 @@
   --duration-slow: 400ms;
   --duration-slower: 600ms;
 
-  /* --- Shadows (warm-neutral, no colored glow) --- */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.45);
-  --shadow-md: 0 4px 14px -2px rgb(0 0 0 / 0.55);
-  --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.65);
-  --shadow-glow: 0 18px 40px -16px rgb(0 0 0 / 0.7);
-  --shadow-void: inset 0 1px 0 rgb(255 255 255 / 0.02);
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --shadow-glow: 0 0 24px -4px hsl(var(--accent-interactive) / 0.3);
 
   /* --- Z-index --- */
   --z-nav: 100;
@@ -179,63 +174,14 @@
   }
 
   ::selection {
-    background-color: hsl(var(--accent-interactive) / 0.28);
+    background-color: hsl(var(--accent-interactive) / 0.3);
     color: var(--text-primary);
-  }
-
-  /* Terminal scrollbars */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-default) var(--surface-sunken);
-  }
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--surface-sunken);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--border-default);
-    border: 2px solid var(--surface-sunken);
-    border-radius: 8px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--accent-interactive) / 0.6);
-  }
-
-  /* Custom crosshair cursor — hide native cursor only on fine pointers.
-     Text inputs keep a visible caret for usability. */
-  .cursor-fine-only {
-    display: none;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .cursor-fine-only {
-      display: block;
-    }
-
-    body,
-    body a,
-    body button,
-    body [role="button"],
-    body select,
-    body summary,
-    body label {
-      cursor: none !important;
-    }
-    body input[type="text"],
-    body input[type="email"],
-    body input[type="tel"],
-    body input[type="url"],
-    body input:not([type]),
-    body textarea {
-      cursor: text !important;
-    }
   }
 }
 
 /* ---- COMPONENT PATTERNS ---- */
 @layer components {
+  /* Section rhythm container */
   .section-container {
     padding-top: var(--section-padding);
     padding-bottom: var(--section-padding);
@@ -247,143 +193,23 @@
     padding-bottom: var(--section-padding-sm);
   }
 
-  /* Card — crisp edges, warm glass, subtle phosphor lift on hover */
+  /* Card style that matches the design system */
   .card {
-    background: linear-gradient(var(--surface-raised), var(--surface-sunken));
+    background-color: var(--surface-raised);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius);
-    box-shadow: var(--shadow-sm), var(--shadow-void);
-    transition:
-      transform var(--duration-normal) var(--ease-emphasized),
-      border-color var(--duration-normal) var(--ease-emphasized),
-      box-shadow var(--duration-normal) var(--ease-emphasized);
+    box-shadow: var(--shadow-sm);
   }
-  .card:hover {
-    transform: translateY(-3px);
-    border-color: var(--border-default);
-    box-shadow: var(--shadow-md), var(--shadow-void);
-  }
+
+  /* Monospace label */
+
+  /* Eyebrow — small quiet mono section label */
 
   /* Thin border-panel */
   .border-panel {
     border: 1px solid var(--border-subtle);
     border-radius: 2px;
     background: var(--surface-sunken);
-  }
-
-  /* Project status badge (terminal status LED) */
-  .status-badge {
-    display: inline-block;
-    padding: 0.125rem 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.4;
-    border: 1px solid var(--border-subtle);
-    border-radius: 2px;
-    color: var(--text-secondary);
-    background: var(--surface-sunken);
-  }
-  .status-badge::before {
-    content: "";
-    display: inline-block;
-    width: 0.35rem;
-    height: 0.35rem;
-    margin-right: 0.4rem;
-    border-radius: 9999px;
-    vertical-align: 0.05rem;
-    background: currentColor;
-  }
-
-  /* Eyebrow — terminal section label with keyline */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-  }
-  .eyebrow::before {
-    content: "";
-    width: 1.75rem;
-    height: 1px;
-    background-color: var(--border-default);
-  }
-  .eyebrow--index {
-    color: hsl(var(--accent-interactive) / 0.8);
-  }
-  .eyebrow--index::before {
-    background-color: hsl(var(--accent-interactive) / 0.5);
-  }
-
-  /* Blinking terminal block cursor */
-  .cursor-block {
-    display: inline-block;
-    width: 0.6ch;
-    height: 0.9em;
-    transform: translateY(0.08em);
-    background-color: var(--text-primary);
-    margin-left: 0.3ch;
-    animation: cursor-blink 1.1s steps(1, end) infinite;
-  }
-  .cursor-block--accent {
-    background-color: hsl(var(--accent-interactive));
-  }
-
-  @keyframes cursor-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-  }
-}
-
-/* ---- TEXTURE: film grain + faint scanlines ---- */
-@layer components {
-  /* Animated film grain, CRT surface noise */
-  .grain-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 300px 300px;
-    animation: grain-shift 8s steps(10) infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .grain-overlay {
-      animation: none;
-    }
-  }
-
-  @keyframes grain-shift {
-    0%, 100% { transform: translate(0, 0); }
-    20% { transform: translate(-2%, 2%); }
-    40% { transform: translate(1%, -2%); }
-    60% { transform: translate(-1%, 1%); }
-    80% { transform: translate(2%, -1%); }
-  }
-
-  /* Faint scanlines so the texture whispers instead of shouting */
-  .scanlines-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 61;
-    pointer-events: none;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgb(255 255 255 / 0.07) 0px,
-      rgb(255 255 255 / 0.07) 1px,
-      transparent 1px,
-      transparent 3px
-    );
   }
 }
 
@@ -410,29 +236,6 @@
   }
 
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  /* Generic marquee used by the hero boot-log ticker */
-  .marquee {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee-scroll 28s linear infinite;
-  }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-    }
-  }
-  @keyframes marquee-scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }

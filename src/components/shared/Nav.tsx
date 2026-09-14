@@ -36,10 +36,9 @@ export function Nav() {
     >
       <nav className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="group font-display font-semibold text-lg tracking-tight">
+        <Link href="/" className="font-display font-semibold text-lg tracking-tight">
           <span className="text-accent-interactive">dn</span>
           <span className="text-text-tertiary">.portfolio</span>
-          <span className="cursor-block cursor-block--accent" />
         </Link>
 
         {/* Desktop links */}
@@ -49,13 +48,9 @@ export function Nav() {
               <Link
                 href={item.href}
                 className={cn(
-                  "relative font-mono text-xs tracking-widest uppercase",
+                  "font-mono text-xs tracking-widest uppercase",
                   "text-text-primary hover:text-accent-interactive",
-                  "transition-colors duration-200",
-                  "after:absolute after:left-0 after:-bottom-1 after:h-px after:w-full",
-                  "after:origin-left after:scale-x-0 after:bg-accent-interactive",
-                  "after:transition-transform after:duration-200",
-                  "hover:after:scale-x-100"
+                  "transition-colors duration-200"
                 )}
               >
                 {item.label}
@@ -90,7 +85,7 @@ export function Nav() {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="relative font-mono text-sm tracking-widest uppercase text-text-primary hover:text-accent-interactive after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-accent-interactive after:transition-transform after:duration-200 hover:after:scale-x-100"
+                    className="font-mono text-sm tracking-widest uppercase text-text-primary hover:text-accent-interactive"
                   >
                     {item.label}
                   </Link>

@@ -18,7 +18,6 @@ export function Achievements() {
       <div className="mx-auto max-w-4xl">
         <AnimatedReveal>
           <SectionHeading
-            index="10"
             eyebrow="Achievements"
             title="By the Numbers"
             subtitle="A few stats and highlights worth calling out."

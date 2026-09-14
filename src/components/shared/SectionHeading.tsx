@@ -5,7 +5,6 @@ interface SectionHeadingProps {
   eyebrow?: string;
   title: string | ReactNode;
   subtitle?: string;
-  index?: string;
   align?: "left" | "center";
   className?: string;
   eyebrowClassName?: string;
@@ -15,7 +14,6 @@ export function SectionHeading({
   eyebrow,
   title,
   subtitle,
-  index,
   align = "left",
   className,
   eyebrowClassName,
@@ -28,25 +26,10 @@ export function SectionHeading({
         className
       )}
     >
-      <div
-        className={cn(
-          "flex items-start gap-5",
-          align === "center" && "flex-col items-center gap-3"
-        )}
-      >
-        {index && (
-          <span
-            className={cn(
-              "font-mono text-sm font-medium tabular-nums leading-6 text-accent-interactive",
-              align === "center" && "text-xs"
-            )}
-          >
-            {index}
-          </span>
-        )}
+      {eyebrow && (
         <p className={cn("eyebrow mb-3", eyebrowClassName)}>{eyebrow}</p>
-      </div>
-      <h2 className="font-display text-4xl font-semibold tracking-tight text-text-primary md:text-5xl">
+      )}
+      <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight text-text-primary">
         {title}
       </h2>
       {subtitle && (

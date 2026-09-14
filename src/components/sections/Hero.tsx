@@ -6,138 +6,55 @@ import Link from "next/link";
 import HeroBackground from "./HeroBackground";
 import DecryptedName from "@/components/shared/DecryptedName";
 
-const BOOT_LINES = [
-  "[ 0.000s] boot: dhanush.v1",
-  "[ 0.112s] kernel: self_init ............ OK",
-  "[ 0.480s] net: uplink .................. UP",
-  "[ 0.512s] services: curiosity_enabled .. ON",
-];
-
-const TICKER = [
-  "CYBERSECURITY",
-  "NETWORKING",
-  "LINUX",
-  "HOME LAB",
-  "PXE BOOT",
-  "WIRESHARK",
-  "NMAP",
-  "SHELL SCRIPTS",
-  "BARE-METAL",
-  "TRUST BOUNDARIES",
-];
-
-const container = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.15 },
-  },
-};
-
-const line = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
 export function Hero() {
   const { scrollY } = useScroll();
   const cueOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const contentOpacity = useTransform(scrollY, [0, 220], [1, 0]);
+  const contentOpacity = useTransform(scrollY, [0, 200], [1, 0]);
   const contentY = useTransform(scrollY, [0, 300], [0, -60]);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Animated background layer */}
       <HeroBackground />
 
-      {/* Warm CRT readability veil */}
+      {/* Dark overlay for text readability */}
       <div
-        className="pointer-events-none absolute inset-0 z-[2]"
+        className="absolute inset-0 pointer-events-none z-[2]"
         style={{
           background:
-            "radial-gradient(ellipse 82% 72% at 50% 45%, rgba(11,10,8,0.72) 0%, rgba(11,10,8,0.94) 100%)",
+            "radial-gradient(ellipse 80% 70% at 50% 45%, rgba(2,6,23,0.78) 0%, rgba(2,6,23,0.95) 100%)",
         }}
       />
 
-      {/* Boot log — quiet terminal annotation, desktop only */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
-        className="pointer-events-none absolute left-6 top-24 z-10 hidden font-mono text-[10px] leading-5 text-text-tertiary lg:block"
-      >
-        {BOOT_LINES.map((boot) => (
-          <p key={boot}>{boot}</p>
-        ))}
-      </motion.div>
-
-      {/* Status tag — corner terminal badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="absolute right-6 top-24 z-10 hidden items-center gap-2 rounded-sm border border-border-default bg-surface-sunken/70 px-3 py-1.5 font-mono text-[10px] tracking-widest text-text-secondary lg:flex"
-      >
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
-        SYSTEM ONLINE · BLR_IN
-      </motion.div>
-
+      {/* Content, always visible, no boot animation */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 mx-auto w-full max-w-6xl px-6 text-center"
+        className="relative z-10 mx-auto max-w-3xl px-6 text-center"
       >
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col items-center gap-6"
-        >
-          {/* Terminal whisper */}
-          <motion.p
-            variants={line}
-            className="font-mono text-[11px] tracking-[0.28em] uppercase text-text-tertiary"
-          >
-            <span className="text-accent-interactive">$</span> whoami
-            <span className="cursor-block--accent cursor-block" />
-          </motion.p>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            {/* <Terminal size={14} className="text-accent-interactive" /> */}
+            {/* <span className="eyebrow">profile.dhanush, loaded</span> */}
+          </div>
 
-          {/* Massive display name */}
-          <motion.h1
-            variants={line}
-            className="font-display font-semibold uppercase leading-[0.88] tracking-[-0.03em] text-text-primary"
-          >
-            <span className="block text-[clamp(4rem,15vw,11rem)]">
-              <DecryptedName text="DHANUSH" className="inline-block" />
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-text-primary">
+            <DecryptedName text="Dhanush B S" />
+          </h1>
+
+          <div className="font-mono text-sm sm:text-base text-accent-structure-light">
+            <span className="text-text-tertiary">$</span> whoami
+            <br />
+            <span className="text-text-secondary">
+              Diploma in CSE · Cybersecurity &amp; Networking · Bengaluru, IN
             </span>
-            <span className="mt-1 block text-[clamp(2.6rem,9.5vw,7rem)] text-accent-interactive">
-              B&nbsp;&nbsp;S<span className="cursor-block cursor-block--accent" />
-            </span>
-          </motion.h1>
+          </div>
 
-          {/* Role line */}
-          <motion.p
-            variants={line}
-            className="font-mono text-xs tracking-wider uppercase text-text-secondary sm:text-sm"
-          >
-            &gt; cybersecurity · networking · infrastructure
-          </motion.p>
-
-          {/* Intro */}
-          <motion.p
-            variants={line}
-            className="mx-auto max-w-xl font-body text-lg leading-relaxed text-text-primary sm:text-xl"
-          >
+          <p className="max-w-xl mx-auto font-body text-lg sm:text-xl text-text-primary leading-relaxed">
             Building reliable systems and securing networks, from bare-metal
             infrastructure to practical cybersecurity labs.
-          </motion.p>
+          </p>
 
-          {/* Commands */}
-          <motion.div
-            variants={line}
-            className="flex flex-wrap items-center justify-center gap-6 pt-2"
-          >
+          <div className="flex flex-wrap gap-6 justify-center pt-4">
             <Link
               href="/projects"
               className="group inline-flex items-center gap-1.5 font-mono text-sm text-text-secondary hover:text-accent-interactive transition-colors duration-200"
@@ -156,54 +73,27 @@ export function Hero() {
                 →
               </span>
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </motion.div>
 
       {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.1 }}
+        transition={{ delay: 0.5 }}
         style={{ opacity: cueOpacity }}
-        className="absolute bottom-20 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
-        <span className="font-mono text-[10px] tracking-[0.3em] text-text-tertiary uppercase">
+        <span className="font-mono text-[10px] tracking-widest uppercase text-text-tertiary">
           scroll
         </span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
         >
-          <ChevronDown size={15} className="text-text-tertiary" />
+          <ChevronDown size={16} className="text-text-tertiary" />
         </motion.div>
-      </motion.div>
-
-      {/* Boot-log ticker */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-0 left-0 right-0 z-10 border-t border-border-subtle bg-surface-sunken/60 py-3"
-      >
-        <div className="marquee">
-          <div className="marquee-track">
-            {[0, 1].map((group) => (
-              <div
-                key={group}
-                className="flex shrink-0 items-center gap-8 pr-8 font-mono text-xs tracking-[0.22em] text-text-tertiary"
-                aria-hidden={group === 1}
-              >
-                {TICKER.map((item) => (
-                  <span key={item} className="flex items-center gap-8">
-                    {item}
-                    <span className="text-accent-interactive/70">{"//"}</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
       </motion.div>
     </section>
   );

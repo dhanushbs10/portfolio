@@ -26,7 +26,6 @@ export function TechStack() {
         <div className="mx-auto max-w-4xl !bg-transparent">
           <AnimatedReveal>
             <SectionHeading
-              index="05"
               eyebrow="Tools"
               title="Tech Stack"
               subtitle="The tools I reach for, hover any icon to see its name."
@@ -59,7 +58,6 @@ export function TechStack() {
       <div className="mx-auto max-w-4xl !bg-transparent">
         <AnimatedReveal>
           <SectionHeading
-            index="05"
             eyebrow="Tools"
             title="Tech Stack"
             subtitle="The tools I reach for - hover any icon to see its name."

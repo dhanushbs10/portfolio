@@ -14,7 +14,6 @@ export function Journey() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
-            index="02"
             eyebrow="Experience"
             title="Professional Journey"
             subtitle="My path from curiosity to focused specialization in cybersecurity and networking."

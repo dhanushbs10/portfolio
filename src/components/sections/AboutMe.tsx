@@ -27,7 +27,6 @@ export function AboutMe() {
       <div className="mx-auto max-w-5xl">
         <AnimatedReveal>
           <SectionHeading
-            index="01"
             eyebrow="About"
             title="Dhanush B S"
             subtitle="Diploma student in CSE · Cybersecurity & Networking · Bengaluru, IN"
