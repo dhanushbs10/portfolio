@@ -27,6 +27,7 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
       <div className="mx-auto max-w-5xl">
         <AnimatedReveal>
           <SectionHeading
+            index="07"
             eyebrow="DEV.LOG"
             title="Selected Work"
             subtitle="A sample of projects I've built to learn and demonstrate practical skills."
@@ -36,7 +37,7 @@ export function ProjectsPreview({ projects }: ProjectsPreviewProps) {
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {projects.map((proj) => (
             <AnimatedReveal key={proj.slug}>
-              <article className="card p-6 flex flex-col gap-4 h-full hover:border-accent-interactive transition-colors">
+              <article className="card p-6 flex flex-col gap-4 h-full hover:border-accent-interactive">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="font-display text-lg font-semibold text-text-primary">
                     {proj.title}

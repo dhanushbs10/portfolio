@@ -20,6 +20,7 @@ export function ContactSection() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
+            index="11"
             eyebrow="Contact"
             title="Get in Touch"
             subtitle="Have a project in mind, a question, or just want to say hi? Reach out."
@@ -34,7 +35,7 @@ export function ContactSection() {
               </p>
               <a
                 href={`mailto:${contactInfo.email}`}
-                className={cn("self-start inline-flex items-center gap-2 bg-accent-interactive hover:bg-accent-interactive-hover text-surface-base rounded px-6 py-3 font-mono text-sm font-medium tracking-wide transition-colors")}
+                className={cn("self-start inline-flex items-center gap-2 border border-accent-interactive/60 text-accent-interactive hover:border-accent-interactive hover:bg-accent-interactive/10 rounded-lg px-6 py-3 font-mono text-sm font-medium tracking-wide transition-colors")}
               >
                 <Mail size={14} /> Send an email
               </a>

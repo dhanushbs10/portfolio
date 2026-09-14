@@ -20,7 +20,7 @@ export default function PageBackground() {
         // Scroll progress 0 to 1 over 3000px of scroll
         const progress = Math.min(y / 3000, 1);
         const centerY = 30 + progress * 25; // 30% → 55%
-        el.style.background = `radial-gradient(ellipse 70% 60% at 50% ${centerY}%, rgba(6,182,212,0.06) 0%, transparent 70%)`;
+        el.style.background = `radial-gradient(ellipse 70% 60% at 50% ${centerY}%, rgba(46,234,137,0.045) 0%, transparent 70%)`;
         prevY = y;
       }
       raf = requestAnimationFrame(update);
@@ -50,7 +50,7 @@ export default function PageBackground() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 50% 40% at 80% 70%, rgba(6,182,212,0.03) 0%, transparent 60%)',
+            'radial-gradient(ellipse 50% 40% at 80% 70%, rgba(46,234,137,0.025) 0%, transparent 60%)',
         }}
       />
     </div>

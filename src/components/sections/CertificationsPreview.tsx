@@ -24,6 +24,7 @@ export function CertificationsPreview() {
       <div className="mx-auto max-w-3xl">
         <AnimatedReveal>
           <SectionHeading
+            index="06"
             eyebrow="SEC.CERT"
             title="Credentials & Certifications"
             subtitle="Studying for CCNA, more credentials on the way."

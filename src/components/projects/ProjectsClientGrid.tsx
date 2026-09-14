@@ -42,7 +42,7 @@ export function ProjectsClientGrid({
               onClick={() => setFilter(s)}
               className={`px-3 py-1 rounded font-mono text-xs tracking-wide transition-colors border ${
                 filter === s
-                  ? "bg-accent-interactive text-bg-primary border-accent-interactive"
+                  ? "bg-accent-interactive/15 text-accent-interactive border-accent-interactive/50"
                   : "bg-surface-overlay text-text-secondary border-border-subtle hover:border-accent-interactive"
               }`}
             >
@@ -70,7 +70,7 @@ export function ProjectsClientGrid({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="card p-6 flex flex-col gap-4 h-full hover:border-accent-interactive transition-colors"
+            className="card p-6 flex flex-col gap-4 h-full hover:border-accent-interactive"
           >
             <div className="flex items-start justify-between gap-3">
               <h3 className="font-display text-lg font-semibold text-text-primary">
