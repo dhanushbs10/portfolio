@@ -6,13 +6,6 @@ import Link from "next/link";
 import HeroBackground from "./HeroBackground";
 import DecryptedName from "@/components/shared/DecryptedName";
 
-const BOOT_LINES = [
-  "[ 0.000s] boot: dhanush.v1",
-  "[ 0.112s] kernel: self_init ............ OK",
-  "[ 0.480s] net: uplink .................. UP",
-  "[ 0.512s] services: curiosity_enabled .. ON",
-];
-
 const TICKER = [
   "CYBERSECURITY",
   "NETWORKING",
@@ -60,29 +53,6 @@ export function Hero() {
             "radial-gradient(ellipse 82% 72% at 50% 45%, rgba(11,10,8,0.72) 0%, rgba(11,10,8,0.94) 100%)",
         }}
       />
-
-      {/* Boot log — quiet terminal annotation, desktop only */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
-        className="pointer-events-none absolute left-6 top-24 z-10 hidden font-mono text-[10px] leading-5 text-text-tertiary lg:block"
-      >
-        {BOOT_LINES.map((boot) => (
-          <p key={boot}>{boot}</p>
-        ))}
-      </motion.div>
-
-      {/* Status tag — corner terminal badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="absolute right-6 top-24 z-10 hidden items-center gap-2 rounded-sm border border-border-default bg-surface-sunken/70 px-3 py-1.5 font-mono text-[10px] tracking-widest text-text-secondary lg:flex"
-      >
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
-        SYSTEM ONLINE · BLR_IN
-      </motion.div>
 
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}

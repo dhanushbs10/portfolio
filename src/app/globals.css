@@ -5,7 +5,7 @@
    Warm phosphor-glass glow meets a hardened terminal. Surfaces
    are warm near-black so the single phosphor-green signal stays
    dominant; everything answers to the CRT: grain, faint scanlines,
-   mono annotations, a crosshair cursor, and boot-log choreography.
+   and mono annotations.
    ============================================================ */
 
 /* ---- PRIMITIVE TOKENS ---- */
@@ -202,35 +202,6 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--accent-interactive) / 0.6);
-  }
-
-  /* Custom crosshair cursor — hide native cursor only on fine pointers.
-     Text inputs keep a visible caret for usability. */
-  .cursor-fine-only {
-    display: none;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .cursor-fine-only {
-      display: block;
-    }
-
-    body,
-    body a,
-    body button,
-    body [role="button"],
-    body select,
-    body summary,
-    body label {
-      cursor: none !important;
-    }
-    body input[type="text"],
-    body input[type="email"],
-    body input[type="tel"],
-    body input[type="url"],
-    body input:not([type]),
-    body textarea {
-      cursor: text !important;
-    }
   }
 }
 
