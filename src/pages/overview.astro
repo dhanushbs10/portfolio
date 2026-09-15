@@ -1,0 +1,83 @@
+---
+import Doc from "../layouts/Doc.astro";
+import { profile } from "../data/profile";
+---
+
+<Doc title="Overview" active="overview" description="About Dhanush B S — education, interests, roadmap, credentials.">
+  <section class="mx-auto max-w-6xl px-5 pt-32 pb-20 md:px-8 md:pt-40">
+    <p class="reveal meta-label">Dossier — about</p>
+    <h1 class="reveal display mt-3 text-5xl md:text-7xl">Curious. Practical.<br />Hands-on.</h1>
+
+    <div class="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
+      <div class="space-y-5">
+        {profile.bio.map((b, i) => (
+          <p class={`reveal leading-[1.85] ${i === 0 ? "font-serif text-xl italic text-[var(--color-ink)] md:text-2xl" : "text-[var(--color-ink-2)]"}`} style={`--rd:${i * 80}ms`}>{b}</p>
+        ))}
+        <div class="reveal grid gap-3 pt-2 sm:grid-cols-3">
+          {[["Focus", "Cybersecurity"], ["Base", profile.location], ["Goal", "Network Engineer"]].map(([k, v]) => (
+            <div class="dossier p-5"><p class="meta-label">{k}</p><p class="mt-2 font-semibold">{v}</p></div>
+          ))}
+        </div>
+      </div>
+      <div class="reveal dossier h-fit p-6" style="--rd:120ms">
+        <p class="meta-label">Education</p>
+        <div class="mt-4 space-y-6">
+          {profile.education.map((e) => (
+            <div>
+              <p class="font-mono text-[0.66rem] tracking-[0.14em] text-[var(--color-ink-3)]">{e.period}</p>
+              <h3 class="display mt-1 text-lg">{e.school}</h3>
+              <p class="text-sm text-[var(--color-ink-2)]">{e.place}</p>
+              <ul class="mt-2.5 space-y-1.5">{e.points.map((pt) => <li class="flex gap-2 text-sm text-[var(--color-ink-2)]"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--color-accent)]"></span>{pt}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <p class="reveal meta-label">Interests</p>
+      <h2 class="reveal display mt-3 text-4xl md:text-5xl">What I work on.</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {profile.interests.map((it, i) => (
+          <div class="reveal dossier dossier-hover p-6" style={`--rd:${i * 60}ms`}>
+            <h3 class="display text-xl">{it.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--color-ink-2)]">{it.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <p class="reveal meta-label">Roadmap</p>
+      <h2 class="reveal display mt-3 text-4xl md:text-5xl">Where things head.</h2>
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        {[
+          ["Done", profile.roadmap.done, "text-emerald-700"],
+          ["Doing", profile.roadmap.doing, "text-[var(--color-accent-ink)]"],
+          ["Next", profile.roadmap.next, "text-[var(--color-ink-2)]"],
+        ].map(([label, items, tone], i) => (
+          <div class="reveal dossier p-6" style={`--rd:${i * 80}ms`}>
+            <p class={`font-mono text-[0.72rem] tracking-[0.2em] ${tone}`}>{label}</p>
+            <ul class="mt-4 space-y-3">{(items as string[]).map((it) => <li class="border-b border-[var(--color-line)] pb-3 text-sm text-[var(--color-ink-2)] last:border-0">{it}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-16">
+      <p class="reveal meta-label">Credentials</p>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        {profile.certifications.map((c) => (
+          <div class="reveal dossier flex items-center justify-between p-6">
+            <div><h3 class="display text-xl">{c.title}</h3><p class="mt-1 font-mono text-xs text-[var(--color-ink-2)]">{c.org}</p></div>
+            <span class="tag !border-amber-700/50 !text-amber-700">{c.status}</span>
+          </div>
+        ))}
+        <div class="reveal dossier flex items-center justify-between p-6" style="--rd:80ms">
+          <div><h3 class="display text-xl">More credentials</h3><p class="mt-1 font-mono text-xs text-[var(--color-ink-2)]">Network security pathway</p></div>
+          <span class="tag">ON THE WAY</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Doc>

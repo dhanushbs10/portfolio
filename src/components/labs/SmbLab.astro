@@ -1,0 +1,60 @@
+---
+// SMB lab — the README's real evidence: actual ipconfig values, the
+// before/after table, and the 5-step documented fix. No invented IPs.
+---
+
+<div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]" id="smb-lab">
+  <div class="flex gap-2 border-b border-[var(--color-line)] p-5">
+    <button data-view="before" class="tag !border-red-700/50 !text-red-700">✗ BEFORE — broken</button>
+    <button data-view="after" class="tag hover:!border-[var(--color-ink)]">✓ AFTER — fixed</button>
+  </div>
+
+  <div id="smb-before" class="p-6">
+    <div class="grid gap-3 font-mono text-[0.74rem] md:grid-cols-[1fr_auto_1fr] md:items-stretch">
+      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4">
+        <p class="meta-label">Desktop · wired to router</p>
+        <p class="mt-2 font-semibold">192.168.1.105 /24</p>
+        <p class="text-[var(--color-ink-2)]">gw 192.168.1.1 · DHCP 192.168.1.1</p>
+      </div>
+      <div class="grid place-items-center rounded-xl border border-red-700/40 bg-red-50 px-4 py-3 text-center text-red-700">EXTENDER<br />NAT MODE<br />⇅ double NAT</div>
+      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4">
+        <p class="meta-label">Laptop · Wi-Fi via extender</p>
+        <p class="mt-2 font-semibold">192.168.2.58 /24</p>
+        <p class="text-[var(--color-ink-2)]">gw 192.168.2.1 · DHCP 192.168.2.1</p>
+      </div>
+    </div>
+    <p class="mt-4 rounded-xl bg-red-50 p-4 font-mono text-[0.74rem] leading-relaxed text-red-800">✗ “Windows cannot access \\computername\share” — NetBIOS/LLMNR broadcasts never cross the NAT boundary.</p>
+  </div>
+
+  <div id="smb-after" class="hidden p-6">
+    <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4 font-mono text-[0.74rem]">
+      <p class="meta-label">Single broadcast domain · 192.168.1.0/24</p>
+      <p class="mt-2 font-semibold">Desktop .105 ━ Router .1 ━ Extender .200 (AP bridge) ━ Laptop .106</p>
+      <p class="text-[var(--color-ink-2)]">One DHCP server · one gateway (192.168.1.1) · broadcasts forwarded</p>
+    </div>
+    <p class="mt-4 rounded-xl bg-emerald-50 p-4 font-mono text-[0.74rem] leading-relaxed text-emerald-800">✓ \\PC\share opens instantly — Network Neighborhood populates. No Windows changes were needed.</p>
+  </div>
+
+  <ol class="space-y-2.5 border-t border-[var(--color-line)] p-6 font-mono text-[0.74rem] leading-relaxed text-[var(--color-ink-2)]">
+    <li><span class="text-[var(--color-accent-ink)]">1.</span> Services + permissions + firewall ruled out first (all healthy)</li>
+    <li><span class="text-[var(--color-accent-ink)]">2.</span> ipconfig exposed two subnets + two DHCP servers</li>
+    <li><span class="text-[var(--color-accent-ink)]">3.</span> Rogue DHCP traced to the extender in Router/NAT mode (pool .100–199)</li>
+    <li><span class="text-[var(--color-accent-ink)]">4.</span> Extender → Access Point mode, DHCP off, reboot</li>
+    <li><span class="text-[var(--color-accent-ink)]">5.</span> Both hosts on 192.168.1.x, gateway .1 — SMB verified</li>
+  </ol>
+</div>
+
+<script>
+  (() => {
+    const root = document.getElementById("smb-lab");
+    if (!root || root.dataset.init) return;
+    root.dataset.init = "1";
+    const before = root.querySelector("#smb-before");
+    const after = root.querySelector("#smb-after");
+    root.querySelectorAll("[data-view]").forEach((b) => b.addEventListener("click", () => {
+      const v = b.dataset.view;
+      before.classList.toggle("hidden", v !== "before");
+      after.classList.toggle("hidden", v !== "after");
+    }));
+  })();
+</script>

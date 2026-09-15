@@ -1,0 +1,46 @@
+---
+import Doc from "../../layouts/Doc.astro";
+import { projects, categories } from "../../data/projects";
+---
+
+<Doc title="Work" active="work" description="Seven case files across security, networking, systems and web.">
+  <section class="mx-auto max-w-6xl px-5 pt-32 pb-20 md:px-8 md:pt-40">
+    <p class="reveal meta-label">Archive — 07 case files</p>
+    <h1 class="reveal display mt-3 text-5xl md:text-7xl">Every project,<br />fully opened.</h1>
+    <p class="reveal mt-5 max-w-2xl text-[var(--color-ink-2)]">Ordered by depth — security research first. Each file carries its live exhibit, source-faithful evidence and build log.</p>
+
+    <div class="reveal mt-8 flex flex-wrap gap-2" id="filters">
+      {categories.map((c, i) => (
+        <button data-filter={c} class={`tag cursor-pointer !py-2 !px-4 transition-colors ${i === 0 ? "!border-[var(--color-ink)] !bg-[var(--color-ink)] !text-[var(--color-paper)]" : "hover:!border-[var(--color-ink)]"}`}>{c}</button>
+      ))}
+    </div>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2" id="grid">
+      {projects.map((p) => (
+        <a data-category={p.category} href={`/work/${p.slug}`} class="dossier dossier-hover group flex flex-col p-7">
+          <div class="flex items-center justify-between font-mono text-[0.68rem] tracking-[0.18em]">
+            <span class="text-[var(--color-accent-ink)]">{p.index} / {p.category.toUpperCase()}</span>
+            <span class="tag !border-emerald-600/40 !text-emerald-700">● LIVE DEMO</span>
+          </div>
+          <h2 class="display mt-5 text-4xl leading-none transition-colors group-hover:text-[var(--color-accent-ink)]">{p.title}</h2>
+          <p class="mt-3 text-sm leading-relaxed text-[var(--color-ink-2)]">{p.description}</p>
+          <div class="mt-5 flex flex-wrap gap-1.5">{p.stack.slice(0, 5).map((t) => <span class="tag">{t}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    try {
+      const btns = document.querySelectorAll("#filters button");
+      const cards = document.querySelectorAll("#grid > a");
+      const on = ["!border-[var(--color-ink)]", "!bg-[var(--color-ink)]", "!text-[var(--color-paper)]"];
+      btns.forEach((b) => b.addEventListener("click", () => {
+        btns.forEach((x) => x.classList.remove(...on));
+        b.classList.add(...on);
+        const f = b.getAttribute("data-filter");
+        cards.forEach((c) => { c.style.display = (f === "All" || c.getAttribute("data-category") === f) ? "" : "none"; });
+      }));
+    } catch { /* ignore */ }
+  </script>
+</Doc>

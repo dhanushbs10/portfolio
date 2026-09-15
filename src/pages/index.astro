@@ -1,0 +1,113 @@
+---
+import Doc from "../layouts/Doc.astro";
+import { profile } from "../data/profile";
+import { projects } from "../data/projects";
+
+const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "HOME LAB", "PACKET TRACER"];
+---
+
+<Doc>
+  <!-- Masthead -->
+  <section class="blueprint relative overflow-hidden pt-36 pb-14 md:pt-44">
+    <div class="relative mx-auto max-w-6xl px-5 md:px-8">
+      <div class="reveal flex flex-wrap items-center gap-x-6 gap-y-2 border-y border-[var(--color-line-strong)] py-3 font-mono text-[0.68rem] tracking-[0.2em] text-[var(--color-ink-2)]">
+        <span>FILE — PORTFOLIO</span><span>SUBJECT — {profile.name.toUpperCase()}</span><span class="ml-auto hidden sm:inline">STATUS — OPEN TO INTERNSHIPS</span>
+      </div>
+      <h1 class="reveal display mt-8 text-[clamp(3.2rem,10vw,7.5rem)]" style="--rd:80ms">
+        Dhanush<br />B S<span class="text-[var(--color-accent)]">.</span>
+      </h1>
+      <div class="mt-8 grid gap-8 md:grid-cols-[1fr_320px] md:items-end">
+        <div class="reveal" style="--rd:160ms">
+          <p class="font-serif text-xl italic leading-relaxed text-[var(--color-ink)] md:text-2xl">“{profile.intro}”</p>
+          <p class="mt-4 max-w-xl text-sm leading-relaxed text-[var(--color-ink-2)]">{profile.bio[0]}</p>
+          <div class="mt-7 flex flex-wrap gap-4">
+            <a href="/work" class="btn-ink">Open the work <span aria-hidden="true">→</span></a>
+            <a href="/contact" class="btn-line">Contact</a>
+          </div>
+        </div>
+        <dl class="reveal dossier divide-y divide-[var(--color-line)] p-2" style="--rd:240ms">
+          {[
+            ["Focus", "Cybersecurity"],
+            ["Pathway", "Diploma CSE · Sem 5"],
+            ["Base", profile.location],
+            ["Goal", "Network Engineer"],
+          ].map(([k, v]) => (
+            <div class="flex items-center justify-between gap-4 px-4 py-3">
+              <dt class="meta-label">{k}</dt><dd class="text-right text-sm font-semibold">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="overflow-hidden border-y border-[var(--color-line-strong)] bg-[var(--color-ink)] py-3 text-[var(--color-paper)]">
+    <div class="animate-ticker flex gap-10 font-mono text-[0.7rem] tracking-[0.22em] opacity-90">
+      {[...ticker, ...ticker].map((t) => <span class="flex items-center gap-10">{t}<span class="text-[#7d8bff]">·</span></span>)}
+    </div>
+  </div>
+
+  <!-- Work rail -->
+  <section class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
+    <div class="reveal flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="meta-label">01 — Selected work</p>
+        <h2 class="display mt-3 text-4xl md:text-6xl">Seven builds,<br />each opened fully.</h2>
+      </div>
+      <a href="/work" class="btn-line !py-2.5">All work →</a>
+    </div>
+    <div class="reveal rail mt-10" style="--rd:120ms">
+      {projects.map((p) => (
+        <a href={`/work/${p.slug}`} class="dossier dossier-hover group flex flex-col p-7">
+          <div class="flex items-center justify-between font-mono text-[0.68rem] tracking-[0.18em]">
+            <span class="text-[var(--color-accent-ink)]">{p.index} / {p.category.toUpperCase()}</span>
+            <span class="tag !border-emerald-600/40 !text-emerald-700">● LIVE DEMO</span>
+          </div>
+          <h3 class="display mt-5 text-3xl leading-none transition-colors group-hover:text-[var(--color-accent-ink)]">{p.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-[var(--color-ink-2)]">{p.tagline}</p>
+          <div class="mt-5 flex flex-wrap gap-1.5">
+            {p.stack.slice(0, 4).map((t) => <span class="tag">{t}</span>)}
+          </div>
+          <span class="mt-auto pt-6 font-mono text-xs text-[var(--color-ink-3)] transition-colors group-hover:text-[var(--color-accent-ink)]">READ CASE FILE →</span>
+        </a>
+      ))}
+    </div>
+    <p class="reveal mt-2 font-mono text-[0.68rem] tracking-[0.14em] text-[var(--color-ink-3)]">← DRAG TO BROWSE →</p>
+  </section>
+
+  <!-- Disciplines -->
+  <section class="border-y border-[var(--color-line-strong)] bg-[var(--color-card)]">
+    <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
+      <p class="reveal meta-label">02 — Disciplines</p>
+      <h2 class="reveal display mt-3 text-4xl md:text-6xl">Where I operate.</h2>
+      <div class="mt-10 overflow-hidden rounded-2xl border border-[var(--color-line-strong)]">
+        {profile.coreSkills.map((s, i) => (
+          <div class={`reveal grid gap-2 p-6 md:grid-cols-[220px_1fr] md:p-7 ${i > 0 ? "border-t border-[var(--color-line)]" : ""}`} style={`--rd:${i * 70}ms`}>
+            <h3 class="display text-2xl">{s.title}</h3>
+            <div class="flex flex-wrap gap-2 content-start">{s.tools.map((t) => <span class="tag">{t}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey -->
+  <section class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
+    <p class="reveal meta-label">03 — Journey</p>
+    <h2 class="reveal display mt-3 text-4xl md:text-6xl">Built by breaking things.</h2>
+    <ol class="mt-10">
+      {profile.journey.map((j, i) => (
+        <li class={`reveal grid gap-1 py-6 md:grid-cols-[180px_220px_1fr] md:gap-6 ${i > 0 ? "border-t border-[var(--color-line-strong)]" : "border-t border-[var(--color-line-strong)]"}`} style={`--rd:${i * 70}ms`}>
+          <span class="font-mono text-xs text-[var(--color-ink-3)]">{j.period}</span>
+          <div><h3 class="display text-xl">{j.title}</h3><p class="font-mono text-[0.7rem] text-[var(--color-accent-ink)]">{j.org}</p></div>
+          <p class="text-sm leading-relaxed text-[var(--color-ink-2)]">{j.desc}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="reveal mt-8 flex flex-wrap gap-4">
+      <a href="/overview" class="btn-line">Full overview →</a>
+      <a href="/contact" class="btn-ink">Start a conversation →</a>
+    </div>
+  </section>
+</Doc>

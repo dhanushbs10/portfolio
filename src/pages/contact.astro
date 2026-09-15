@@ -1,0 +1,41 @@
+---
+import Doc from "../layouts/Doc.astro";
+import { profile } from "../data/profile";
+const c = profile.contact;
+---
+
+<Doc title="Contact" active="contact" description="Get in touch — internships, projects, collaboration.">
+  <section class="mx-auto max-w-6xl px-5 pt-32 pb-24 md:px-8 md:pt-40">
+    <p class="reveal meta-label">Channel — open to internships</p>
+    <h1 class="reveal display mt-3 text-6xl md:text-8xl">Let's talk<span class="text-[var(--color-accent)]">.</span></h1>
+    <p class="reveal mt-5 max-w-xl text-[var(--color-ink-2)]">Projects, internships, or technical questions — any channel works.</p>
+
+    <div class="mt-10 grid gap-4 md:grid-cols-2">
+      <a href={`mailto:${c.email}`} class="reveal dossier dossier-hover group p-8">
+        <p class="meta-label">Email</p>
+        <p class="display mt-3 break-all text-2xl group-hover:text-[var(--color-accent-ink)] md:text-[1.7rem]">{c.email}</p>
+        <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">SEND AN EMAIL →</p>
+      </a>
+      <a href={`tel:${c.phone.replace(/\s/g, "")}`} class="reveal dossier dossier-hover group p-8" style="--rd:80ms">
+        <p class="meta-label">Phone</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] md:text-[1.7rem]">{c.phone}</p>
+        <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">CALL →</p>
+      </a>
+      <a href={c.github} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group p-8" style="--rd:140ms">
+        <p class="meta-label">GitHub</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)]">github.com/dhanushbs10</p>
+        <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">VIEW CODE →</p>
+      </a>
+      <a href={c.linkedin} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group p-8" style="--rd:200ms">
+        <p class="meta-label">LinkedIn</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)]">Connect professionally</p>
+        <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">CONNECT →</p>
+      </a>
+    </div>
+
+    <div class="reveal dossier mt-4 flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
+      <div><p class="meta-label">Currently</p><p class="mt-2 text-lg font-semibold">{profile.status}</p></div>
+      <a href="/work" class="btn-ink">Browse the work →</a>
+    </div>
+  </section>
+</Doc>

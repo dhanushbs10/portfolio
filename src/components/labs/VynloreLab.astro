@@ -1,0 +1,156 @@
+---
+// Vynlore lab — web miniature: generative tracks + real 3-band EQ +
+// the README's 10 genre presets (mapped onto bass/mid/treble) + spectrum.
+---
+
+<div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]" id="vyn-lab">
+  <div class="flex flex-wrap items-center gap-2 border-b border-[var(--color-line)] p-5" id="vyn-tracks">
+    <button data-track="0" class="tag !border-[var(--color-ink)] !bg-[var(--color-ink)] !text-[var(--color-paper)]">01 · Midnight Bus</button>
+    <button data-track="1" class="tag hover:!border-[var(--color-ink)]">02 · Monsoon Static</button>
+    <button data-track="2" class="tag hover:!border-[var(--color-ink)]">03 · Lab Hum</button>
+  </div>
+  <div class="grid gap-0 md:grid-cols-[1fr_290px]">
+    <div class="p-6">
+      <canvas id="vyn-viz" class="h-32 w-full rounded-xl border border-[var(--color-line)] bg-[#101014]"></canvas>
+      <div class="mt-5 flex flex-wrap items-center gap-4">
+        <button id="vyn-play" class="go">▶ Play demo</button>
+        <span class="font-mono text-xs text-[var(--color-ink-2)]"><span id="vyn-status">stopped</span> · <span id="vyn-time">00:00</span></span>
+      </div>
+      <p class="mt-4 font-mono text-[0.68rem] leading-relaxed text-[var(--color-ink-3)]">
+        Demo tracks are synthesized live via Web Audio — no files. The desktop app decodes real FLAC / WAV / AIFF / MP3 / M4A / OGG / WMA / APE / WavPack / DSD in Rust, out through WASAPI exclusive.
+      </p>
+    </div>
+    <div class="border-t border-[var(--color-line)] bg-[#faf9f5] p-6 md:border-l md:border-t-0">
+      <p class="meta-label">EQ — desktop has 10 bands + Q</p>
+      <div class="mt-4 space-y-4">
+        <div>
+          <div class="flex justify-between font-mono text-[0.7rem]"><span>BASS · 320Hz</span><span id="vyn-v0">+0dB</span></div>
+          <input id="vyn-eq0" type="range" min="-12" max="12" value="0" step="1" class="eq mt-1.5" />
+        </div>
+        <div>
+          <div class="flex justify-between font-mono text-[0.7rem]"><span>MID · 1kHz</span><span id="vyn-v1">+0dB</span></div>
+          <input id="vyn-eq1" type="range" min="-12" max="12" value="0" step="1" class="eq mt-1.5" />
+        </div>
+        <div>
+          <div class="flex justify-between font-mono text-[0.7rem]"><span>TREBLE · 3.2kHz</span><span id="vyn-v2">+0dB</span></div>
+          <input id="vyn-eq2" type="range" min="-12" max="12" value="0" step="1" class="eq mt-1.5" />
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-1.5" id="vyn-presets"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const root = document.getElementById("vyn-lab");
+    if (!root || root.dataset.init) return;
+    root.dataset.init = "1";
+
+    // README's 10 genre presets, mapped onto the 3 demo bands.
+    const PRESETS = {
+      Flat: [0, 0, 0], Rock: [5, 2, 4], Jazz: [3, 1, 2], Classical: [2, 0, 3],
+      Electronic: [6, -1, 5], "Hip-Hop": [6, 1, 2], Acoustic: [2, 2, 3],
+      Metal: [6, -2, 6], Pop: [3, 2, 4], "R&B": [5, 2, 3], Folk: [2, 3, 2],
+    };
+    const presetBox = root.querySelector("#vyn-presets");
+    Object.keys(PRESETS).forEach((name) => {
+      const b = document.createElement("button");
+      b.className = "tag hover:!border-[var(--color-ink)]";
+      b.textContent = name;
+      b.addEventListener("click", () => { ensureCtx(); setEQ(PRESETS[name]); });
+      presetBox.appendChild(b);
+    });
+
+    const SCALES = [
+      [110, 130.81, 146.83, 164.81, 196, 220],
+      [87.31, 110, 138.59, 174.61, 207.65, 261.63],
+      [130.81, 164.81, 196, 246.94, 293.66, 329.63],
+    ];
+    const TEMPO = [420, 300, 240];
+    let ctx = null, master, analyser, eqNodes = [], timer = null, step = 0, track = 0, elapsed = 0;
+
+    const canvas = root.querySelector("#vyn-viz");
+    const vctx = canvas.getContext("2d");
+    const status = root.querySelector("#vyn-status");
+    const timeEl = root.querySelector("#vyn-time");
+    const playBtn = root.querySelector("#vyn-play");
+
+    function ensureCtx() {
+      if (ctx) return;
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const low = ctx.createBiquadFilter(); low.type = "lowshelf"; low.frequency.value = 320;
+      const mid = ctx.createBiquadFilter(); mid.type = "peaking"; mid.frequency.value = 1000; mid.Q.value = 1;
+      const high = ctx.createBiquadFilter(); high.type = "highshelf"; high.frequency.value = 3200;
+      analyser = ctx.createAnalyser(); analyser.fftSize = 64;
+      master = ctx.createGain(); master.gain.value = 0.5;
+      low.connect(mid); mid.connect(high); high.connect(master); master.connect(analyser); analyser.connect(ctx.destination);
+      eqNodes = [low, mid, high];
+    }
+
+    const note = (freq, t, dur, type, vol) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type; o.frequency.value = freq;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vol, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.connect(g); g.connect(eqNodes[0]);
+      o.start(t); o.stop(t + dur + 0.05);
+    };
+    const schedule = () => {
+      const scale = SCALES[track];
+      const t = ctx.currentTime + 0.05;
+      const root_n = scale[step % scale.length];
+      note(root_n, t, (TEMPO[track] / 1000) * 1.8, "triangle", 0.5);
+      if (step % 2 === 0) note(root_n * 2, t, 0.3, "sine", 0.25);
+      if (step % 4 === 3) note(scale[(step + 3) % scale.length] / 2, t, 0.5, "sawtooth", 0.08);
+      step++;
+      elapsed += TEMPO[track] / 1000;
+      timeEl.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, "0")}:${String(Math.floor(elapsed % 60)).padStart(2, "0")}`;
+    };
+    const draw = () => {
+      if (!ctx || !timer) return;
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(data);
+      const w = (canvas.width = canvas.offsetWidth * 2);
+      const h = (canvas.height = canvas.offsetHeight * 2);
+      vctx.clearRect(0, 0, w, h);
+      const bw = w / data.length;
+      data.forEach((v, i) => {
+        const bh = (v / 255) * h;
+        vctx.fillStyle = i % 3 === 0 ? "#7d8bff" : "#2b3fff";
+        vctx.fillRect(i * bw + 2, h - bh, bw - 4, bh);
+      });
+      requestAnimationFrame(draw);
+    };
+    const play = async () => {
+      ensureCtx(); await ctx.resume();
+      step = 0; elapsed = 0; schedule();
+      timer = setInterval(schedule, TEMPO[track]);
+      status.textContent = "playing"; playBtn.textContent = "⏹ Stop"; draw();
+    };
+    const stop = () => { clearInterval(timer); timer = null; status.textContent = "stopped"; playBtn.textContent = "▶ Play demo"; };
+    playBtn.addEventListener("click", () => (timer ? stop() : play()));
+
+    root.querySelectorAll("#vyn-tracks button").forEach((b) =>
+      b.addEventListener("click", () => {
+        track = Number(b.dataset.track);
+        root.querySelectorAll("#vyn-tracks button").forEach((x) => x.classList.remove("!border-[var(--color-ink)]", "!bg-[var(--color-ink)]", "!text-[var(--color-paper)]"));
+        b.classList.add("!border-[var(--color-ink)]", "!bg-[var(--color-ink)]", "!text-[var(--color-paper)]");
+        if (timer) { stop(); play(); }
+      })
+    );
+
+    const sliders = [root.querySelector("#vyn-eq0"), root.querySelector("#vyn-eq1"), root.querySelector("#vyn-eq2")];
+    const labels = [root.querySelector("#vyn-v0"), root.querySelector("#vyn-v1"), root.querySelector("#vyn-v2")];
+    const setEQ = (vals) => vals.forEach((v, i) => {
+      sliders[i].value = v;
+      labels[i].textContent = `${v >= 0 ? "+" : ""}${v}dB`;
+      if (eqNodes[i]) eqNodes[i].gain.value = v;
+    });
+    sliders.forEach((s, i) => s.addEventListener("input", () => {
+      labels[i].textContent = `${Number(s.value) >= 0 ? "+" : ""}${s.value}dB`;
+      if (eqNodes[i]) eqNodes[i].gain.value = Number(s.value);
+    }));
+  })();
+</script>

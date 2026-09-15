@@ -1,0 +1,49 @@
+---
+// PXE lab — boot replay with the README's real values (192.168.1.10,
+// pxelinux.0, /srv/tftp, UDP 67/68/69) + the actual tcpdump debug line.
+---
+
+<div class="console" id="pxe-lab">
+  <div class="console-bar"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i><span class="ml-2">PXE BOOT REPLAY — LEGACY CLIENT · NO LOCAL DISK · FROM LAB NOTES</span></div>
+  <div class="console-body">
+    <div id="pxe-log" class="min-h-[240px] whitespace-pre-wrap"></div>
+    <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-[#23252c] pt-4">
+      <button id="pxe-run" class="go">▶ Boot the client</button>
+      <span class="font-mono text-[0.68rem] text-[#71727a]">DHCPDISCOVER → pxelinux.0 → vmlinuz → initrd → shell</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const root = document.getElementById("pxe-lab");
+    if (!root || root.dataset.init) return;
+    root.dataset.init = "1";
+    const LINES = [
+      ["CLIENT  PXE-2.1 UNDI … network boot requested", "c-dim", 500],
+      ["CLIENT → DHCPDISCOVER (broadcast)", "", 450],
+      ["SERVER → DHCPOFFER · next-server 192.168.1.10 · file pxelinux.0", "c-info", 650],
+      ["CLIENT → DHCPREQUEST · SERVER → DHCPACK", "", 450],
+      ["CLIENT → TFTP RRQ pxelinux.0 … OK (SYSLINUX)", "c-info", 550],
+      ["CLIENT → TFTP RRQ vmlinuz … OK", "c-info", 500],
+      ["CLIENT → TFTP RRQ initrd.img … OK", "c-info", 500],
+      ["KERNEL executing … initramfs mounted …", "", 600],
+      ["READY  diskless Linux shell — local disks untouched", "c-ok", 0],
+    ];
+    const log = root.querySelector("#pxe-log");
+    const btn = root.querySelector("#pxe-run");
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      log.innerHTML = "";
+      for (const [t, cls, wait] of LINES) {
+        const d = document.createElement("div");
+        if (cls) d.className = cls;
+        d.textContent = t;
+        log.appendChild(d);
+        await new Promise((r) => setTimeout(r, wait));
+      }
+      btn.disabled = false;
+      btn.textContent = "↻ Boot again";
+    });
+  })();
+</script>
