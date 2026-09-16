@@ -58,29 +58,43 @@ const stats = [
 
     <div id="progressbar" aria-hidden="true"></div>
 
-    <!-- Header -->
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-[var(--color-line)] bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)] backdrop-blur-xl">
+    <!-- Header — Lando style: transparent, only 1cookie0 + hamburger + Hire me -->
+    <header class="fixed inset-x-0 top-0 z-50">
       <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
-        <a href="/" class="flex items-center gap-3" data-magnetic>
-          <span class="grid h-8 w-8 place-items-center rounded-lg bg-[var(--color-accent)] font-mono text-sm font-bold text-white transition-transform duration-300 hover:scale-110">d.</span>
-          <span class="font-mono text-sm font-semibold tracking-tight">dhanush<span class="text-[var(--color-accent)]">.</span>folio</span>
-        </a>
-        <nav class="hidden items-center gap-8 font-mono text-[0.72rem] tracking-[0.16em] text-[var(--color-ink-2)] md:flex">
-          <a class="sweep hover:text-[var(--color-ink)]" data-active={active === "work" ? "true" : undefined} href="/work">WORK</a>
-          <a class="sweep hover:text-[var(--color-ink)]" data-active={active === "overview" ? "true" : undefined} href="/overview">OVERVIEW</a>
-          <a class="sweep hover:text-[var(--color-ink)]" data-active={active === "contact" ? "true" : undefined} href="/contact">CONTACT</a>
-        </nav>
+        <a href="/" class="font-mono text-[1.05rem] font-bold tracking-tight text-[var(--color-ink)] hover:text-[var(--color-accent)]" data-magnetic>1cookie0</a>
         <div class="flex items-center gap-3">
-          <button id="cmdk-btn" class="hidden rounded-lg border border-[var(--color-line-strong)] bg-[var(--color-card)] px-3 py-1.5 font-mono text-[0.7rem] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-ink)] sm:inline-flex" aria-label="Search" data-magnetic>⌘K</button>
-          <a href="/contact" class="btn-ink !px-4 !py-2 !text-[0.8rem]" data-magnetic>Hire me</a>
+          <a href="/contact" class="btn-ink !px-5 !py-2 !text-[0.8rem]" data-magnetic>Hire me</a>
+          <button id="menu-btn" class="grid h-9 w-9 place-items-center rounded-full border border-[var(--color-line-strong)] bg-[var(--color-card)] text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]" aria-label="Menu" aria-expanded="false">
+            <span class="flex flex-col gap-1"><span class="block h-0.5 w-4 bg-current"></span><span class="block h-0.5 w-4 bg-current"></span><span class="block h-0.5 w-3 bg-current"></span></span>
+          </button>
         </div>
       </div>
-      <div class="border-t border-[var(--color-line)] md:hidden">
-        <nav class="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-5 py-2.5 font-mono text-[0.7rem] tracking-[0.16em] text-[var(--color-ink-2)]">
-          <a href="/work">WORK</a><a href="/overview">OVERVIEW</a><a href="/contact">CONTACT</a>
-        </nav>
-      </div>
     </header>
+    <!-- Fullscreen menu -->
+    <div id="menu-overlay" hidden class="fixed inset-0 z-[60] overflow-y-auto bg-[var(--color-paper)]">
+      <div class="mx-auto max-w-7xl px-5 py-6 md:px-8">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-[0.7rem] tracking-[0.2em] text-[var(--color-ink-3)]">MENU</span>
+          <button id="menu-close" class="grid h-10 w-10 place-items-center rounded-full border border-[var(--color-line-strong)] text-[var(--color-ink)] hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]">✕</button>
+        </div>
+        <nav class="mt-10">
+          <a href="/" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">00</span> HOME</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">INDEX</span></a>
+          <a href="/work" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">01</span> WORK</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">07 CASE FILES</span></a>
+          <a href="/overview" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">02</span> OVERVIEW</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">DOSSIER</span></a>
+          <a href="/contact" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">03</span> CONTACT</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">ENCRYPTED</span></a>
+          <div class="mt-8 grid gap-2">
+            {projects.map((p) => (
+              <a href={`/work/${p.slug}`} class="flex items-center justify-between rounded-xl border border-transparent px-4 py-3 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-card)]"><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.index}</span><span class="font-mono text-sm text-[var(--color-ink)]">{p.title}</span><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.category}</span></a>
+            ))}
+          </div>
+        </nav>
+        <div class="mt-10 flex flex-wrap gap-3 border-t border-[var(--color-line)] pt-6 font-mono text-xs">
+          <a class="rounded-full border border-[var(--color-line-strong)] px-4 py-2 hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]" href={profile.contact.github} target="_blank">GitHub ↗</a>
+          <a class="rounded-full border border-[var(--color-line-strong)] px-4 py-2 hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]" href={profile.contact.linkedin} target="_blank">LinkedIn ↗</a>
+          <a class="rounded-full border border-[var(--color-line-strong)] px-4 py-2 hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]" href={`mailto:${profile.contact.email}`}>Email ↗</a>
+        </div>
+      </div>
+    </div>
 
     <main class="relative"><slot /></main>
 
@@ -240,6 +254,24 @@ const stats = [
           const t = () => { try { clock.textContent = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }); } catch { /* ignore */ } };
           t(); setInterval(t, 30000);
         }
+      } catch { /* ignore */ }
+
+      /* ── Header menu (Lando-style) ── */
+      try {
+        const btn = document.getElementById("menu-btn");
+        const ov = document.getElementById("menu-overlay");
+        const close = document.getElementById("menu-close");
+        const toggle = (show) => {
+          if (!ov || !btn) return;
+          ov.hidden = !show;
+          btn.setAttribute("aria-expanded", show ? "true" : "false");
+          document.body.style.overflow = show ? "hidden" : "";
+        };
+        btn?.addEventListener("click", () => toggle(ov.hidden));
+        close?.addEventListener("click", () => toggle(false));
+        ov?.addEventListener("click", (e) => { if (e.target === ov) toggle(false); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ov && !ov.hidden) toggle(false); });
+        ov?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => toggle(false)));
       } catch { /* ignore */ }
 
       /* ── Animated counters ── */
