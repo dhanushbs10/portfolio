@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, description, active } = Astro.props;
-const pageTitle = title ? `${title} — ${profile.name}` : `${profile.name} — ${profile.role}`;
+const pageTitle = title ? `${title} - ${profile.name}` : `${profile.name} - ${profile.role}`;
 const pageDesc = description ?? profile.intro;
 
 const stats = [
@@ -134,7 +134,7 @@ const stats = [
       </div>
     </div>
 
-    <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.index} — ${p.title}`, href: `/work/${p.slug}` })) }}>
+    <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.index} - ${p.title}`, href: `/work/${p.slug}` })) }}>
       /* ── Preloader ── */
       try {
         const pre = document.getElementById("preloader");

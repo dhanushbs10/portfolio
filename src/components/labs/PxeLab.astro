@@ -1,10 +1,10 @@
 ---
-// PXE lab — boot replay with the README's real values (192.168.1.10,
+// PXE lab - boot replay with the README's real values (192.168.1.10,
 // pxelinux.0, /srv/tftp, UDP 67/68/69) + the actual tcpdump debug line.
 ---
 
 <div class="console" id="pxe-lab">
-  <div class="console-bar"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i><span class="ml-2">PXE BOOT REPLAY — LEGACY CLIENT · NO LOCAL DISK · FROM LAB NOTES</span></div>
+  <div class="console-bar"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i><span class="ml-2">PXE BOOT REPLAY - LEGACY CLIENT · NO LOCAL DISK · FROM LAB NOTES</span></div>
   <div class="console-body">
     <div id="pxe-log" class="min-h-[240px] whitespace-pre-wrap"></div>
     <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-[#23252c] pt-4">
@@ -28,7 +28,7 @@
       ["CLIENT → TFTP RRQ vmlinuz … OK", "c-info", 500],
       ["CLIENT → TFTP RRQ initrd.img … OK", "c-info", 500],
       ["KERNEL executing … initramfs mounted …", "", 600],
-      ["READY  diskless Linux shell — local disks untouched", "c-ok", 0],
+      ["READY  diskless Linux shell - local disks untouched", "c-ok", 0],
     ];
     const log = root.querySelector("#pxe-log");
     const btn = root.querySelector("#pxe-run");

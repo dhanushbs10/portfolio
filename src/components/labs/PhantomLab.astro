@@ -1,19 +1,19 @@
 ---
-// Phantom lab — live XOR-0x55 staging visualizer + documented 8-step
+// Phantom lab - live XOR-0x55 staging visualizer + documented 8-step
 // execution trace replay (illustrative; executes nothing).
 ---
 
 <div class="grid gap-5 lg:grid-cols-2" id="px-lab">
   <div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]">
     <div class="border-b border-[var(--color-line)] p-5">
-      <p class="meta-label">XOR staging — key 0x55 · runs live</p>
+      <p class="meta-label">XOR staging - key 0x55 · runs live</p>
       <input id="px-in" value="calc.exe" maxlength="24" class="field mt-3" autocomplete="off" spellcheck="false" />
       <pre id="px-out" class="mt-3 overflow-x-auto rounded-xl bg-[var(--color-card-2)] p-4 font-mono text-[0.74rem] leading-loose"></pre>
-      <p class="mt-3 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">Plaintext never sits on disk — only XOR output is stored as payload.bin, decrypted at runtime.</p>
+      <p class="mt-3 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">Plaintext never sits on disk - only XOR output is stored as payload.bin, decrypted at runtime.</p>
     </div>
   </div>
   <div class="console flex flex-col">
-    <div class="console-bar"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i><span class="ml-2">EXECUTION TRACE — DOCUMENTED FLOW, ILLUSTRATIVE REPLAY</span></div>
+    <div class="console-bar"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i><span class="ml-2">EXECUTION TRACE - DOCUMENTED FLOW, ILLUSTRATIVE REPLAY</span></div>
     <div class="console-body flex-1">
       <div id="px-log" class="min-h-[180px] whitespace-pre-wrap"></div>
       <button id="px-run" class="go mt-4">▶ Replay trace</button>
@@ -34,8 +34,8 @@
       const hex = (n) => "0x" + n.toString(16).padStart(2, "0").toUpperCase();
       out.innerHTML = "";
       const mk = (t, c) => { const d = document.createElement("div"); d.style.color = c; d.textContent = t; out.appendChild(d); };
-      mk("plain : " + (bytes.map(hex).join(" ") || "—"), "#9ba1ae");
-      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || "—"), "#e8e8e6");
+      mk("plain : " + (bytes.map(hex).join(" ") || " - "), "#9ba1ae");
+      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || " - "), "#f7f3ef");
       mk("stored: payload.bin ← xor output only", "#4ade80");
     };
     inp.addEventListener("input", render);
@@ -43,7 +43,7 @@
 
     // The README's 8-step execution flow, verbatim sequence.
     const LINES = [
-      ["[>] loader start — no GetModuleHandle, no GetProcAddress", "c-dim"],
+      ["[>] loader start - no GetModuleHandle, no GetProcAddress", "c-dim"],
       ["[1/8] PEB traversed → kernel32.dll + ntdll.dll base addresses", "c-info"],
       ["[2/8] EAT parse → VirtualAlloc + VirtualProtect resolved manually", "c-info"],
       ["[3/8] EtwEventWrite patched in memory (xor rax, rax; ret)", "c-info"],
@@ -51,7 +51,7 @@
       ["[5/8] buffer XOR-decrypted in memory (key 0x55)", ""],
       ["[6/8] RWX allocated via resolved VirtualAlloc", ""],
       ["[7/8] payload copied → executed via function pointer", "c-ok"],
-      ["[8/8] illustrative replay — nothing was executed", "c-dim"],
+      ["[8/8] illustrative replay - nothing was executed", "c-dim"],
     ];
     const log = root.querySelector("#px-log");
     const btn = root.querySelector("#px-run");

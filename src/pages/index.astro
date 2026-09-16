@@ -21,12 +21,12 @@ const stats = [
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
       <!-- File metadata strip -->
       <div class="reveal flex flex-wrap items-center gap-x-6 gap-y-2 border-y border-[var(--color-line-strong)] py-3 font-mono text-[0.68rem] tracking-[0.2em] text-[var(--color-ink-2)]">
-        <span>FILE — PORTFOLIO</span>
-        <span>SUBJECT — {profile.name.toUpperCase()}</span>
-        <span class="ml-auto hidden sm:inline text-[var(--color-ok)]">STATUS — OPEN TO INTERNSHIPS</span>
+        <span>FILE - PORTFOLIO</span>
+        <span>SUBJECT - {profile.name.toUpperCase()}</span>
+        <span class="ml-auto hidden sm:inline text-[var(--color-ok)]">STATUS - OPEN TO INTERNSHIPS</span>
       </div>
 
-      <!-- Main heading — character assembly (Stefan Vitasović-style) -->
+      <!-- Main heading - character assembly (Stefan Vitasović-style) -->
       <h1 id="hero-title" class="display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88]" aria-label="Dhanush B S.">
         <span class="char-row"><span class="char-wrap"><span class="char" style="--i:0">D</span><span class="char" style="--i:1">h</span><span class="char" style="--i:2">a</span><span class="char" style="--i:3">n</span><span class="char" style="--i:4">u</span><span class="char" style="--i:5">s</span><span class="char" style="--i:6">h</span></span></span><br />
         <span class="char-row"><span class="char-wrap"><span class="char" style="--i:7">B</span><span class="char spacer"></span><span class="char" style="--i:8">S</span><span class="char" style="--i:9"><span class="text-[var(--color-accent)]">.</span></span></span></span>
@@ -89,11 +89,11 @@ const stats = [
     </div>
   </section>
 
-  <!-- Selected work — horizontal rail -->
+  <!-- Selected work - horizontal rail -->
   <section class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
     <div class="reveal flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p class="meta-label">01 — Selected work</p>
+        <p class="meta-label">01 - Selected work</p>
         <h2 class="display mt-3 text-4xl md:text-6xl">Seven builds,<br />each opened fully.</h2>
       </div>
       <a href="/work" class="btn-line !py-2.5" data-magnetic>All work →</a>
@@ -128,24 +128,24 @@ const stats = [
   <section class="border-y border-[var(--color-line-strong)] bg-[var(--color-card)]">
     <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
       <div class="grid gap-4 lg:grid-cols-[auto_1fr] lg:items-end">
-        <p class="reveal meta-label">02 — Featured</p>
+        <p class="reveal meta-label">02 - Featured</p>
         <h2 class="reveal display mt-3 text-4xl md:text-6xl">Deep dive: PhantomSection.</h2>
       </div>
       <p class="reveal mt-4 max-w-2xl text-[var(--color-ink-3)]" style="--rd:80ms">
-        A C++ shellcode loader that walks the PEB, parses export address tables, and patches ETW — without touching a single documented API.
+        A C++ shellcode loader that walks the PEB, parses export address tables, and patches ETW - without touching a single documented API.
       </p>
       <div class="reveal mt-10 grid gap-6 lg:grid-cols-2" style="--rd:160ms">
         <!-- Flow preview -->
         <div class="console">
           <div class="console-bar">
             <i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i>
-            <span class="ml-2">EXECUTION FLOW — 6 STEPS</span>
+            <span class="ml-2">EXECUTION FLOW - 6 STEPS</span>
           </div>
           <div class="console-body space-y-2">
             {projects[0].flow.slice(0, 4).map((f) => (
               <div class="flex gap-3">
                 <span class="c-info font-semibold">{f.step}</span>
-                <span>{f.title} — <span class="c-dim">{f.detail.slice(0, 60)}…</span></span>
+                <span>{f.title} - <span class="c-dim">{f.detail.slice(0, 60)}…</span></span>
               </div>
             ))}
             <div class="c-dim mt-2">… 2 more steps → full case file</div>
@@ -168,14 +168,14 @@ const stats = [
     </div>
   </section>
 
-  <!-- Disciplines — bento -->
+  <!-- Disciplines - bento -->
   <section class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
     <div class="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
       <div class="lg:sticky lg:top-32 lg:self-start">
-        <p class="reveal meta-label">03 — Disciplines</p>
+        <p class="reveal meta-label">03 - Disciplines</p>
         <h2 class="reveal display mt-3 text-4xl md:text-5xl">Where I<br />operate.</h2>
         <p class="reveal mt-5 max-w-md text-[var(--color-ink-3)]" style="--rd:80ms">
-          From packet-level analysis to full-stack builds — the toolkit covers security, networking, systems, and development.
+          From packet-level analysis to full-stack builds - the toolkit covers security, networking, systems, and development.
         </p>
       </div>
       <div class="grid gap-4 sm:grid-cols-2">
@@ -195,7 +195,7 @@ const stats = [
   <!-- Journey timeline -->
   <section class="border-y border-[var(--color-line-strong)] bg-[var(--color-card)]">
     <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
-      <p class="reveal meta-label">04 — Journey</p>
+      <p class="reveal meta-label">04 - Journey</p>
       <h2 class="reveal display mt-3 text-4xl md:text-6xl">Built by breaking things.</h2>
       <ol class="mt-12">
         {profile.journey.map((j, i) => (

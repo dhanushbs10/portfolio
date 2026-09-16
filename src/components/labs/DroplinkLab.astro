@@ -1,5 +1,5 @@
 ---
-// DropLink lab — real AES-256-GCM via WebCrypto, key derived with HKDF-SHA256
+// DropLink lab - real AES-256-GCM via WebCrypto, key derived with HKDF-SHA256
 // exactly as the README documents (share token → HKDF → AES-GCM).
 ---
 
@@ -16,10 +16,10 @@
       </div>
     </div>
     <div class="border-t border-[var(--color-line)] bg-[var(--color-card-2)] p-6 md:border-l md:border-t-0">
-      <label class="meta-label">Wire output — ciphertext</label>
-      <pre id="dl-cipher" class="mt-2 min-h-[86px] overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem] leading-relaxed text-[var(--color-accent-ink)]">— press Encrypt —</pre>
+      <label class="meta-label">Wire output - ciphertext</label>
+      <pre id="dl-cipher" class="mt-2 min-h-[86px] overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem] leading-relaxed text-[var(--color-accent-ink)]"> -  press Encrypt  - </pre>
       <label class="meta-label mt-4 block">Receiver output</label>
-      <pre id="dl-result" class="mt-2 min-h-[50px] whitespace-pre-wrap rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem]">—</pre>
+      <pre id="dl-result" class="mt-2 min-h-[50px] whitespace-pre-wrap rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem]"> - </pre>
       <p class="mt-4 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">
         Mirrors the app: HKDF-SHA256 key from the token. A signaling server relaying this learns nothing. Change one letter of the token and decryption fails.
       </p>
@@ -59,18 +59,18 @@
         last = `${b64(salt)}.${b64(iv)}.${b64(ct)}`;
         cipherEl.textContent = last;
         cipherEl.style.color = "";
-        resultEl.textContent = "— now press Decrypt as receiver —";
+        resultEl.textContent = " -  now press Decrypt as receiver  - ";
       } catch { cipherEl.textContent = "Encryption failed in this browser."; }
     });
 
     root.querySelector("#dl-dec").addEventListener("click", async () => {
-      if (!last) { resultEl.textContent = "Nothing to decrypt yet — encrypt first."; return; }
+      if (!last) { resultEl.textContent = "Nothing to decrypt yet - encrypt first."; return; }
       try {
         const [s, iv, ct] = last.split(".").map(unb64);
         const k = await deriveKey(passEl.value, s);
         resultEl.textContent = dec.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv }, k, ct));
       } catch {
-        resultEl.textContent = "✗ Decryption failed — token mismatch (restore the original token).";
+        resultEl.textContent = "✗ Decryption failed - token mismatch (restore the original token).";
       }
     });
   })();

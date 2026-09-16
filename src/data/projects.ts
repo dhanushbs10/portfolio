@@ -27,19 +27,19 @@ export const projects: Project[] = [
     index: "01",
     title: "PhantomSection",
     category: "Security",
-    tagline: "C++ shellcode loader — PEB walking, EAT parsing, ETW patching.",
+    tagline: "C++ shellcode loader - PEB walking, EAT parsing, ETW patching.",
     description:
       "PhantomSection is a C++ shellcode loader that combines PEB walking, Export Address Table (EAT) parsing, and ETW patching to evade userland API hooking and telemetry. Payloads are staged and XOR-encrypted to bypass static signature analysis.",
     stack: ["C++", "Win32 API", "PEB Walking", "EAT Parsing", "ETW Patching", "XOR 0x55", "msfvenom", "Python", "PowerShell", "Visual Studio"],
     github: "https://github.com/dhanushbs10/PhantomSection",
     features: [
-      "API unhooking via PEB walking — no GetModuleHandle",
-      "Manual function resolution via EAT parsing — no GetProcAddress",
+      "API unhooking via PEB walking - no GetModuleHandle",
+      "Manual function resolution via EAT parsing - no GetProcAddress",
       "Telemetry blinding via ETW patching (EtwEventWrite → xor rax, rax; ret)",
       "Runtime XOR payload decryption, staged separately as payload.bin",
     ],
     flow: [
-      { step: "01", title: "Loader starts", detail: "Executable starts with no suspicious imports — no GetModuleHandle, no GetProcAddress." },
+      { step: "01", title: "Loader starts", detail: "Executable starts with no suspicious imports - no GetModuleHandle, no GetProcAddress." },
       { step: "02", title: "PEB traversal", detail: "Walks InMemoryOrderModuleList to locate kernel32.dll and ntdll.dll base addresses." },
       { step: "03", title: "EAT parsing", detail: "Parses Export Address Tables from PE headers to resolve VirtualAlloc and VirtualProtect manually." },
       { step: "04", title: "ETW patch", detail: "Overwrites the EtwEventWrite prologue in ntdll.dll with a direct return before injection." },
@@ -80,24 +80,24 @@ export const projects: Project[] = [
       "Place PhantomSection.exe + payload.bin together → execute",
     ],
     disclaimer:
-      "Educational and defensive-research purposes only — to understand how threat actors operate so defenders can build better telemetry and mitigations.",
+      "Educational and defensive-research purposes only - to understand how threat actors operate so defenders can build better telemetry and mitigations.",
   },
   {
     slug: "droplink",
     index: "02",
     title: "DropLink",
     category: "Security",
-    tagline: "Secure peer-to-peer file and text transfer — WebRTC + AES-256-GCM.",
+    tagline: "Secure peer-to-peer file and text transfer - WebRTC + AES-256-GCM.",
     description:
       "DropLink uses WebRTC for direct browser-to-browser connections and AES-256-GCM end-to-end encryption. No file data ever touches a server. Transfers run entirely between the two participants; the signaling server only coordinates the initial handshake.",
     stack: ["Next.js 16", "React 19", "TypeScript 5", "Tailwind CSS 3", "WebRTC DataChannels", "Socket.io 4", "Supabase", "PostgreSQL", "Radix UI"],
     github: "https://github.com/dhanushbs10/droplink",
     features: [
-      "Guest mode — start a transfer immediately without an account",
-      "Optional accounts — history and one-click reconnect to buddies",
+      "Guest mode - start a transfer immediately without an account",
+      "Optional accounts - history and one-click reconnect to buddies",
       "AES-256-GCM over WebRTC DataChannels; key derived from a share token via HKDF-SHA256",
       "Text, code and password sharing with syntax highlighting + auto-copy",
-      "Folder uploads — recursive drag-and-drop with per-file progress",
+      "Folder uploads - recursive drag-and-drop with per-file progress",
       "Auto-resume on interruption; QR-code join; clipboard sync",
       "ICE-restart auto-reconnect; signaling rate-limited at 30/IP/min",
     ],
@@ -105,11 +105,11 @@ export const projects: Project[] = [
       { step: "01", title: "Create room", detail: "Sender clicks Create Room → signaling server (server/index.ts) assigns a room code." },
       { step: "02", title: "Share link", detail: "Sender shares link (room code + share token). The share token is never sent to the server." },
       { step: "03", title: "Join + handshake", detail: "Receiver joins via signaling; peers exchange SDP offers/answers and ICE candidates." },
-      { step: "04", title: "Encrypted channel", detail: "AES-256-GCM key derived from the share token (HKDF-SHA256). All control messages and chunks encrypted — server sees ciphertext only." },
+      { step: "04", title: "Encrypted channel", detail: "AES-256-GCM key derived from the share token (HKDF-SHA256). All control messages and chunks encrypted - server sees ciphertext only." },
     ],
     tables: [
       {
-        title: "Architecture — three pieces",
+        title: "Architecture - three pieces",
         table: {
           head: ["Piece", "Role"],
           rows: [
@@ -121,7 +121,7 @@ export const projects: Project[] = [
       },
       {
         title: "Environment variables",
-        note: "From .env.example — copy to .env.local",
+        note: "From .env.example - copy to .env.local",
         table: {
           head: ["Variable", "Purpose"],
           rows: [
@@ -156,7 +156,7 @@ export const projects: Project[] = [
     index: "03",
     title: "Vynlore",
     category: "Systems",
-    tagline: "Lossless-first desktop music player — Tauri v2, React, Rust.",
+    tagline: "Lossless-first desktop music player - Tauri v2, React, Rust.",
     description:
       "A local music player designed for audiophiles who care about playback quality. It decodes all major formats natively in Rust, outputs through WASAPI exclusive mode for bit-perfect delivery, and ships with a 10-band parametric equalizer with genre-aware presets.",
     stack: ["Rust", "Tauri v2", "React 19", "TypeScript", "Tailwind v4", "Vite", "Symphonia", "CPAL", "WASAPI"],
@@ -172,7 +172,7 @@ export const projects: Project[] = [
       "Fullscreen now-playing with synced lyrics; Ctrl+K search; queue reorder; media keys",
     ],
     flow: [
-      { step: "01", title: "Decode in Rust", detail: "Symphonia decodes the file natively — no system codecs involved." },
+      { step: "01", title: "Decode in Rust", detail: "Symphonia decodes the file natively - no system codecs involved." },
       { step: "02", title: "Shape the signal", detail: "Real-time EQ via biquad filters: 10 parametric bands + shelves + preamp." },
       { step: "03", title: "Bit-perfect output", detail: "CPAL pushes audio through WASAPI exclusive mode to the selected device." },
       { step: "04", title: "Library + interface", detail: "React frontend: watching, search palette, queue, now-playing, file association." },
@@ -196,7 +196,7 @@ export const projects: Project[] = [
         table: {
           head: ["Platform", "Installer"],
           rows: [
-            ["Windows", ".exe (NSIS) — then set as default player in Settings"],
+            ["Windows", ".exe (NSIS) - then set as default player in Settings"],
             ["macOS", ".dmg"],
             ["Linux", ".deb, .AppImage"],
           ],
@@ -222,23 +222,23 @@ export const projects: Project[] = [
     index: "04",
     title: "ShellPlay",
     category: "Web",
-    tagline: "Browser Linux terminal — 100+ commands, in-memory filesystem.",
+    tagline: "Browser Linux terminal - 100+ commands, in-memory filesystem.",
     description:
-      "A fully functional browser-based Linux terminal simulator with 100+ commands, a full shell script interpreter, and a virtual filesystem. All state lives in memory only — when you close the browser, everything is wiped clean.",
+      "A fully functional browser-based Linux terminal simulator with 100+ commands, a full shell script interpreter, and a virtual filesystem. All state lives in memory only - when you close the browser, everything is wiped clean.",
     stack: ["Next.js 16", "React", "TypeScript", "Tailwind CSS"],
     github: "https://github.com/dhanushbs10/ShellPlay",
     features: [
       "100+ commands: navigation, files, text processing, system info, processes, networking, users",
-      "Command catalog modal — 40+ commands across 9 categories, click to autofill",
+      "Command catalog modal - 40+ commands across 9 categories, click to autofill",
       "Bash interpreter: variables, loops, conditionals, functions, substitution, pipes, redirection",
-      "In-memory VFS with permissions, ownership, timestamps — zero disk I/O",
+      "In-memory VFS with permissions, ownership, timestamps - zero disk I/O",
       "Green (#00ff88) / amber (#ffb700) themes on #0d0d0d; history, tab-complete, help overlay",
     ],
     flow: [
-      { step: "01", title: "Type", detail: "Input with history (↑↓), tab autocomplete and live descriptions — prompt user@linux-sim:/path$" },
+      { step: "01", title: "Type", detail: "Input with history (↑↓), tab autocomplete and live descriptions - prompt user@linux-sim:/path$" },
       { step: "02", title: "Execute", detail: "CommandExecutor (50+ implementations) parses args, operates on the VFS, returns formatted output." },
       { step: "03", title: "Script", detail: "ShellInterpreter runs bash scripts with variables, loops and conditionals." },
-      { step: "04", title: "Isolate", detail: "Everything in memory — close the tab and the whole machine evaporates." },
+      { step: "04", title: "Isolate", detail: "Everything in memory - close the tab and the whole machine evaporates." },
     ],
     tables: [
       {
@@ -259,10 +259,10 @@ export const projects: Project[] = [
         table: {
           head: ["Area", "Status"],
           rows: [
-            ["Network commands", "Simulated — no real network access"],
+            ["Network commands", "Simulated - no real network access"],
             ["Processes", "Simulated ps/top data"],
             ["Scripting", "Simplified core features"],
-            ["Persistence", "None — memory only"],
+            ["Persistence", "None - memory only"],
           ],
         },
       },
@@ -278,7 +278,7 @@ export const projects: Project[] = [
       "Prerequisites: Node.js 18+, pnpm/npm/yarn",
       "pnpm install",
       "pnpm dev  →  http://localhost:3000",
-      "Pure TypeScript engine — no external dependencies for FS/commands",
+      "Pure TypeScript engine - no external dependencies for FS/commands",
     ],
   },
   {
@@ -286,13 +286,13 @@ export const projects: Project[] = [
     index: "05",
     title: "PXE Network Boot Lab",
     category: "Networking",
-    tagline: "Diskless Linux boot — DHCP options 66/67 + TFTP + pxelinux.0.",
+    tagline: "Diskless Linux boot - DHCP options 66/67 + TFTP + pxelinux.0.",
     description:
-      "A complete PXE boot implementation: a Linux server providing DHCP and TFTP that boots a legacy PC entirely over the network — bootloader, kernel and initramfs downloaded, no local OS required.",
+      "A complete PXE boot implementation: a Linux server providing DHCP and TFTP that boots a legacy PC entirely over the network - bootloader, kernel and initramfs downloaded, no local OS required.",
     stack: ["Linux", "PXE", "DHCP", "TFTP", "SYSLINUX", "UDP"],
     github: "https://github.com/dhanushbs10/PXE-Network-Boot-Lab",
     features: [
-      "Legacy PC booted diskless — PXE ROM → DHCP → TFTP → Linux from RAM",
+      "Legacy PC booted diskless - PXE ROM → DHCP → TFTP → Linux from RAM",
       "DHCP options 66 (TFTP server) + 67 (bootfile) configured and verified with tcpdump",
       "TFTP root at /srv/tftp, world-readable, 512-byte block transfers over UDP/69",
       "SYSLINUX/PXELINUX for BIOS clients; GRUB2 path documented for UEFI",
@@ -302,19 +302,19 @@ export const projects: Project[] = [
       { step: "01", title: "Power on", detail: "BIOS/UEFI hands control to the NIC's PXE firmware." },
       { step: "02", title: "DHCP discover", detail: "Client broadcasts DHCPDISCOVER requesting config + PXE options." },
       { step: "03", title: "DHCP offer", detail: "Server replies: client IP, mask, gateway, DNS, TFTP address, bootfile pxelinux.0." },
-      { step: "04", title: "TFTP fetch", detail: "Bootloader, then vmlinuz kernel, then initramfs — pulled over TFTP." },
-      { step: "05", title: "Boot from RAM", detail: "Kernel executes, initramfs mounts — a working Linux with untouched local disks." },
+      { step: "04", title: "TFTP fetch", detail: "Bootloader, then vmlinuz kernel, then initramfs - pulled over TFTP." },
+      { step: "05", title: "Boot from RAM", detail: "Kernel executes, initramfs mounts - a working Linux with untouched local disks." },
     ],
     tables: [
       {
         title: "The fix that unblocked boot",
-        note: "Missing DHCP options 66/67 — added to dhcpd.conf, restarted dhcpd",
+        note: "Missing DHCP options 66/67 - added to dhcpd.conf, restarted dhcpd",
         table: {
           head: ["File", "Change"],
           rows: [
             ["dhcpd.conf", 'option tftp-server-name "192.168.1.10"; filename "pxelinux.0";'],
             ["TFTP root", "chmod 644 /srv/tftp/linux/vmlinuz + initrd.img"],
-            ["Firewall", "Allow UDP 67, 68, 69 — or verify with tcpdump"],
+            ["Firewall", "Allow UDP 67, 68, 69 - or verify with tcpdump"],
           ],
         },
       },
@@ -357,16 +357,16 @@ export const projects: Project[] = [
     index: "06",
     title: "ESP8266 Wake-on-LAN",
     category: "Networking",
-    tagline: "Wireless PC power button — NodeMCU + touch sensor + LCD.",
+    tagline: "Wireless PC power button - NodeMCU + touch sensor + LCD.",
     description:
-      "A wireless remote PC power-on button using a NodeMCU ESP8266, Wake-on-LAN, and a 16x2 I2C LCD display. Press a capacitive touch sensor to wake a desktop computer over the network — about $8–12 in parts.",
+      "A wireless remote PC power-on button using a NodeMCU ESP8266, Wake-on-LAN, and a 16x2 I2C LCD display. Press a capacitive touch sensor to wake a desktop computer over the network - about $8–12 in parts.",
     stack: ["ESP8266", "Arduino", "C++", "WakeOnLan lib", "I2C LCD", "TTP223 Touch"],
     github: "https://github.com/dhanushbs10/ESP8266-Wake-on-LAN",
     features: [
-      "Capacitive touch (TTP223 on D6/GPIO12) — tap to send the magic packet",
+      "Capacitive touch (TTP223 on D6/GPIO12) - tap to send the magic packet",
       "16x2 I2C LCD (0x27) status flow: WiFi Connected → Ready to Touch → WAKING PC... → Packet Sent!",
       "Auto WiFi reconnect, millis()-based non-blocking loop, 200 ms debounce",
-      "Local-network only — no cloud dependency; MIT licensed",
+      "Local-network only - no cloud dependency; MIT licensed",
     ],
     flow: [
       { step: "01", title: "Touch", detail: "TTP223 sensor on D6 fires; debounce filters false triggers." },
@@ -381,8 +381,8 @@ export const projects: Project[] = [
           head: ["Part", "Notes"],
           rows: [
             ["NodeMCU ESP8266 (ESP-12E)", "Main board"],
-            ["16x2 I2C LCD (PCF8574)", "Address 0x27 — needs 5V from VIN"],
-            ["TTP223 touch sensor", "Digital out to D6 — 3.3V supply"],
+            ["16x2 I2C LCD (PCF8574)", "Address 0x27 - needs 5V from VIN"],
+            ["TTP223 touch sensor", "Digital out to D6 - 3.3V supply"],
             ["Jumper wires + Micro-USB", "Programming and power"],
           ],
         },
@@ -393,7 +393,7 @@ export const projects: Project[] = [
           head: ["Connection", "Pin"],
           rows: [
             ["LCD SCL / SDA", "D1 (GPIO5) / D2 (GPIO4)"],
-            ["LCD VCC / GND", "VIN 5V / GND — never 3.3V"],
+            ["LCD VCC / GND", "VIN 5V / GND - never 3.3V"],
             ["Touch OUT / VCC / GND", "D6 (GPIO12) / 3V3 / GND"],
           ],
         },
@@ -434,27 +434,27 @@ export const projects: Project[] = [
     index: "07",
     title: "Cross-Subnet SMB Fix",
     category: "Networking",
-    tagline: "Extender NAT silently split the LAN — diagnosed to Layer 3.",
+    tagline: "Extender NAT silently split the LAN - diagnosed to Layer 3.",
     description:
-      "Root-cause diagnosis of a Wi-Fi extender's NAT mode silently splitting a home network into two subnets, breaking Windows file sharing. Fixed by converting the extender to access-point mode — no Windows changes needed.",
+      "Root-cause diagnosis of a Wi-Fi extender's NAT mode silently splitting a home network into two subnets, breaking Windows file sharing. Fixed by converting the extender to access-point mode - no Windows changes needed.",
     stack: ["TCP/IP", "Subnetting", "SMB", "DHCP", "NAT", "Wireshark-style analysis"],
     github: "https://github.com/dhanushbs10/Cross-Subnet-SMB-Sharing-Fix",
     features: [
       "8-step elimination: services → permissions → firewall → ipconfig → ping → DHCP trace → extender UI",
-      "Caught by evidence: laptop gateway 192.168.2.1 vs desktop 192.168.1.1 — a second DHCP server",
+      "Caught by evidence: laptop gateway 192.168.2.1 vs desktop 192.168.1.1 - a second DHCP server",
       "Root cause: extender in Router/NAT mode with DHCP pool 192.168.2.100–199",
       "Fix: AP/bridge mode, extender DHCP off → single 192.168.1.0/24, sharing restored instantly",
     ],
     flow: [
       { step: "01", title: "Symptoms", detail: "Shares refused to open; Network Neighborhood empty; \\\\IP\\share failed; ping-by-name failed but ping-by-IP worked." },
-      { step: "02", title: "Rule out Windows", detail: "Discovery services running, Everyone permissions set, firewall disabled temporarily — no change." },
+      { step: "02", title: "Rule out Windows", detail: "Discovery services running, Everyone permissions set, firewall disabled temporarily - no change." },
       { step: "03", title: "ipconfig reveals", detail: "Desktop 192.168.1.105/24 via 192.168.1.1; laptop 192.168.2.58/24 via 192.168.2.1. Two subnets, two DHCP servers." },
-      { step: "04", title: "Trace the rogue DHCP", detail: "192.168.2.1 was the extender — running Router/NAT mode, its own pool and gateway." },
-      { step: "05", title: "Fix + verify", detail: "AP mode, DHCP off, reboot, renew — both on 192.168.1.x, same gateway, SMB works." },
+      { step: "04", title: "Trace the rogue DHCP", detail: "192.168.2.1 was the extender - running Router/NAT mode, its own pool and gateway." },
+      { step: "05", title: "Fix + verify", detail: "AP mode, DHCP off, reboot, renew - both on 192.168.1.x, same gateway, SMB works." },
     ],
     tables: [
       {
-        title: "Smoking gun — ipconfig /all",
+        title: "Smoking gun - ipconfig /all",
         table: {
           head: ["Interface", "Address"],
           rows: [
