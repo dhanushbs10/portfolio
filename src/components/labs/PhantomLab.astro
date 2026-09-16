@@ -35,7 +35,7 @@
       out.innerHTML = "";
       const mk = (t, c) => { const d = document.createElement("div"); d.style.color = c; d.textContent = t; out.appendChild(d); };
       mk("plain : " + (bytes.map(hex).join(" ") || " - "), "#9ba1ae");
-      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || " - "), "#f7f3ef");
+      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || " - "), "#f2f4f7");
       mk("stored: payload.bin ← xor output only", "#4ade80");
     };
     inp.addEventListener("input", render);

@@ -7,7 +7,7 @@
   <div class="console-bar">
     <i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i>
     <span class="ml-2" id="sh-title">user@linux-sim: ~</span>
-    <button id="sh-theme" class="ml-auto rounded-md border border-[#2b2e37] px-2.5 py-1 text-[0.65rem] tracking-[0.12em] hover:border-[#f7f3ef]">AMBER</button>
+    <button id="sh-theme" class="ml-auto rounded-md border border-[#2b2e37] px-2.5 py-1 text-[0.65rem] tracking-[0.12em] hover:border-[#f2f4f7]">AMBER</button>
   </div>
   <div class="console-body">
     <div id="sh-out" class="max-h-[300px] min-h-[220px] overflow-y-auto whitespace-pre-wrap"></div>
@@ -171,7 +171,7 @@
     };
 
     print("ShellPlay miniature - memory-only filesystem, zero side effects.", "#71727a");
-    print('Type "help" to begin.', "#f7f3ef");
+    print('Type "help" to begin.', "#f2f4f7");
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "ArrowUp") { e.preventDefault(); if (hi > 0) { hi--; input.value = hist[hi] ?? ""; } return; }
