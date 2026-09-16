@@ -4,21 +4,26 @@ import { profile } from "../data/profile";
 ---
 
 <Doc title="Overview" active="overview" description="About Dhanush B S — education, interests, roadmap, credentials.">
-  <section class="mx-auto max-w-6xl px-5 pt-32 pb-20 md:px-8 md:pt-40">
+  <section class="mx-auto max-w-7xl px-5 pt-32 pb-20 md:px-8 md:pt-40">
     <p class="reveal meta-label">Dossier — about</p>
     <h1 class="reveal display mt-3 text-5xl md:text-7xl">Curious. Practical.<br />Hands-on.</h1>
 
-    <div class="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
+    <!-- Bio + education -->
+    <div class="mt-12 grid gap-8 lg:grid-cols-[1fr_380px]">
       <div class="space-y-5">
         {profile.bio.map((b, i) => (
           <p class={`reveal leading-[1.85] ${i === 0 ? "font-serif text-xl italic text-[var(--color-ink)] md:text-2xl" : "text-[var(--color-ink-2)]"}`} style={`--rd:${i * 80}ms`}>{b}</p>
         ))}
-        <div class="reveal grid gap-3 pt-2 sm:grid-cols-3">
+        <div class="reveal grid gap-3 pt-2 sm:grid-cols-3" style="--rd:200ms">
           {[["Focus", "Cybersecurity"], ["Base", profile.location], ["Goal", "Network Engineer"]].map(([k, v]) => (
-            <div class="dossier p-5"><p class="meta-label">{k}</p><p class="mt-2 font-semibold">{v}</p></div>
+            <div class="dossier p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-line-strong)] hover:shadow-lg">
+              <p class="meta-label">{k}</p><p class="mt-2 font-semibold">{v}</p>
+            </div>
           ))}
         </div>
       </div>
+
+      <!-- Education dossier -->
       <div class="reveal dossier h-fit p-6" style="--rd:120ms">
         <p class="meta-label">Education</p>
         <div class="mt-4 space-y-6">
@@ -27,14 +32,17 @@ import { profile } from "../data/profile";
               <p class="font-mono text-[0.66rem] tracking-[0.14em] text-[var(--color-ink-3)]">{e.period}</p>
               <h3 class="display mt-1 text-lg">{e.school}</h3>
               <p class="text-sm text-[var(--color-ink-2)]">{e.place}</p>
-              <ul class="mt-2.5 space-y-1.5">{e.points.map((pt) => <li class="flex gap-2 text-sm text-[var(--color-ink-2)]"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--color-accent)]"></span>{pt}</li>)}</ul>
+              <ul class="mt-2.5 space-y-1.5">
+                {e.points.map((pt) => <li class="flex gap-2 text-sm text-[var(--color-ink-2)]"><span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--color-accent)]"></span>{pt}</li>)}
+              </ul>
             </div>
           ))}
         </div>
       </div>
     </div>
 
-    <div class="mt-16">
+    <!-- Interests -->
+    <div class="mt-20">
       <p class="reveal meta-label">Interests</p>
       <h2 class="reveal display mt-3 text-4xl md:text-5xl">What I work on.</h2>
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,7 +55,8 @@ import { profile } from "../data/profile";
       </div>
     </div>
 
-    <div class="mt-16">
+    <!-- Roadmap -->
+    <div class="mt-20">
       <p class="reveal meta-label">Roadmap</p>
       <h2 class="reveal display mt-3 text-4xl md:text-5xl">Where things head.</h2>
       <div class="mt-8 grid gap-4 md:grid-cols-3">
@@ -58,18 +67,24 @@ import { profile } from "../data/profile";
         ].map(([label, items, tone], i) => (
           <div class="reveal dossier p-6" style={`--rd:${i * 80}ms`}>
             <p class={`font-mono text-[0.72rem] tracking-[0.2em] ${tone}`}>{label}</p>
-            <ul class="mt-4 space-y-3">{(items as string[]).map((it) => <li class="border-b border-[var(--color-line)] pb-3 text-sm text-[var(--color-ink-2)] last:border-0">{it}</li>)}</ul>
+            <ul class="mt-4 space-y-3">
+              {(items as string[]).map((it) => <li class="border-b border-[var(--color-line)] pb-3 text-sm text-[var(--color-ink-2)] last:border-0">{it}</li>)}
+            </ul>
           </div>
         ))}
       </div>
     </div>
 
-    <div class="mt-16">
+    <!-- Credentials -->
+    <div class="mt-20">
       <p class="reveal meta-label">Credentials</p>
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         {profile.certifications.map((c) => (
           <div class="reveal dossier flex items-center justify-between p-6">
-            <div><h3 class="display text-xl">{c.title}</h3><p class="mt-1 font-mono text-xs text-[var(--color-ink-2)]">{c.org}</p></div>
+            <div>
+              <h3 class="display text-xl">{c.title}</h3>
+              <p class="mt-1 font-mono text-xs text-[var(--color-ink-2)]">{c.org} · credential pathway</p>
+            </div>
             <span class="tag !border-amber-700/50 !text-amber-700">{c.status}</span>
           </div>
         ))}
@@ -78,6 +93,15 @@ import { profile } from "../data/profile";
           <span class="tag">ON THE WAY</span>
         </div>
       </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="reveal mt-20 flex flex-col items-start justify-between gap-6 rounded-2xl bg-[var(--color-ink)] p-8 text-[var(--color-paper)] md:flex-row md:items-center">
+      <div>
+        <p class="meta-label" style="color:rgba(246,246,243,0.5)">Open to internships</p>
+        <h3 class="display mt-2 text-2xl md:text-3xl">Let's turn this roadmap into a team.<span class="text-[#7d8bff]">.</span></h3>
+      </div>
+      <a href="/contact" class="btn-ink !bg-[var(--color-paper)] !text-[var(--color-ink)] hover:!bg-white" data-magnetic>Get in touch →</a>
     </div>
   </section>
 </Doc>

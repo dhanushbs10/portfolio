@@ -12,6 +12,13 @@ interface Props {
 const { title, description, active } = Astro.props;
 const pageTitle = title ? `${title} — ${profile.name}` : `${profile.name} — ${profile.role}`;
 const pageDesc = description ?? profile.intro;
+
+const stats = [
+  { label: "Projects shipped", value: 7 },
+  { label: "Open-source repos", value: 7 },
+  { label: "Networking labs", value: 3 },
+  { label: "Languages used", value: 5 },
+];
 ---
 
 <!doctype html>
@@ -24,6 +31,7 @@ const pageDesc = description ?? profile.intro;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#16150f" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,12 +42,31 @@ const pageDesc = description ?? profile.intro;
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen">
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-text">
+        {"dhanush.".split("").map((ch, i) => <span style={`--i:${i}`}>{ch}</span>)}
+      </div>
+    </div>
+
+    <!-- Grain overlay -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="page-transition" aria-hidden="true"></div>
+
+    <!-- Cursor follower (desktop only) -->
+    <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
     <div id="progressbar" aria-hidden="true"></div>
 
+    <!-- Header -->
     <header class="fixed inset-x-0 top-0 z-50 border-b border-[var(--color-line)] bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)] backdrop-blur-xl">
-      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
-        <a href="/" class="flex items-center gap-3">
-          <span class="grid h-8 w-8 place-items-center rounded-lg bg-[var(--color-ink)] font-mono text-sm font-bold text-[var(--color-paper)]">d.</span>
+      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
+        <a href="/" class="flex items-center gap-3" data-magnetic>
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-[var(--color-ink)] font-mono text-sm font-bold text-[var(--color-paper)] transition-transform duration-300 hover:scale-110">d.</span>
           <span class="font-mono text-sm font-semibold tracking-tight">dhanush<span class="text-[var(--color-accent)]">.</span>folio</span>
         </a>
         <nav class="hidden items-center gap-8 font-mono text-[0.72rem] tracking-[0.16em] text-[var(--color-ink-2)] md:flex">
@@ -48,12 +75,12 @@ const pageDesc = description ?? profile.intro;
           <a class="sweep hover:text-[var(--color-ink)]" data-active={active === "contact" ? "true" : undefined} href="/contact">CONTACT</a>
         </nav>
         <div class="flex items-center gap-3">
-          <button id="cmdk-btn" class="hidden rounded-lg border border-[var(--color-line-strong)] bg-[var(--color-card)] px-3 py-1.5 font-mono text-[0.7rem] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-ink)] sm:inline-flex" aria-label="Search">⌘K</button>
-          <a href="/contact" class="btn-ink !px-4 !py-2 !text-[0.8rem]">Hire me</a>
+          <button id="cmdk-btn" class="hidden rounded-lg border border-[var(--color-line-strong)] bg-[var(--color-card)] px-3 py-1.5 font-mono text-[0.7rem] text-[var(--color-ink-2)] hover:border-[var(--color-accent)] hover:text-[var(--color-ink)] sm:inline-flex" aria-label="Search" data-magnetic>⌘K</button>
+          <a href="/contact" class="btn-ink !px-4 !py-2 !text-[0.8rem]" data-magnetic>Hire me</a>
         </div>
       </div>
       <div class="border-t border-[var(--color-line)] md:hidden">
-        <nav class="mx-auto flex max-w-6xl items-center gap-6 overflow-x-auto px-5 py-2.5 font-mono text-[0.7rem] tracking-[0.16em] text-[var(--color-ink-2)]">
+        <nav class="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-5 py-2.5 font-mono text-[0.7rem] tracking-[0.16em] text-[var(--color-ink-2)]">
           <a href="/work">WORK</a><a href="/overview">OVERVIEW</a><a href="/contact">CONTACT</a>
         </nav>
       </div>
@@ -61,26 +88,50 @@ const pageDesc = description ?? profile.intro;
 
     <main class="relative"><slot /></main>
 
-    <footer class="relative border-t-2 border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-paper)]">
-      <div class="mx-auto max-w-6xl px-5 py-16 md:px-8">
-        <p class="font-mono text-[0.7rem] tracking-[0.22em] opacity-60">NEXT STEP</p>
-        <a href="/contact" class="display mt-4 inline-block text-5xl hover:text-white md:text-7xl">
-          Let's build<span class="text-[var(--color-accent)]" style="color:#7d8bff">.</span>
-        </a>
-        <p class="mt-5 max-w-md text-sm leading-relaxed opacity-70">{profile.status} · {profile.location} · <span id="clock" class="font-mono">--:--</span> IST</p>
-        <div class="mt-8 flex flex-wrap gap-3 font-mono text-xs">
-          <a class="rounded-full border border-white/25 px-4 py-2 transition-colors hover:border-white hover:text-white" href={profile.contact.github} target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a class="rounded-full border border-white/25 px-4 py-2 transition-colors hover:border-white hover:text-white" href={profile.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <a class="rounded-full border border-white/25 px-4 py-2 transition-colors hover:border-white hover:text-white" href={`mailto:${profile.contact.email}`}>Email ↗</a>
+    <!-- Footer -->
+    <footer class="relative overflow-hidden border-t-2 border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-paper)]">
+      <!-- Decorative grid -->
+      <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px); background-size: 60px 60px;"></div>
+
+      <div class="relative mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <!-- Stats row -->
+        <div class="reveal grid grid-cols-2 gap-6 border-b border-white/10 pb-10 md:grid-cols-4">
+          {stats.map((s, i) => (
+            <div style={`--rd:${i * 80}ms`}>
+              <p class="stat-num text-4xl text-[var(--color-paper)] md:text-5xl" data-count-to={s.value}>0</p>
+              <p class="mt-2 font-mono text-[0.68rem] tracking-[0.14em] text-white/50">{s.label.toUpperCase()}</p>
+            </div>
+          ))}
         </div>
-        <div class="mt-12 flex flex-col justify-between gap-3 border-t border-white/15 pt-6 font-mono text-[0.7rem] opacity-60 md:flex-row">
+
+        <!-- CTA row -->
+        <div class="mt-14 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="font-mono text-[0.7rem] tracking-[0.22em] text-white/40">NEXT STEP</p>
+            <a href="/contact" class="display mt-4 inline-block text-5xl hover:text-white md:text-7xl">
+              Let's build<span class="text-[#7d8bff]">.</span>
+            </a>
+            <p class="mt-5 max-w-md text-sm leading-relaxed text-white/60">{profile.status} · {profile.location} · <span id="clock" class="font-mono">--:--</span> IST</p>
+          </div>
+          <div class="flex flex-col items-start gap-3 md:items-end">
+            <div class="flex flex-wrap gap-3 font-mono text-xs">
+              <a class="rounded-full border border-white/20 px-5 py-2.5 transition-all duration-300 hover:border-white hover:bg-white hover:text-[var(--color-ink)]" href={profile.contact.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+              <a class="rounded-full border border-white/20 px-5 py-2.5 transition-all duration-300 hover:border-white hover:bg-white hover:text-[var(--color-ink)]" href={profile.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <a class="rounded-full border border-white/20 px-5 py-2.5 transition-all duration-300 hover:border-white hover:bg-white hover:text-[var(--color-ink)]" href={`mailto:${profile.contact.email}`}>Email ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="mt-14 flex flex-col justify-between gap-3 border-t border-white/10 pt-6 font-mono text-[0.7rem] text-white/40 md:flex-row">
           <span>© 2026 {profile.name} · {profile.location}</span>
           <span>Built from scratch · Astro + Tailwind</span>
         </div>
       </div>
     </footer>
 
-    <div id="cmdk" hidden class="fixed inset-0 z-[100] flex items-start justify-center bg-black/40 p-4 pt-[14vh]">
+    <!-- CmdK palette -->
+    <div id="cmdk" hidden class="fixed inset-0 z-[100] flex items-start justify-center bg-black/40 p-4 pt-[14vh] backdrop-blur-sm">
       <div class="w-full max-w-lg overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)] shadow-2xl">
         <input id="cmdk-input" placeholder="Jump to a page or project…" class="w-full border-b border-[var(--color-line)] bg-transparent px-5 py-4 font-mono text-sm outline-none placeholder:text-[var(--color-ink-3)]" />
         <div id="cmdk-list" class="max-h-80 overflow-y-auto p-2"></div>
@@ -88,18 +139,47 @@ const pageDesc = description ?? profile.intro;
     </div>
 
     <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.index} — ${p.title}`, href: `/work/${p.slug}` })) }}>
+      /* ── Preloader ── */
       try {
-        const els = () => document.querySelectorAll(".reveal:not(.is-visible)");
+        const pre = document.getElementById("preloader");
+        if (pre) {
+          setTimeout(() => pre.classList.add("is-hidden"), 1400);
+          setTimeout(() => pre.remove(), 2000);
+        }
+      } catch { /* ignore */ }
+
+      /* ── Custom cursor (desktop) ── */
+      try {
+        if (window.matchMedia("(pointer: fine)").matches) {
+          const dot = document.getElementById("cursor-dot");
+          const ring = document.getElementById("cursor-ring");
+          if (dot && ring) {
+            let mx = 0, my = 0, rx = 0, ry = 0;
+            document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; dot.style.left = mx + "px"; dot.style.top = my + "px"; dot.style.transform = "translate(-50%,-50%)"; });
+            const tick = () => { rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15; ring.style.left = rx + "px"; ring.style.top = ry + "px"; requestAnimationFrame(tick); };
+            tick();
+            document.querySelectorAll("a, button, [data-magnetic], input, .tag").forEach((el) => {
+              el.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
+              el.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
+            });
+          }
+        }
+      } catch { /* ignore */ }
+
+      /* ── Reveal observer ── */
+      try {
+        const els = () => document.querySelectorAll(".reveal:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-scale:not(.is-visible)");
         if ("IntersectionObserver" in window) {
           const io = new IntersectionObserver(
-            (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("is-visible")),
+            (es) => es.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-visible"); }),
             { threshold: 0.08, rootMargin: "0px 0px -4% 0px" }
           );
           els().forEach((el) => io.observe(el));
         }
-        setTimeout(() => els().forEach((el) => el.classList.add("is-visible")), 2500);
-      } catch { document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible")); }
+        setTimeout(() => els().forEach((el) => el.classList.add("is-visible")), 3000);
+      } catch { document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale").forEach((el) => el.classList.add("is-visible")); }
 
+      /* ── Progress bar ── */
       try {
         const bar = document.getElementById("progressbar");
         if (bar) addEventListener("scroll", () => {
@@ -108,8 +188,8 @@ const pageDesc = description ?? profile.intro;
         }, { passive: true });
       } catch { /* ignore */ }
 
+      /* ── Drag-to-scroll rails ── */
       try {
-        // Drag-to-scroll rails
         document.querySelectorAll(".rail").forEach((rail) => {
           let down = false, sx = 0, sl = 0;
           rail.addEventListener("pointerdown", (e) => { down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add("dragging"); });
@@ -118,8 +198,8 @@ const pageDesc = description ?? profile.intro;
         });
       } catch { /* ignore */ }
 
+      /* ── Chapter scroll-spy ── */
       try {
-        // Chapter scroll-spy
         const links = [...document.querySelectorAll(".chapter-link")];
         if (links.length && "IntersectionObserver" in window) {
           const secs = links.map((l) => document.querySelector(l.getAttribute("href"))).filter(Boolean);
@@ -134,6 +214,7 @@ const pageDesc = description ?? profile.intro;
         }
       } catch { /* ignore */ }
 
+      /* ── Live clock ── */
       try {
         const clock = document.getElementById("clock");
         if (clock) {
@@ -142,6 +223,59 @@ const pageDesc = description ?? profile.intro;
         }
       } catch { /* ignore */ }
 
+      /* ── Animated counters ── */
+      try {
+        const counters = document.querySelectorAll("[data-count-to]");
+        if (counters.length && "IntersectionObserver" in window) {
+          const cio = new IntersectionObserver((es) => {
+            es.forEach((e) => {
+              if (!e.isIntersecting) return;
+              const el = e.target;
+              const target = parseInt(el.dataset.countTo, 10);
+              if (isNaN(target)) return;
+              let current = 0;
+              const step = Math.max(1, Math.floor(target / 30));
+              const iv = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current;
+                if (current >= target) clearInterval(iv);
+              }, 40);
+              cio.unobserve(el);
+            });
+          }, { threshold: 0.5 });
+          counters.forEach((c) => cio.observe(c));
+        }
+      } catch { /* ignore */ }
+
+      /* ── Magnetic button effect ── */
+      try {
+        document.querySelectorAll("[data-magnetic]").forEach((el) => {
+          el.addEventListener("mousemove", (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+          });
+          el.addEventListener("mouseleave", () => { el.style.transform = ""; });
+        });
+      } catch { /* ignore */ }
+
+      /* ── Page transition on nav links ── */
+      try {
+        const overlay = document.getElementById("page-transition");
+        if (overlay) {
+          document.querySelectorAll('a[href^="/"]').forEach((link) => {
+            link.addEventListener("click", (e) => {
+              if (e.metaKey || e.ctrlKey) return;
+              e.preventDefault();
+              overlay.classList.add("is-active");
+              setTimeout(() => { window.location.href = link.href; }, 450);
+            });
+          });
+        }
+      } catch { /* ignore */ }
+
+      /* ── CmdK palette ── */
       try {
         const pages = [
           { label: "Home", href: "/" },

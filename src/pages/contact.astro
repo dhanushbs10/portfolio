@@ -5,37 +5,51 @@ const c = profile.contact;
 ---
 
 <Doc title="Contact" active="contact" description="Get in touch — internships, projects, collaboration.">
-  <section class="mx-auto max-w-6xl px-5 pt-32 pb-24 md:px-8 md:pt-40">
+  <section class="mx-auto max-w-7xl px-5 pt-32 pb-24 md:px-8 md:pt-40">
     <p class="reveal meta-label">Channel — open to internships</p>
-    <h1 class="reveal display mt-3 text-6xl md:text-8xl">Let's talk<span class="text-[var(--color-accent)]">.</span></h1>
-    <p class="reveal mt-5 max-w-xl text-[var(--color-ink-2)]">Projects, internships, or technical questions — any channel works.</p>
+    <h1 class="reveal display mt-3 text-[clamp(3.4rem,8vw,7rem)]">Let's talk<span class="text-gradient">.</span></h1>
+    <p class="reveal mt-6 max-w-xl leading-relaxed text-[var(--color-ink-2)]" style="--rd:80ms">
+      Projects, internships, or technical questions — any channel works. I usually reply within a day.
+    </p>
 
-    <div class="mt-10 grid gap-4 md:grid-cols-2">
-      <a href={`mailto:${c.email}`} class="reveal dossier dossier-hover group p-8">
+    <!-- Contact cards -->
+    <div class="mt-12 grid gap-4 md:grid-cols-2">
+      <a href={`mailto:${c.email}`} class="reveal dossier dossier-hover group relative overflow-hidden p-8" data-magnetic>
+        <div class="absolute right-0 top-0 h-1 w-full rounded-t-[13px] project-accent-1"></div>
         <p class="meta-label">Email</p>
-        <p class="display mt-3 break-all text-2xl group-hover:text-[var(--color-accent-ink)] md:text-[1.7rem]">{c.email}</p>
+        <p class="display mt-3 break-all text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors md:text-[1.7rem]">{c.email}</p>
         <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">SEND AN EMAIL →</p>
       </a>
-      <a href={`tel:${c.phone.replace(/\s/g, "")}`} class="reveal dossier dossier-hover group p-8" style="--rd:80ms">
+      <a href={`tel:${c.phone.replace(/\s/g, "")}`} class="reveal dossier dossier-hover group relative overflow-hidden p-8" style="--rd:80ms" data-magnetic>
+        <div class="absolute right-0 top-0 h-1 w-full rounded-t-[13px] project-accent-5"></div>
         <p class="meta-label">Phone</p>
-        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] md:text-[1.7rem]">{c.phone}</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors md:text-[1.7rem]">{c.phone}</p>
         <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">CALL →</p>
       </a>
-      <a href={c.github} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group p-8" style="--rd:140ms">
+      <a href={c.github} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group relative overflow-hidden p-8" style="--rd:140ms" data-magnetic>
+        <div class="absolute right-0 top-0 h-1 w-full rounded-t-[13px] project-accent-2"></div>
         <p class="meta-label">GitHub</p>
-        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)]">github.com/dhanushbs10</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors">github.com/dhanushbs10</p>
         <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">VIEW CODE →</p>
       </a>
-      <a href={c.linkedin} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group p-8" style="--rd:200ms">
+      <a href={c.linkedin} target="_blank" rel="noreferrer" class="reveal dossier dossier-hover group relative overflow-hidden p-8" style="--rd:200ms" data-magnetic>
+        <div class="absolute right-0 top-0 h-1 w-full rounded-t-[13px] project-accent-3"></div>
         <p class="meta-label">LinkedIn</p>
-        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)]">Connect professionally</p>
+        <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors">Connect professionally</p>
         <p class="mt-4 font-mono text-xs text-[var(--color-accent-ink)]">CONNECT →</p>
       </a>
     </div>
 
-    <div class="reveal dossier mt-4 flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
-      <div><p class="meta-label">Currently</p><p class="mt-2 text-lg font-semibold">{profile.status}</p></div>
-      <a href="/work" class="btn-ink">Browse the work →</a>
+    <!-- Status bar -->
+    <div class="reveal mt-4 flex flex-col items-start justify-between gap-5 rounded-2xl bg-[var(--color-ink)] p-8 text-[var(--color-paper)] md:flex-row md:items-center" style="--rd:240ms">
+      <div>
+        <p class="meta-label" style="color:rgba(246,246,243,0.5)">Currently</p>
+        <p class="mt-2 text-lg font-semibold">{profile.status}</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/work" class="btn-ink !bg-[var(--color-paper)] !text-[var(--color-ink)] hover:!bg-white" data-magnetic>Browse the work →</a>
+        <a href={`mailto:${c.email}`} class="btn-line !border-white/40 !text-[var(--color-paper)] hover:!bg-white hover:!text-[var(--color-ink)]" data-magnetic>Quick email</a>
+      </div>
     </div>
   </section>
 </Doc>
