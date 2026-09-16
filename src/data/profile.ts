@@ -22,15 +22,6 @@ export const profile = {
         "Practical projects in web technologies and OS internals",
       ],
     },
-    {
-      school: "SSLC",
-      place: "Sri Vidya Public School, Bengaluru, Karnataka",
-      period: "2016 — 2024",
-      points: [
-        "Foundation in mathematics and science",
-        "First exposure to computers and programming",
-      ],
-    },
   ],
   interests: [
     { title: "Hardware", desc: "CPUs, BIOS, repair, diagnostics, repurposing old machines." },
