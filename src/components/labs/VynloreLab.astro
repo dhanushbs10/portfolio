@@ -118,7 +118,7 @@
       const bw = w / data.length;
       data.forEach((v, i) => {
         const bh = (v / 255) * h;
-        vctx.fillStyle = i % 3 === 0 ? "#e6d5b8" : "#c9a87c";
+        vctx.fillStyle = i % 3 === 0 ? "#f0f0ef" : "#e8e8e6";
         vctx.fillRect(i * bw + 2, h - bh, bw - 4, bh);
       });
       requestAnimationFrame(draw);

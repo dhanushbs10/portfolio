@@ -10,9 +10,9 @@
   --color-ink-3: #5c6372;
   --color-line: #222630;
   --color-line-strong: #343b4a;
-  --color-accent: #c9a87c;
-  --color-accent-deep: #a68b62;
-  --color-accent-ink: #e6d5b8;
+  --color-accent: #e8e8e6;
+  --color-accent-deep: #d1d1d1;
+  --color-accent-ink: #f0f0ef;
   --color-amber: #f59e0b;
   --color-ok: #4ade80;
   --color-term: #07080c;
@@ -75,8 +75,8 @@ body {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(640px 440px at 12% 12%, rgb(201 168 124 / 0.11), transparent 62%),
-    radial-gradient(760px 520px at 50% 95%, rgb(230 213 184 / 0.06), transparent 62%);
+    radial-gradient(640px 440px at 12% 12%, rgb(232 232 230 / 0.07), transparent 62%),
+    radial-gradient(760px 520px at 50% 95%, rgb(245 245 243 / 0.04), transparent 62%);
   filter: blur(8px);
 }
 
@@ -145,7 +145,7 @@ body {
 .btn-ink:hover {
   transform: translateY(-2px);
   background: var(--color-accent-deep);
-  box-shadow: 0 10px 30px -6px rgb(201 168 124 / 0.35);
+  box-shadow: 0 10px 30px -6px rgb(232 232 230 / 0.22);
 }
 
 .btn-line {
@@ -259,7 +259,7 @@ body {
 }
 .console-bar i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .console-body { padding: 1.1rem 1.25rem; }
-.c-ok { color: #6ee7b7; } .c-err { color: #f87171; } .c-dim { color: #6d7483; } .c-info { color: #e6d5b8; }
+.c-ok { color: #6ee7b7; } .c-err { color: #f87171; } .c-dim { color: #6d7483; } .c-info { color: #e8e8e6; }
 
 /* ── Input fields ── */
 .field {
@@ -268,7 +268,7 @@ body {
   font-size: 0.83rem; color: var(--color-ink); outline: none;
   transition: border-color .25s, box-shadow .25s;
 }
-.field:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgb(201 168 124 / 0.18); }
+.field:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgb(232 232 230 / 0.16); }
 
 /* ── Action buttons ── */
 .go {
@@ -276,7 +276,7 @@ body {
   color: #0b0d12; font-weight: 600; font-size: 0.83rem; padding: 0.68rem 1.25rem;
   border-radius: 9px; transition: transform 0.3s cubic-bezier(.16,1,.3,1), background 0.2s, box-shadow 0.3s;
 }
-.go:hover { transform: translateY(-2px); background: var(--color-accent-deep); box-shadow: 0 8px 24px -6px rgb(201 168 124 / 0.35); }
+.go:hover { transform: translateY(-2px); background: var(--color-accent-deep); box-shadow: 0 8px 24px -6px rgb(232 232 230 / 0.22); }
 .go:disabled { opacity: 0.45; transform: none; box-shadow: none; }
 
 .go-ghost {
@@ -284,7 +284,7 @@ body {
   color: var(--color-ink); font-size: 0.83rem; padding: 0.68rem 1.25rem; border-radius: 9px; background: var(--color-card);
   transition: border-color .25s, color .25s, box-shadow .25s;
 }
-.go-ghost:hover { border-color: var(--color-accent); color: var(--color-accent-ink); box-shadow: 0 4px 16px -6px rgb(201 168 124 / 0.24); }
+.go-ghost:hover { border-color: var(--color-accent); color: var(--color-accent-ink); box-shadow: 0 4px 16px -6px rgb(232 232 230 / 0.18); }
 .go-ghost:disabled { opacity: 0.45; }
 
 .eq { accent-color: var(--color-accent); width: 100%; }
@@ -297,14 +297,14 @@ body {
 }
 .lcd p { letter-spacing: 0.12em; font-size: 0.95rem; line-height: 1.9; white-space: pre; overflow: hidden; }
 
-/* ── Project accent gradients — warm sand, non-blue ── */
-.project-accent-1 { background: linear-gradient(135deg, #a68b62 0%, #c9a87c 100%); }
-.project-accent-2 { background: linear-gradient(135deg, #8c7a5a 0%, #c9a87c 100%); }
-.project-accent-3 { background: linear-gradient(135deg, #9a8560 0%, #e6d5b8 100%); }
-.project-accent-4 { background: linear-gradient(135deg, #7d6b4f 0%, #c9a87c 100%); }
-.project-accent-5 { background: linear-gradient(135deg, #a68b62 0%, #d4c2a5 100%); }
-.project-accent-6 { background: linear-gradient(135deg, #7a6b52 0%, #a68b62 100%); }
-.project-accent-7 { background: linear-gradient(135deg, #c9a87c 0%, #e6d5b8 100%); }
+/* ── Project accent gradients — monochrome ── */
+.project-accent-1 { background: linear-gradient(135deg, #9a9a9a 0%, #e8e8e6 100%); }
+.project-accent-2 { background: linear-gradient(135deg, #a8a8a8 0%, #e8e8e6 100%); }
+.project-accent-3 { background: linear-gradient(135deg, #b8b8b8 0%, #f0f0ef 100%); }
+.project-accent-4 { background: linear-gradient(135deg, #8e8e8e 0%, #d1d1d1 100%); }
+.project-accent-5 { background: linear-gradient(135deg, #9a9a9a 0%, #d1d1d1 100%); }
+.project-accent-6 { background: linear-gradient(135deg, #7a7a7a 0%, #b8b8b8 100%); }
+.project-accent-7 { background: linear-gradient(135deg, #d1d1d1 0%, #f0f0ef 100%); }
 
 /* ── Stat counter ── */
 .stat-num {
@@ -346,7 +346,7 @@ body {
 
 /* ── Text gradient ── */
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-accent-deep) 0%, #e6d5b8 100%);
+  background: linear-gradient(135deg, var(--color-accent-deep) 0%, #f0f0ef 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
