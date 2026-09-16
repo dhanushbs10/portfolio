@@ -90,8 +90,8 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
             </ul>
             <div class="reveal mt-6 flex flex-wrap gap-1.5">{p.stack.map((t) => <span class="tag">{t}</span>)}</div>
             {p.disclaimer && (
-              <div class="reveal mt-6 rounded-xl border border-amber-600/40 bg-amber-50 p-5 text-sm leading-relaxed" style="color:#7c4a12" style="--rd:80ms">
-                <span class="font-mono text-[0.68rem] tracking-[0.18em]">DISCLAIMER — </span>{p.disclaimer}
+              <div class="reveal mt-6 rounded-xl border border-[#b45309]/40 bg-[#1a1208] p-5 text-sm leading-relaxed text-[#fbbf24]" style="--rd:80ms">
+                <span class="font-mono text-[0.68rem] tracking-[0.18em] opacity-70">DISCLAIMER — </span>{p.disclaimer}
               </div>
             )}
           </section>

@@ -15,11 +15,11 @@
         <button id="dl-dec" class="go-ghost">🔓 Decrypt as receiver</button>
       </div>
     </div>
-    <div class="border-t border-[var(--color-line)] bg-[#faf9f5] p-6 md:border-l md:border-t-0">
+    <div class="border-t border-[var(--color-line)] bg-[var(--color-card-2)] p-6 md:border-l md:border-t-0">
       <label class="meta-label">Wire output — ciphertext</label>
-      <pre id="dl-cipher" class="mt-2 min-h-[86px] overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-[var(--color-line-strong)] bg-white p-4 font-mono text-[0.73rem] leading-relaxed text-[var(--color-accent-ink)]">— press Encrypt —</pre>
+      <pre id="dl-cipher" class="mt-2 min-h-[86px] overflow-x-auto whitespace-pre-wrap break-all rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem] leading-relaxed text-[var(--color-accent-ink)]">— press Encrypt —</pre>
       <label class="meta-label mt-4 block">Receiver output</label>
-      <pre id="dl-result" class="mt-2 min-h-[50px] whitespace-pre-wrap rounded-xl border border-[var(--color-line-strong)] bg-white p-4 font-mono text-[0.73rem]">—</pre>
+      <pre id="dl-result" class="mt-2 min-h-[50px] whitespace-pre-wrap rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.73rem]">—</pre>
       <p class="mt-4 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">
         Mirrors the app: HKDF-SHA256 key from the token. A signaling server relaying this learns nothing. Change one letter of the token and decryption fails.
       </p>

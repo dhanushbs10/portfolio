@@ -8,7 +8,7 @@
     <div class="border-b border-[var(--color-line)] p-5">
       <p class="meta-label">XOR staging — key 0x55 · runs live</p>
       <input id="px-in" value="calc.exe" maxlength="24" class="field mt-3" autocomplete="off" spellcheck="false" />
-      <pre id="px-out" class="mt-3 overflow-x-auto rounded-xl bg-[#efeee7] p-4 font-mono text-[0.74rem] leading-loose"></pre>
+      <pre id="px-out" class="mt-3 overflow-x-auto rounded-xl bg-[var(--color-card-2)] p-4 font-mono text-[0.74rem] leading-loose"></pre>
       <p class="mt-3 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">Plaintext never sits on disk — only XOR output is stored as payload.bin, decrypted at runtime.</p>
     </div>
   </div>
@@ -34,9 +34,9 @@
       const hex = (n) => "0x" + n.toString(16).padStart(2, "0").toUpperCase();
       out.innerHTML = "";
       const mk = (t, c) => { const d = document.createElement("div"); d.style.color = c; d.textContent = t; out.appendChild(d); };
-      mk("plain : " + (bytes.map(hex).join(" ") || "—"), "#8f8c80");
-      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || "—"), "#1e2fd6");
-      mk("stored: payload.bin ← xor output only", "#15803d");
+      mk("plain : " + (bytes.map(hex).join(" ") || "—"), "#9ba1ae");
+      mk("xor   : " + (bytes.map((b) => hex(b ^ 0x55)).join(" ") || "—"), "#6c7bff");
+      mk("stored: payload.bin ← xor output only", "#4ade80");
     };
     inp.addEventListener("input", render);
     render();

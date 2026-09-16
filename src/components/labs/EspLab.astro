@@ -21,8 +21,8 @@
   <div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)] p-6">
     <p class="meta-label">Target MAC → Config.h bytes</p>
     <input id="esp-mac" value="94:DE:80:7B:2F:99" class="field mt-3 font-mono uppercase" autocomplete="off" spellcheck="false" />
-    <p id="esp-err" class="mt-2 hidden font-mono text-[0.72rem]" style="color:#b91c1c">Enter 6 hex pairs, e.g. 94:DE:80:7B:2F:99</p>
-    <pre id="esp-out" class="mt-3 overflow-x-auto whitespace-pre-wrap break-all rounded-xl bg-[#efeee7] p-4 font-mono text-[0.74rem] leading-relaxed">— type a MAC —</pre>
+    <p id="esp-err" class="mt-2 hidden font-mono text-[0.72rem] text-red-400">Enter 6 hex pairs, e.g. 94:DE:80:7B:2F:99</p>
+    <pre id="esp-out" class="mt-3 overflow-x-auto whitespace-pre-wrap break-all rounded-xl bg-[var(--color-card-2)] p-4 font-mono text-[0.74rem] leading-relaxed">— type a MAC —</pre>
     <div id="esp-log" class="mt-3 min-h-[24px] font-mono text-[0.74rem]"></div>
   </div>
 </div>
@@ -64,7 +64,7 @@
       errEl.classList.add("hidden");
       const bytes = parts.map((p) => "0x" + p.toUpperCase());
       outEl.textContent = `const byte TARGET_MAC[6] = {${bytes.join(", ")}};\n// 102-byte magic packet: 6 × FF + 16 × MAC → UDP :9 broadcast`;
-      logEl.innerHTML = `<span style="color:#15803d">✓ valid — paste into Config.h, upload to NodeMCU 1.0</span>`;
+      logEl.innerHTML = `<span class="text-[var(--color-ok)]">✓ valid — paste into Config.h, upload to NodeMCU 1.0</span>`;
     };
     macEl.addEventListener("input", render);
     render();

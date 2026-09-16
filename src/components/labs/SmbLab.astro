@@ -5,34 +5,34 @@
 
 <div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]" id="smb-lab">
   <div class="flex gap-2 border-b border-[var(--color-line)] p-5">
-    <button data-view="before" class="tag !border-red-700/50 !text-red-700">✗ BEFORE — broken</button>
-    <button data-view="after" class="tag hover:!border-[var(--color-ink)]">✓ AFTER — fixed</button>
+    <button data-view="before" class="tag" style="border-color:rgb(248 113 113 / 0.5); color:#f87171">✗ BEFORE — broken</button>
+    <button data-view="after" class="tag hover:!border-[var(--color-accent)] hover:!text-[var(--color-accent-ink)]">✓ AFTER — fixed</button>
   </div>
 
   <div id="smb-before" class="p-6">
     <div class="grid gap-3 font-mono text-[0.74rem] md:grid-cols-[1fr_auto_1fr] md:items-stretch">
-      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4">
+      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4">
         <p class="meta-label">Desktop · wired to router</p>
-        <p class="mt-2 font-semibold">192.168.1.105 /24</p>
-        <p class="text-[var(--color-ink-2)]">gw 192.168.1.1 · DHCP 192.168.1.1</p>
+        <p class="mt-2 font-semibold text-[var(--color-ink)]">192.168.1.105 /24</p>
+        <p class="text-[var(--color-ink-3)]">gw 192.168.1.1 · DHCP 192.168.1.1</p>
       </div>
-      <div class="grid place-items-center rounded-xl border border-red-700/40 bg-red-50 px-4 py-3 text-center text-red-700">EXTENDER<br />NAT MODE<br />⇅ double NAT</div>
-      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4">
+      <div class="grid place-items-center rounded-xl border border-red-500/40 bg-[#1f0f15] px-4 py-3 text-center text-red-400">EXTENDER<br />NAT MODE<br />⇅ double NAT</div>
+      <div class="rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4">
         <p class="meta-label">Laptop · Wi-Fi via extender</p>
-        <p class="mt-2 font-semibold">192.168.2.58 /24</p>
-        <p class="text-[var(--color-ink-2)]">gw 192.168.2.1 · DHCP 192.168.2.1</p>
+        <p class="mt-2 font-semibold text-[var(--color-ink)]">192.168.2.58 /24</p>
+        <p class="text-[var(--color-ink-3)]">gw 192.168.2.1 · DHCP 192.168.2.1</p>
       </div>
     </div>
-    <p class="mt-4 rounded-xl bg-red-50 p-4 font-mono text-[0.74rem] leading-relaxed text-red-800">✗ “Windows cannot access \\computername\share” — NetBIOS/LLMNR broadcasts never cross the NAT boundary.</p>
+    <p class="mt-4 rounded-xl bg-[#1f0f15] p-4 font-mono text-[0.74rem] leading-relaxed text-red-300">✗ "Windows cannot access \\computername\share" — NetBIOS/LLMNR broadcasts never cross the NAT boundary.</p>
   </div>
 
   <div id="smb-after" class="hidden p-6">
-    <div class="rounded-xl border border-[var(--color-line-strong)] bg-[#faf9f5] p-4 font-mono text-[0.74rem]">
+    <div class="rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-4 font-mono text-[0.74rem]">
       <p class="meta-label">Single broadcast domain · 192.168.1.0/24</p>
-      <p class="mt-2 font-semibold">Desktop .105 ━ Router .1 ━ Extender .200 (AP bridge) ━ Laptop .106</p>
-      <p class="text-[var(--color-ink-2)]">One DHCP server · one gateway (192.168.1.1) · broadcasts forwarded</p>
+      <p class="mt-2 font-semibold text-[var(--color-ink)]">Desktop .105 ━ Router .1 ━ Extender .200 (AP bridge) ━ Laptop .106</p>
+      <p class="text-[var(--color-ink-3)]">One DHCP server · one gateway (192.168.1.1) · broadcasts forwarded</p>
     </div>
-    <p class="mt-4 rounded-xl bg-emerald-50 p-4 font-mono text-[0.74rem] leading-relaxed text-emerald-800">✓ \\PC\share opens instantly — Network Neighborhood populates. No Windows changes were needed.</p>
+    <p class="mt-4 rounded-xl bg-[#0a1f16] p-4 font-mono text-[0.74rem] leading-relaxed text-emerald-300">✓ \\PC\share opens instantly — Network Neighborhood populates. No Windows changes were needed.</p>
   </div>
 
   <ol class="space-y-2.5 border-t border-[var(--color-line)] p-6 font-mono text-[0.74rem] leading-relaxed text-[var(--color-ink-2)]">
