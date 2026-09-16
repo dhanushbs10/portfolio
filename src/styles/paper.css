@@ -66,9 +66,8 @@ body {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(640px 440px at 12% 12%, rgb(108 123 255 / 0.16), transparent 62%),
-    radial-gradient(520px 380px at 88% 18%, rgb(192 132 252 / 0.12), transparent 62%),
-    radial-gradient(760px 520px at 50% 95%, rgb(45 212 191 / 0.07), transparent 62%);
+    radial-gradient(640px 440px at 12% 12%, rgb(108 123 255 / 0.14), transparent 62%),
+    radial-gradient(760px 520px at 50% 95%, rgb(14 165 233 / 0.06), transparent 62%);
   filter: blur(8px);
 }
 
@@ -289,14 +288,14 @@ body {
 }
 .lcd p { letter-spacing: 0.12em; font-size: 0.95rem; line-height: 1.9; white-space: pre; overflow: hidden; }
 
-/* ── Project accent gradients ── */
-.project-accent-1 { background: linear-gradient(135deg, #6c7bff 0%, #8b5cf6 100%); }
-.project-accent-2 { background: linear-gradient(135deg, #fb7185 0%, #fb923c 100%); }
-.project-accent-3 { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); }
-.project-accent-4 { background: linear-gradient(135deg, #2dd4bf 0%, #22d3ee 100%); }
-.project-accent-5 { background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%); }
-.project-accent-6 { background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); }
-.project-accent-7 { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
+/* ── Project accent gradients — blue family only, no purple ── */
+.project-accent-1 { background: linear-gradient(135deg, #2563eb 0%, #6c7bff 100%); }
+.project-accent-2 { background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%); }
+.project-accent-3 { background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%); }
+.project-accent-4 { background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%); }
+.project-accent-5 { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+.project-accent-6 { background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%); }
+.project-accent-7 { background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 100%); }
 
 /* ── Stat counter ── */
 .stat-num {
@@ -338,7 +337,7 @@ body {
 
 /* ── Text gradient ── */
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-accent-deep) 0%, #c084fc 50%, #67e8f9 100%);
+  background: linear-gradient(135deg, var(--color-accent-deep) 0%, #38bdf8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
