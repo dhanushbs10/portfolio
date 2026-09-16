@@ -26,9 +26,10 @@ const stats = [
         <span class="ml-auto hidden sm:inline text-[var(--color-ok)]">STATUS — OPEN TO INTERNSHIPS</span>
       </div>
 
-      <!-- Main heading -->
-      <h1 class="reveal display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88]" style="--rd:80ms">
-        Dhanush<br />B S<span class="text-[var(--color-accent)]">.</span>
+      <!-- Main heading — character assembly (Stefan Vitasović-style) -->
+      <h1 id="hero-title" class="display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.88]" aria-label="Dhanush B S.">
+        <span class="char-row"><span class="char-wrap"><span class="char" style="--i:0">D</span><span class="char" style="--i:1">h</span><span class="char" style="--i:2">a</span><span class="char" style="--i:3">n</span><span class="char" style="--i:4">u</span><span class="char" style="--i:5">s</span><span class="char" style="--i:6">h</span></span></span><br />
+        <span class="char-row"><span class="char-wrap"><span class="char" style="--i:7">B</span><span class="char spacer"></span><span class="char" style="--i:8">S</span><span class="char" style="--i:9"><span class="text-[var(--color-accent)]">.</span></span></span></span>
       </h1>
 
       <!-- Two-column: intro + dossier -->
@@ -98,7 +99,7 @@ const stats = [
       <a href="/work" class="btn-line !py-2.5" data-magnetic>All work →</a>
     </div>
 
-    <div class="reveal rail mt-12" style="--rd:120ms">
+    <div class="reveal rail mt-12" id="work-rail" style="--rd:120ms">
       {projects.map((p, i) => (
         <a href={`/work/${p.slug}`} class="dossier dossier-hover group flex flex-col p-7" data-magnetic>
           <div class="flex items-baseline justify-between gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
@@ -117,7 +118,10 @@ const stats = [
         </a>
       ))}
     </div>
-    <p class="reveal mt-2 font-mono text-[0.68rem] tracking-[0.14em] text-[var(--color-ink-3)]">← DRAG TO BROWSE →</p>
+    <div class="reveal mt-3 flex items-center gap-3" style="--rd:160ms">
+      <div class="rail-progress"><div class="rail-progress-bar" id="rail-bar"></div></div>
+      <span class="font-mono text-[0.68rem] tracking-[0.14em] text-[var(--color-ink-3)]">DRAG / SCROLL</span>
+    </div>
   </section>
 
   <!-- Featured project deep dive -->

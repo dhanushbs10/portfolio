@@ -144,6 +144,15 @@ const stats = [
         }
       } catch { /* ignore */ }
 
+      /* ── Hero char assembly ── */
+      try {
+        const hero = document.getElementById("hero-title");
+        if (hero) {
+          requestAnimationFrame(() => setTimeout(() => hero.classList.add("is-visible"), 90));
+          setTimeout(() => hero.classList.add("is-visible"), 1200);
+        }
+      } catch { /* ignore */ }
+
       /* ── Reveal observer ── */
       try {
         const els = () => document.querySelectorAll(".reveal:not(.is-visible), .reveal-left:not(.is-visible), .reveal-right:not(.is-visible), .reveal-scale:not(.is-visible)");
@@ -166,14 +175,46 @@ const stats = [
         }, { passive: true });
       } catch { /* ignore */ }
 
-      /* ── Drag-to-scroll rails ── */
+      /* ── Drag-to-scroll rails + minimap progress ── */
       try {
         document.querySelectorAll(".rail").forEach((rail) => {
           let down = false, sx = 0, sl = 0;
+          const bar = document.getElementById("rail-bar");
+          const sync = () => {
+            if (!bar) return;
+            const max = rail.scrollWidth - rail.clientWidth;
+            bar.style.width = max > 0 ? `${(rail.scrollLeft / max) * 100}%` : "0%";
+          };
+          rail.addEventListener("scroll", sync, { passive: true });
+          sync();
           rail.addEventListener("pointerdown", (e) => { down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add("dragging"); });
           addEventListener("pointermove", (e) => { if (down) rail.scrollLeft = sl - (e.clientX - sx); });
           addEventListener("pointerup", () => { down = false; rail.classList.remove("dragging"); });
+          rail.addEventListener("wheel", (e) => {
+            if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && rail.scrollWidth > rail.clientWidth) {
+              if ((e.deltaY > 0 && rail.scrollLeft < rail.scrollWidth - rail.clientWidth - 1) || (e.deltaY < 0 && rail.scrollLeft > 0)) {
+                // allow vertical wheel to scroll rail when over it
+              }
+            }
+          }, { passive: true });
         });
+      } catch { /* ignore */ }
+
+      /* ── Aurora parallax (subtle depth) ── */
+      try {
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          const aurora = document.querySelector(".aurora");
+          if (aurora) {
+            let ticking = false;
+            addEventListener("scroll", () => {
+              if (!ticking) requestAnimationFrame(() => {
+                aurora.style.transform = `translateY(${scrollY * 0.08}px)`;
+                ticking = false;
+              });
+              ticking = true;
+            }, { passive: true });
+          }
+        }
       } catch { /* ignore */ }
 
       /* ── Chapter scroll-spy ── */
