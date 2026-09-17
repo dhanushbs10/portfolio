@@ -78,13 +78,13 @@ const stats = [
           <button id="menu-close" class="grid h-10 w-10 place-items-center rounded-full border border-[var(--color-line-strong)] text-[var(--color-ink)] hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]">✕</button>
         </div>
         <nav class="mt-10">
-          <a href="/" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">00</span> HOME</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">INDEX</span></a>
-          <a href="/work" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">01</span> WORK</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">07 CASE FILES</span></a>
-          <a href="/overview" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">02</span> OVERVIEW</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">DOSSIER</span></a>
-          <a href="/contact" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span class="flex items-baseline gap-4"><span class="font-mono text-sm tracking-[0.2em] text-[var(--color-ink-3)]">03</span> CONTACT</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">ENCRYPTED</span></a>
+          <a href="/" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>HOME</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">INDEX</span></a>
+          <a href="/work" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>WORK</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">07 CASE FILES</span></a>
+          <a href="/overview" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>OVERVIEW</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">DOSSIER</span></a>
+          <a href="/contact" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>CONTACT</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">ENCRYPTED</span></a>
           <div class="mt-8 grid gap-2">
             {projects.map((p) => (
-              <a href={`/work/${p.slug}`} class="flex items-center justify-between rounded-xl border border-transparent px-4 py-3 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-card)]"><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.index}</span><span class="font-mono text-sm text-[var(--color-ink)]">{p.title}</span><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.category}</span></a>
+              <a href={`/work/${p.slug}`} class="flex items-center justify-between rounded-xl border border-transparent px-4 py-3 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-card)]"><span class="font-mono text-sm text-[var(--color-ink)]">{p.title}</span><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.category}</span></a>
             ))}
           </div>
         </nav>
@@ -148,7 +148,7 @@ const stats = [
       </div>
     </div>
 
-    <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.index} - ${p.title}`, href: `/work/${p.slug}` })) }}>
+    <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.title}`, href: `/work/${p.slug}` })) }}>
       /* ── Preloader ── */
       try {
         const pre = document.getElementById("preloader");

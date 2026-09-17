@@ -86,7 +86,7 @@ const stats = [
   <section class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
     <div class="reveal flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p class="meta-label">01 - Selected work</p>
+        <p class="meta-label">Selected work</p>
         <h2 class="display mt-3 text-4xl md:text-6xl">Seven builds,<br />each opened fully.</h2>
       </div>
       <a href="/work" class="btn-line !py-2.5" data-magnetic>All work →</a>
@@ -95,8 +95,7 @@ const stats = [
     <div class="reveal rail mt-12" id="work-rail" style="--rd:120ms">
       {projects.map((p, i) => (
         <a href={`/work/${p.slug}`} class="dossier dossier-hover group flex flex-col p-7" data-magnetic>
-          <div class="flex items-baseline justify-between gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
-            <span class="display text-[1.6rem] font-bold tracking-tight text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">{p.index}</span>
+          <div class="flex items-center gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
             <span class="text-[var(--color-accent-ink)]">{p.category.toUpperCase()}</span>
           </div>
           <h3 class="display mt-5 text-3xl leading-none transition-colors duration-300 group-hover:text-[var(--color-accent-ink)]">{p.title}</h3>
@@ -121,7 +120,7 @@ const stats = [
   <section class="border-y border-[var(--color-line-strong)] bg-[var(--color-card)]">
     <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
       <div class="grid gap-4 lg:grid-cols-[auto_1fr] lg:items-end">
-        <p class="reveal meta-label">02 - Featured</p>
+        <p class="reveal meta-label">Featured</p>
         <h2 class="reveal display mt-3 text-4xl md:text-6xl">Deep dive: PhantomSection.</h2>
       </div>
       <p class="reveal mt-4 max-w-2xl text-[var(--color-ink-3)]" style="--rd:80ms">
@@ -165,7 +164,7 @@ const stats = [
   <section class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
     <div class="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
       <div class="lg:sticky lg:top-32 lg:self-start">
-        <p class="reveal meta-label">03 - Disciplines</p>
+        <p class="reveal meta-label">Disciplines</p>
         <h2 class="reveal display mt-3 text-4xl md:text-5xl">Where I<br />operate.</h2>
         <p class="reveal mt-5 max-w-md text-[var(--color-ink-3)]" style="--rd:80ms">
           From packet-level analysis to full-stack builds - the toolkit covers security, networking, systems, and development.
@@ -174,10 +173,7 @@ const stats = [
       <div class="grid gap-4 sm:grid-cols-2">
         {profile.coreSkills.map((s, i) => (
           <div class={`reveal dossier p-6 ${i === 0 ? "sm:col-span-2" : ""}`} style={`--rd:${i * 70}ms`}>
-            <div class="flex items-center justify-between">
-              <h3 class="display text-xl">{s.title}</h3>
-              <span class="font-mono text-[0.66rem] text-[var(--color-ink-3)]">0{i + 1}</span>
-            </div>
+            <h3 class="display text-xl">{s.title}</h3>
             <div class="mt-4 flex flex-wrap gap-2">{s.tools.map((t) => <span class="tag">{t}</span>)}</div>
           </div>
         ))}
@@ -188,7 +184,7 @@ const stats = [
   <!-- Journey timeline -->
   <section class="border-y border-[var(--color-line-strong)] bg-[var(--color-card)]">
     <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
-      <p class="reveal meta-label">04 - Journey</p>
+      <p class="reveal meta-label">Journey</p>
       <h2 class="reveal display mt-3 text-4xl md:text-6xl">Built by breaking things.</h2>
       <ol class="mt-12">
         {profile.journey.map((j, i) => (

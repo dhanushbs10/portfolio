@@ -3,11 +3,13 @@ interface Props {
   src: string;
   title?: string;
   aspect?: string;
+  size?: "sm" | "md" | "lg";
 }
-const { src, title = "Preview", aspect = "video" } = Astro.props;
+const { src, title = "Preview", aspect = "video", size = "md" } = Astro.props;
 const aspectClass = aspect === "square" ? "aspect-square" : "aspect-video";
+const sizeClass = size === "lg" ? "max-w-[900px]" : size === "sm" ? "max-w-[420px]" : "max-w-[680px]";
 ---
-<div class={`group relative mx-auto w-full max-w-[680px] overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass}`}>
+<div class={`group relative mx-auto w-full ${sizeClass} overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass}`}>
   <iframe
     src={src}
     title={title}

@@ -29,8 +29,7 @@ import { projects, categories } from "../../data/projects";
            style={`--rd:${i * 60}ms`}
         >
           <div class="p-7">
-            <div class="flex items-baseline justify-between gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
-              <span class="display text-[2rem] font-bold tracking-tight text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">{p.index}</span>
+            <div class="flex items-center gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
               <span class="text-[var(--color-accent-ink)]">{p.category.toUpperCase()}</span>
             </div>
             <h2 class="display mt-5 text-4xl leading-none transition-colors duration-300 group-hover:text-[var(--color-accent-ink)]">{p.title}</h2>
