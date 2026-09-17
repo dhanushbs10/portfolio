@@ -105,9 +105,9 @@ const stats = [
           <div class="mt-5 flex flex-wrap gap-1.5">
             {p.stack.slice(0, 4).map((t) => <span class="tag">{t}</span>)}
           </div>
-          <div class="mt-auto flex items-center justify-between gap-4 pt-6">
-            <span class="tag" style="border-color:rgb(74 222 128 / 0.35); color:var(--color-ok)">● LIVE DEMO</span>
-            <span class="arrow-slide font-mono text-xs text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">OPEN <span data-arrow>→</span></span>
+          <div class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-6">
+            <span class="tag shrink-0" style="border-color:rgb(74 222 128 / 0.35); color:var(--color-ok)">● LIVE DEMO</span>
+            <span class="arrow-slide shrink-0 font-mono text-xs whitespace-nowrap text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">OPEN <span data-arrow>→</span></span>
           </div>
         </SpotlightCard>
       ))}
