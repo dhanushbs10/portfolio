@@ -260,25 +260,16 @@ const stats = [
         }
       } catch { /* ignore */ }
 
-      /* ── Header + top progressive blur on scroll — Igloo inc style ── */
+      /* ── Top progressive blur on scroll — Igloo inc style (header stays transparent) ── */
       try {
-        const header = document.getElementById("site-header");
         const topBlur = document.getElementById("top-blur");
-        const onScroll = () => {
-          const scrolled = scrollY > 12;
-          if (header) {
-            header.classList.toggle("bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)]", scrolled);
-            header.classList.toggle("backdrop-blur-xl", scrolled);
-            header.classList.toggle("border-[var(--color-line)]", scrolled);
-            header.classList.toggle("bg-transparent", !scrolled);
-            header.classList.toggle("border-transparent", !scrolled);
-          }
-          if (topBlur) {
-            topBlur.style.opacity = scrolled ? "1" : "0";
-          }
-        };
-        addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
+        if (topBlur) {
+          const onScroll = () => {
+            topBlur.style.opacity = scrollY > 12 ? "1" : "0";
+          };
+          addEventListener("scroll", onScroll, { passive: true });
+          onScroll();
+        }
       } catch { /* ignore */ }
 
       /* ── Header menu (Lando-style) ── */
