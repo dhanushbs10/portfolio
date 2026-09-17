@@ -53,6 +53,9 @@ const stats = [
     <!-- Grain overlay -->
     <div class="grain" aria-hidden="true"></div>
 
+    <!-- Progressive top blur — Igloo inc style, whole top section blurs on scroll -->
+    <div id="top-blur" class="pointer-events-none fixed inset-x-0 top-0 z-40 h-32 opacity-0 transition-opacity duration-500" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); background: color-mix(in srgb, var(--color-paper) 55%, transparent); mask-image: linear-gradient(to bottom, black 55%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);"></div>
+
     <!-- Page transition overlay -->
     <div class="page-transition" id="page-transition" aria-hidden="true"></div>
 
@@ -257,21 +260,25 @@ const stats = [
         }
       } catch { /* ignore */ }
 
-      /* ── Header blur on scroll ── */
+      /* ── Header + top progressive blur on scroll — Igloo inc style ── */
       try {
         const header = document.getElementById("site-header");
-        if (header) {
-          const onScroll = () => {
-            const scrolled = scrollY > 12;
+        const topBlur = document.getElementById("top-blur");
+        const onScroll = () => {
+          const scrolled = scrollY > 12;
+          if (header) {
             header.classList.toggle("bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)]", scrolled);
             header.classList.toggle("backdrop-blur-xl", scrolled);
             header.classList.toggle("border-[var(--color-line)]", scrolled);
             header.classList.toggle("bg-transparent", !scrolled);
             header.classList.toggle("border-transparent", !scrolled);
-          };
-          addEventListener("scroll", onScroll, { passive: true });
-          onScroll();
-        }
+          }
+          if (topBlur) {
+            topBlur.style.opacity = scrolled ? "1" : "0";
+          }
+        };
+        addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
       } catch { /* ignore */ }
 
       /* ── Header menu (Lando-style) ── */
