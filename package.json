@@ -12,11 +12,21 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.6",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.2",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
   }
 }
