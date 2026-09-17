@@ -4,10 +4,10 @@ interface Props {
   title?: string;
   aspect?: string;
 }
-const { src, title = "Preview", aspect = "square" } = Astro.props;
-const aspectClass = aspect === "video" ? "aspect-video" : "aspect-square";
+const { src, title = "Preview", aspect = "video" } = Astro.props;
+const aspectClass = aspect === "square" ? "aspect-square" : "aspect-video";
 ---
-<div class={`group relative mx-auto max-w-[360px] overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass} h-[360px]`}>
+<div class={`group relative mx-auto w-full max-w-[680px] overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass}`}>
   <iframe
     src={src}
     title={title}
