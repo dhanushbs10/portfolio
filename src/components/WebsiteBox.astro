@@ -7,7 +7,7 @@ interface Props {
 const { src, title = "Preview", aspect = "square" } = Astro.props;
 const aspectClass = aspect === "video" ? "aspect-video" : "aspect-square";
 ---
-<div class={`group relative overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass}`}>
+<div class={`group relative mx-auto max-w-[360px] overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass} h-[360px]`}>
   <iframe
     src={src}
     title={title}
@@ -16,7 +16,12 @@ const aspectClass = aspect === "video" ? "aspect-video" : "aspect-square";
     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
     referrerpolicy="no-referrer"
     allow="clipboard-read; clipboard-write"
+    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
   ></iframe>
+  <div id="fallback-{title}" class="absolute inset-0 hidden flex-col items-center justify-center bg-[var(--color-card)] p-6 text-center">
+    <p class="font-mono text-xs text-[var(--color-ink-3)]">Preview blocked by site headers</p>
+    <a href={src} target="_blank" class="go mt-3">Open in new tab ↗</a>
+  </div>
   <div class="pointer-events-none absolute inset-0 border border-white/0 transition-colors group-hover:border-white/10"></div>
 </div>
 <p class="mt-2 flex items-center justify-between font-mono text-[0.68rem] text-[var(--color-ink-3)]">
