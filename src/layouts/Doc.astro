@@ -58,8 +58,8 @@ const stats = [
 
     <div id="progressbar" aria-hidden="true"></div>
 
-    <!-- Header — Lando style: transparent, only 1cookie0 + hamburger + Hire me -->
-    <header class="fixed inset-x-0 top-0 z-50">
+    <!-- Header — transparent, blurs on scroll -->
+    <header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent transition-colors duration-300">
       <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8">
         <a href="/" class="font-mono text-[1.05rem] font-bold tracking-tight text-[var(--color-ink)] hover:text-[var(--color-accent)]" data-magnetic>1cookie0</a>
         <div class="flex items-center gap-3">
@@ -254,6 +254,23 @@ const stats = [
         if (clock) {
           const t = () => { try { clock.textContent = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" }); } catch { /* ignore */ } };
           t(); setInterval(t, 30000);
+        }
+      } catch { /* ignore */ }
+
+      /* ── Header blur on scroll ── */
+      try {
+        const header = document.getElementById("site-header");
+        if (header) {
+          const onScroll = () => {
+            const scrolled = scrollY > 12;
+            header.classList.toggle("bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)]", scrolled);
+            header.classList.toggle("backdrop-blur-xl", scrolled);
+            header.classList.toggle("border-[var(--color-line)]", scrolled);
+            header.classList.toggle("bg-transparent", !scrolled);
+            header.classList.toggle("border-transparent", !scrolled);
+          };
+          addEventListener("scroll", onScroll, { passive: true });
+          onScroll();
         }
       } catch { /* ignore */ }
 
