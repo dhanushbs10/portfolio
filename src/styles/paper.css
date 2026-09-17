@@ -221,11 +221,13 @@ body {
 /* ── Drag rail ── */
 .rail {
   display: flex; gap: 1.1rem; overflow-x: auto; scroll-snap-type: x mandatory;
-  padding-bottom: 1rem; scrollbar-width: none; cursor: grab;
+  padding: 0 1.25rem 1rem; scrollbar-width: none; cursor: grab;
+  scroll-padding-inline: 1.25rem;
+  margin-inline: -1.25rem;
 }
 .rail::-webkit-scrollbar { display: none; }
 .rail.dragging { cursor: grabbing; scroll-snap-type: none; }
-.rail > * { scroll-snap-align: start; flex: 0 0 min(430px, 84vw); }
+.rail > * { scroll-snap-align: start; flex: 0 0 clamp(300px, 30vw, 360px); min-width: 0; }
 
 /* ── Chapter spy ── */
 .chapter-link { border-left: 2px solid var(--color-line); transition: border-color .3s, color .3s, padding .3s; }
