@@ -1,7 +1,16 @@
 ---
+import WebsiteBox from "../WebsiteBox.astro";
 // Shell lab - miniature of ShellPlay with the README's exact details:
 // user@linux-sim prompt, green/amber themes, seeded tree, more commands.
 ---
+
+<div class="mb-6">
+  <p class="meta-label">Live app — square preview</p>
+  <div class="mt-3">
+    <WebsiteBox src="https://shellplay-gmecu85rd-bsdhansh-1067s-projects.vercel.app" title="ShellPlay — live Vercel" />
+  </div>
+  <p class="mt-2 font-mono text-[0.66rem] leading-relaxed text-[var(--color-ink-3)]">If blocked (shows “refused to connect” — currently <code class="inline-code">X-Frame-Options: DENY</code>), add <code class="inline-code">X-Frame-Options: ALLOWALL</code> removal in <code class="inline-code">next.config.js</code> headers and redeploy.</p>
+</div>
 
 <div class="console" id="sh-lab" data-theme="green">
   <div class="console-bar">

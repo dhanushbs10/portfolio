@@ -1,0 +1,25 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  aspect?: string;
+}
+const { src, title = "Preview", aspect = "square" } = Astro.props;
+const aspectClass = aspect === "video" ? "aspect-video" : "aspect-square";
+---
+<div class={`group relative overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-card)] ${aspectClass}`}>
+  <iframe
+    src={src}
+    title={title}
+    class="h-full w-full"
+    loading="lazy"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"
+    referrerpolicy="no-referrer"
+    allow="clipboard-read; clipboard-write"
+  ></iframe>
+  <div class="pointer-events-none absolute inset-0 border border-white/0 transition-colors group-hover:border-white/10"></div>
+</div>
+<p class="mt-2 flex items-center justify-between font-mono text-[0.68rem] text-[var(--color-ink-3)]">
+  <span class="truncate">{title} — {src}</span>
+  <a href={src} target="_blank" rel="noreferrer" class="pointer-events-auto ml-3 shrink-0 underline hover:text-[var(--color-ink)]">open ↗</a>
+</p>
