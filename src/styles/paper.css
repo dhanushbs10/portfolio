@@ -220,14 +220,13 @@ body {
 
 /* ── Drag rail ── */
 .rail {
-  display: flex; gap: 1.1rem; overflow-x: auto; scroll-snap-type: x mandatory;
-  padding: 0 1.25rem 1rem; scrollbar-width: none; cursor: grab;
-  scroll-padding-inline: 1.25rem;
-  margin-inline: -1.25rem;
+  display: flex; gap: 1.25rem; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+  padding-bottom: 1rem; scrollbar-width: none; cursor: grab;
+  overscroll-behavior-x: contain;
 }
 .rail::-webkit-scrollbar { display: none; }
 .rail.dragging { cursor: grabbing; scroll-snap-type: none; }
-.rail > * { scroll-snap-align: start; flex: 0 0 clamp(300px, 30vw, 360px); min-width: 0; }
+.rail > * { scroll-snap-align: start; flex: 0 0 340px; width: 340px; min-width: 340px; max-width: 340px; }
 
 /* ── Chapter spy ── */
 .chapter-link { border-left: 2px solid var(--color-line); transition: border-color .3s, color .3s, padding .3s; }
