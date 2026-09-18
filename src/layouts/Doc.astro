@@ -331,12 +331,20 @@ const stats = [
       try {
         const overlay = document.getElementById("page-transition");
         if (overlay) {
+          // Ensure overlay is hidden on load / back-forward cache restore (fixes black screen on back)
+          overlay.classList.remove("is-active");
+          window.addEventListener("pageshow", () => overlay.classList.remove("is-active"));
+          document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") overlay.classList.remove("is-active"); });
           document.querySelectorAll('a[href^="/"]').forEach((link) => {
             link.addEventListener("click", (e) => {
-              if (e.metaKey || e.ctrlKey) return;
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+              const href = link.getAttribute("href");
+              if (!href || href.startsWith("/#") || href === window.location.pathname) return;
+              // Don't intercept external or hash
+              if (link.target === "_blank") return;
               e.preventDefault();
               overlay.classList.add("is-active");
-              setTimeout(() => { window.location.href = link.href; }, 450);
+              setTimeout(() => { window.location.href = link.href; }, 380);
             });
           });
         }
