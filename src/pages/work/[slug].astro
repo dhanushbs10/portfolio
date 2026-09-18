@@ -20,12 +20,18 @@ const p = project;
 const idx = projects.findIndex((x) => x.slug === slug);
 const next = projects[(idx + 1) % projects.length];
 const prev = projects[(idx - 1 + projects.length) % projects.length];
-const chapters = [
-  ["#overview", "01 · Overview"],
-  ["#exhibit", "02 · Live exhibit"],
-  ["#evidence", "03 · Evidence"],
-  ["#build", "04 · Build log"],
-];
+const chapters = p.slug === "droplink"
+  ? [
+      ["#overview", "Overview"],
+      ["#evidence", "Evidence"],
+      ["#build", "Build log"],
+    ]
+  : [
+      ["#overview", "Overview"],
+      ["#exhibit", "Live exhibit"],
+      ["#evidence", "Evidence"],
+      ["#build", "Build log"],
+    ];
 
 const accentGradients: Record<string, string> = {
   phantomsection: "project-accent-1",
@@ -47,7 +53,6 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
       <div class="relative mx-auto max-w-7xl px-5 md:px-8">
         <div class="reveal flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-white/20 pb-3 font-mono text-[0.68rem] tracking-[0.2em] text-white/70">
           <a href="/work" class="hover:text-white transition-colors">← ARCHIVE</a>
-          <span>CASE FILE {p.index} / 07</span>
           <span>{p.category.toUpperCase()}</span>
           <a href={p.github} target="_blank" rel="noreferrer" class="ml-auto hover:text-white transition-colors">GITHUB ↗</a>
         </div>
@@ -79,7 +84,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
         <div class="min-w-0">
           <!-- Section: Overview -->
           <section id="overview" class="scroll-mt-28">
-            <p class="reveal meta-label">01 - Overview</p>
+            <p class="reveal meta-label">Overview</p>
             <p class="reveal mt-4 max-w-3xl leading-[1.85] text-[var(--color-ink-2)]" style="--rd:80ms">{p.description}</p>
             <ul class="mt-7 grid gap-3 sm:grid-cols-2">
               {p.features.map((f, i) => (
@@ -96,27 +101,28 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
             )}
           </section>
 
-          <!-- Section: Live exhibit -->
-          <section id="exhibit" class="mt-20 scroll-mt-28">
-            <div class="reveal border-t border-[var(--color-line)] pt-10">
-              <p class="meta-label">02 - Live exhibit · try it here</p>
-              <p class="mt-2 text-sm text-[var(--color-ink-3)]">Interactive - runs entirely in your browser.</p>
-            </div>
-            <div class="reveal mt-6" style="--rd:80ms">
-              {p.slug === "vynlore" && <VynloreLab />}
-              {p.slug === "droplink" && <DroplinkLab />}
-              {p.slug === "shellplay" && <ShellLab />}
-              {p.slug === "phantomsection" && <PhantomLab />}
-              {p.slug === "pxe-network-boot-lab" && <PxeLab />}
-              {p.slug === "esp8266-wake-on-lan" && <EspLab />}
-              {p.slug === "cross-subnet-smb-fix" && <SmbLab />}
-            </div>
-          </section>
+          <!-- Section: Live exhibit — hidden for droplink per request -->
+          {p.slug !== "droplink" && (
+            <section id="exhibit" class="mt-20 scroll-mt-28">
+              <div class="reveal border-t border-[var(--color-line)] pt-10">
+                <p class="meta-label">Live exhibit · try it here</p>
+                <p class="mt-2 text-sm text-[var(--color-ink-3)]">Interactive - runs entirely in your browser.</p>
+              </div>
+              <div class="reveal mt-6" style="--rd:80ms">
+                {p.slug === "vynlore" && <VynloreLab />}
+                {p.slug === "shellplay" && <ShellLab />}
+                {p.slug === "phantomsection" && <PhantomLab />}
+                {p.slug === "pxe-network-boot-lab" && <PxeLab />}
+                {p.slug === "esp8266-wake-on-lan" && <EspLab />}
+                {p.slug === "cross-subnet-smb-fix" && <SmbLab />}
+              </div>
+            </section>
+          )}
 
           <!-- Section: Evidence -->
           <section id="evidence" class="mt-20 scroll-mt-28">
             <div class="reveal border-t border-[var(--color-line)] pt-10">
-              <p class="meta-label">03 - Evidence · from the repo</p>
+              <p class="meta-label">Evidence · from the repo</p>
             </div>
 
             <!-- Flow -->
@@ -124,8 +130,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
               <h3 class="display text-2xl md:text-3xl">How it works</h3>
               <ol class="mt-6 space-y-0 overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]">
                 {p.flow.map((f, i) => (
-                  <li class={`group grid gap-1 p-5 transition-colors hover:bg-[var(--color-paper)] md:grid-cols-[60px_200px_1fr] md:gap-4 md:p-6 ${i > 0 ? "border-t border-[var(--color-line)]" : ""}`}>
-                    <span class="font-mono text-sm text-[var(--color-accent-ink)]">{f.step}</span>
+                  <li class={`group grid gap-1 p-5 transition-colors hover:bg-[var(--color-paper)] md:grid-cols-[200px_1fr] md:gap-4 md:p-6 ${i > 0 ? "border-t border-[var(--color-line)]" : ""}`}>
                     <span class="font-semibold">{f.title}</span>
                     <span class="text-sm leading-relaxed text-[var(--color-ink-2)]">{f.detail}</span>
                   </li>
@@ -167,7 +172,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
           <!-- Section: Build log -->
           <section id="build" class="mt-20 scroll-mt-28">
             <div class="reveal border-t border-[var(--color-line)] pt-10">
-              <p class="meta-label">04 - Build log · reproduce it</p>
+              <p class="meta-label">Build log · reproduce it</p>
             </div>
             <div class="reveal console mt-6" style="--rd:80ms">
               <div class="console-bar">
@@ -175,9 +180,9 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
                 <span class="ml-2">REPRODUCE</span>
               </div>
               <div class="console-body">
-                {p.build.map((b, i) => (
+                {p.build.map((b) => (
                   <div class="flex gap-3 py-1">
-                    <span class="c-info shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                    <span class="c-info shrink-0">—</span>
                     <span>{b}</span>
                   </div>
                 ))}
