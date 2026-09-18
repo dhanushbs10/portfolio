@@ -2,8 +2,6 @@
 import Doc from "../layouts/Doc.astro";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
-import DarkVeil from "../components/reactbits/DarkVeil.tsx";
-import ProfileCard from "../components/reactbits/ProfileCard.tsx";
 
 const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "PACKET TRACER", "HOME LAB", "ETHERNET", "METASPLOIT"];
 
@@ -16,11 +14,19 @@ const stats = [
 ---
 
 <Doc>
-  <!-- Hero — React Bits DarkVeil -->
-  <section class="relative overflow-hidden bg-[var(--color-paper)] pt-32 pb-16 md:pt-44 md:pb-24">
-    <div class="absolute inset-0">
-      <DarkVeil client:load />
-    </div>
+  <!-- Hero — pure CSS veil background (no JS) -->
+  <section
+    class="relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24"
+    style="background-color:#0b0d12;
+      background-image:
+        radial-gradient(60rem 40rem at 18% 10%, rgba(59,130,246,0.16), transparent 60%),
+        radial-gradient(50rem 34rem at 82% 92%, rgba(59,130,246,0.10), transparent 60%),
+        radial-gradient(40rem 30rem at 55% 45%, rgba(99,102,241,0.06), transparent 65%),
+        radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: auto, auto, auto, 26px 26px;
+    ">
+    <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(80rem 50rem at 50% -10%, rgba(59,130,246,0.08), transparent 55%);"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40" style="background:linear-gradient(to bottom, transparent, var(--color-paper));"></div>
 
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
       <!-- Main heading - character assembly (Stefan Vitasović-style) -->
@@ -28,8 +34,7 @@ const stats = [
         Dhanush<br />BS<span class="text-[var(--color-accent)]">.</span>
       </h1>
 
-      <!-- Two-column: intro + dossier -->
-      <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
+      <div class="mt-10 max-w-2xl">
         <div class="reveal" style="--rd:160ms">
           <p class="font-serif text-xl italic leading-relaxed text-[var(--color-ink-2)] md:text-2xl">
             "{profile.intro}"
@@ -41,10 +46,6 @@ const stats = [
             <a href="/work" class="btn-ink" data-magnetic>Open the work <span aria-hidden="true">→</span></a>
             <a href="/contact" class="btn-line" data-magnetic>Contact</a>
           </div>
-        </div>
-
-        <div class="reveal lg:-mt-6" style="--rd:240ms">
-          <ProfileCard />
         </div>
       </div>
 
