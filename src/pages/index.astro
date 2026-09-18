@@ -2,6 +2,7 @@
 import Doc from "../layouts/Doc.astro";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
+import HomeBackground from "../components/reactbits/HomeBackground.tsx";
 
 const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "PACKET TRACER", "HOME LAB", "ETHERNET", "METASPLOIT"];
 
@@ -14,9 +15,11 @@ const stats = [
 ---
 
 <Doc>
-  <!-- Hero -->
-  <section class="blueprint relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24">
-    <div class="aurora"></div>
+  <!-- Hero — React Bits HomeBackground -->
+  <section class="relative overflow-hidden bg-[var(--color-paper)] pt-32 pb-16 md:pt-44 md:pb-24">
+    <div class="absolute inset-0">
+      <HomeBackground client:load />
+    </div>
 
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
       <!-- Main heading - character assembly (Stefan Vitasović-style) -->

@@ -1,26 +1,14 @@
 ---
-import WebsiteBox from "../WebsiteBox.astro";
-// Vynlore lab - web miniature: generative tracks + real 3-band EQ +
-// the README's 10 genre presets (mapped onto bass/mid/treble) + spectrum.
-// Windows .exe below is a native Tauri app - cannot run directly in browser without WASM/emulation
+import VynloreExactPreview from "../reactbits/VynloreExactPreview.tsx";
+// Vynlore lab - exact UI preview (read-only from GH repo, not modifying vynlore repo) + WebAudio miniature below
 ---
 
 <div class="mb-6">
-  <p class="meta-label">App preview — design only</p>
-  <div class="mt-3 aspect-square overflow-hidden rounded-xl border border-[var(--color-line-strong)] bg-[#0f1117] p-6 flex flex-col">
-    <div class="flex items-center justify-between font-mono text-[0.62rem] tracking-[0.18em] text-white/40"><span>VYNL0RE</span><span>44.1kHz • FLAC</span></div>
-    <div class="mx-auto mt-6 flex h-36 w-36 items-center justify-center rounded-xl bg-gradient-to-br from-[#1a1e29] to-[#0b0d12] border border-white/10 text-3xl">♫</div>
-    <div class="mt-6 text-center">
-      <p class="display text-xl text-white">Midnight Bus</p>
-      <p class="font-mono text-xs text-white/50">Lossless • Tauri v2 • Rust</p>
-    </div>
-    <div class="mt-auto">
-      <div class="h-1 w-full rounded-full bg-white/10"><div class="h-1 w-[38%] rounded-full bg-white"></div></div>
-      <div class="mt-4 flex items-center justify-center gap-6 text-white/60"><span>⏮</span><span class="grid h-9 w-9 place-items-center rounded-full bg-white text-black">▶</span><span>⏭</span></div>
-    </div>
-    <p class="mt-4 text-center font-mono text-[0.62rem] leading-relaxed text-white/40">This is just the design — music can only be played through the app itself (WASAPI exclusive).</p>
-    <a href="https://github.com/dhanushbs10/vynlore/releases" target="_blank" class="go mt-4 w-full justify-center">Download .exe ↗</a>
+  <p class="meta-label">App preview — exact UI (read-only)</p>
+  <div class="mt-3">
+    <VynloreExactPreview client:load />
   </div>
+  <p class="mt-2 text-center font-mono text-[0.62rem] text-[var(--color-ink-3)]">Exact UI from <code class="inline-code">github.com/dhanushbs10/vynlore</code> — design only, music plays only in the desktop app (WASAPI exclusive). <a href="https://github.com/dhanushbs10/vynlore/releases" target="_blank" class="underline hover:text-[var(--color-ink)]">Download .exe ↗</a></p>
 </div>
 
 <div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card)]" id="vyn-lab">
