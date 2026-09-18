@@ -104,10 +104,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
           <!-- Section: Live exhibit — hidden for droplink per request -->
           {p.slug !== "droplink" && (
             <section id="exhibit" class="mt-20 scroll-mt-28">
-              <div class="reveal border-t border-[var(--color-line)] pt-10">
-                <p class="meta-label">Live exhibit · try it here</p>
-                <p class="mt-2 text-sm text-[var(--color-ink-3)]">Interactive - runs entirely in your browser.</p>
-              </div>
+              <div class="reveal border-t border-[var(--color-line)] pt-10"></div>
               <div class="reveal mt-6" style="--rd:80ms">
                 {p.slug === "vynlore" && <VynloreLab />}
                 {p.slug === "shellplay" && <ShellLab />}
