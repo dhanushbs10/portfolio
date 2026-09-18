@@ -2,7 +2,8 @@
 import Doc from "../layouts/Doc.astro";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
-import HomeBackground from "../components/reactbits/HomeBackground.tsx";
+import DarkVeil from "../components/reactbits/DarkVeil.tsx";
+import ProfileCard from "../components/reactbits/ProfileCard.tsx";
 
 const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "PACKET TRACER", "HOME LAB", "ETHERNET", "METASPLOIT"];
 
@@ -15,10 +16,10 @@ const stats = [
 ---
 
 <Doc>
-  <!-- Hero — React Bits HomeBackground -->
+  <!-- Hero — React Bits DarkVeil -->
   <section class="relative overflow-hidden bg-[var(--color-paper)] pt-32 pb-16 md:pt-44 md:pb-24">
     <div class="absolute inset-0">
-      <HomeBackground client:load />
+      <DarkVeil client:load />
     </div>
 
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
@@ -42,19 +43,9 @@ const stats = [
           </div>
         </div>
 
-        <dl class="reveal dossier divide-y divide-[var(--color-line)] p-2" style="--rd:240ms">
-          {[
-            ["Focus", "Cybersecurity"],
-            ["Pathway", "Diploma CSE · Sem 5"],
-            ["Base", profile.location],
-            ["Goal", "Network Engineer"],
-          ].map(([k, v]) => (
-            <div class="flex items-center justify-between gap-4 px-4 py-3.5">
-              <dt class="meta-label">{k}</dt>
-              <dd class="text-right text-sm font-semibold text-[var(--color-ink)]">{v}</dd>
-            </div>
-          ))}
-        </dl>
+        <div class="reveal lg:-mt-6" style="--rd:240ms">
+          <ProfileCard />
+        </div>
       </div>
 
       <!-- Scroll hint -->
