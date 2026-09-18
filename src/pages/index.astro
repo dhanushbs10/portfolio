@@ -2,8 +2,6 @@
 import Doc from "../layouts/Doc.astro";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
-import DecryptedText from "../components/reactbits/DecryptedText.tsx";
-import SpotlightCard from "../components/reactbits/SpotlightCard.tsx";
 
 const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "PACKET TRACER", "HOME LAB", "ETHERNET", "METASPLOIT"];
 
@@ -23,8 +21,7 @@ const stats = [
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
       <!-- Main heading - character assembly (Stefan Vitasović-style) -->
       <h1 class="display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.82]" style="line-height:0.82" aria-label="Dhanush B S.">
-        <DecryptedText text="Dhanush" speed={90} animateOn="view" className="text-[var(--color-ink)]" parentClassName="block" client:visible />
-        <DecryptedText text="BS." speed={90} animateOn="view" className="text-[var(--color-ink)]" encryptedClassName="text-[var(--color-ink-3)]" parentClassName="block" client:visible />
+        Dhanush<br />BS<span class="text-[var(--color-accent)]">.</span>
       </h1>
 
       <!-- Two-column: intro + dossier -->
@@ -96,7 +93,7 @@ const stats = [
 
     <div class="reveal rail mt-12" id="work-rail" style="--rd:120ms">
       {projects.map((p) => (
-        <SpotlightCard client:visible spotlightColor="rgba(255,255,255,0.06)" className="group flex min-h-[280px] cursor-pointer flex-col p-6" href={`/work/${p.slug}`}>
+        <a href={`/work/${p.slug}`} class="dossier dossier-hover group flex min-h-[280px] flex-col p-6">
           <div class="flex items-center gap-4 font-mono text-[0.68rem] tracking-[0.18em]">
             <span class="text-[var(--color-ink-3)]">{p.category.toUpperCase()}</span>
           </div>
@@ -109,7 +106,7 @@ const stats = [
             <span class="tag shrink-0" style="border-color:rgb(74 222 128 / 0.35); color:var(--color-ok)">● LIVE DEMO</span>
             <span class="arrow-slide shrink-0 font-mono text-xs whitespace-nowrap text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">OPEN <span data-arrow>→</span></span>
           </div>
-        </SpotlightCard>
+        </a>
       ))}
     </div>
     <div class="reveal mt-3 flex items-center gap-3" style="--rd:160ms">
