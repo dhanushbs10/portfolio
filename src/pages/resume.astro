@@ -8,7 +8,7 @@ import Doc from "../layouts/Doc.astro";
       <div>
         <p class="meta-label">Dossier — resume</p>
         <h1 class="display mt-3 text-5xl md:text-7xl">Resume & CV.</h1>
-        <p class="mt-4 max-w-2xl text-[var(--color-ink-3)]">Resume and detailed CV will appear here. No download — embedded for recruiters.</p>
+        <p class="mt-4 max-w-2xl text-[var(--color-ink-3)]">Resume is embedded below with download. Switch to Detailed CV for the full dossier when you share the second PDF.</p>
       </div>
       <div class="flex rounded-full border border-[var(--color-line-strong)] bg-[var(--color-card)] p-1">
         <button id="btn-resume" class="rounded-full bg-[var(--color-ink)] px-6 py-2 font-mono text-xs font-semibold text-[var(--color-paper)] transition-colors">Resume</button>
@@ -16,24 +16,36 @@ import Doc from "../layouts/Doc.astro";
       </div>
     </div>
 
-    <!-- Resume — blank placeholder, you will provide PDF location later -->
+    <!-- Resume — embedded PDF + download -->
     <div id="view-resume" class="mt-12">
-      <div class="dossier flex min-h-[520px] items-center justify-center p-12 text-center">
-        <div>
-          <p class="font-mono text-xs tracking-[0.18em] text-[var(--color-ink-3)]">RESUME — PLACEHOLDER</p>
-          <p class="mt-4 text-sm text-[var(--color-ink-3)]">You will tell me where the resume PDF is located. This area is kept blank and will embed the PDF.</p>
-          <p class="mt-2 font-mono text-xs text-[var(--color-ink-3)]">No download link — full inline display as requested.</p>
+      <div class="dossier overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--color-line)] bg-[var(--color-card-2)] p-5">
+          <p class="font-mono text-xs tracking-[0.18em] text-[var(--color-ink-3)]">RESUME — Dhanush_BS_Resume.pdf</p>
+          <a href="/Dhanush_BS_Resume.pdf" download class="btn-ink !py-2 !px-4 text-xs">Download PDF ↗</a>
+        </div>
+        <div class="bg-[var(--color-card)]">
+          <iframe src="/Dhanush_BS_Resume.pdf" class="h-[820px] w-full" title="Resume PDF"></iframe>
+        </div>
+        <div class="border-t border-[var(--color-line)] bg-[var(--color-card-2)] p-4 text-center">
+          <a href="/Dhanush_BS_Resume.pdf" target="_blank" class="font-mono text-xs underline text-[var(--color-ink-3)] hover:text-[var(--color-ink)]">Open in new tab if viewer is blank</a>
         </div>
       </div>
     </div>
 
-    <!-- Detailed CV — blank placeholder -->
+    <!-- Detailed CV — placeholder until you share second PDF -->
     <div id="view-cv" class="mt-12 hidden">
-      <div class="dossier flex min-h-[520px] items-center justify-center p-12 text-center">
-        <div>
-          <p class="font-mono text-xs tracking-[0.18em] text-[var(--color-ink-3)]">DETAILED CV — PLACEHOLDER</p>
-          <p class="mt-4 text-sm text-[var(--color-ink-3)]">You will tell me where the detailed CV PDF is located. Recruiter clicks “Detailed CV” to see this view.</p>
-          <p class="mt-2 font-mono text-xs text-[var(--color-ink-3)]">Kept blank for now.</p>
+      <div class="dossier overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--color-line)] bg-[var(--color-card-2)] p-5">
+          <p class="font-mono text-xs tracking-[0.18em] text-[var(--color-ink-3)]">DETAILED CV — Awaiting PDF</p>
+          <span class="tag">No file yet</span>
+        </div>
+        <div class="flex min-h-[520px] items-center justify-center p-12 text-center">
+          <div>
+            <p class="font-mono text-xs tracking-[0.18em] text-[var(--color-ink-3)]">DETAILED CV — PLACEHOLDER</p>
+            <p class="mt-4 text-sm text-[var(--color-ink-3)]">Share the detailed CV PDF (e.g. <code class="inline-code">Downloads/Detailed_CV.pdf</code>) and I'll embed it here same as Resume — with download + inline view.</p>
+            <p class="mt-2 font-mono text-xs text-[var(--color-ink-3)]">For now this tab shows the same Resume as fallback:</p>
+            <a href="/Dhanush_BS_Resume.pdf" target="_blank" class="go mt-4">View Resume PDF ↗</a>
+          </div>
         </div>
       </div>
     </div>
