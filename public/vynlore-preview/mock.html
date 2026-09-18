@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vynlore — Mock Preview</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Inter,system-ui,sans-serif;background:#0a0a0f;color:#f2f4f7;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  .top{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid rgba(255,255,255,0.08);background:#0f1117;font-size:10px;letter-spacing:0.18em;color:rgba(255,255,255,0.4)}
+  .main{flex:1;display:flex;min-height:0}
+  .side{width:140px;border-right:1px solid rgba(255,255,255,0.08);background:#0f1117;padding:12px;display:flex;flex-direction:column}
+  .side .logo{font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.3);margin-bottom:12px}
+  .side .nav{flex:1;space-y:4px}
+  .side .item{padding:6px 8px;border-radius:6px;font-size:12px;display:flex;align-items:center;gap:8px}
+  .side .item.active{background:white;color:black}
+  .side .item:not(.active){color:rgba(255,255,255,0.6)}
+  .content{flex:1;background:#0a0a0f;padding:12px;overflow:auto}
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .card{border:1px solid rgba(255,255,255,0.08);background:#14171f;border-radius:8px;padding:8px}
+  .cover{height:64px;border-radius:6px;background:linear-gradient(135deg,#1a1e29,#0b0d12);display:grid;place-items:center;font-size:18px}
+  .title{font-size:11px;font-weight:600;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .artist{font-size:10px;color:rgba(255,255,255,0.4)}
+  .player{height:52px;border-top:1px solid rgba(255,255,255,0.08);background:#0f1117;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+  .player .left{display:flex;align-items:center;gap:8px}
+  .player .art{height:32px;width:32px;border-radius:4px;background:#1a1e29}
+  .player .meta{font-size:11px}
+  .player .controls{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.6)}
+  .player .play{height:28px;width:28px;border-radius:50%;background:white;color:black;display:grid;place-items:center;font-size:12px}
+  .note{font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-align:center;padding:6px;background:#0f1117;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+<div class="top"><span>VYNL0RE — TAURI v2</span><span>44.1kHz • FLAC</span></div>
+<div class="main">
+  <div class="side">
+    <div class="logo">VYNLORE</div>
+    <div class="nav">
+      <div class="item active">◉ Home</div>
+      <div class="item">≡ Library</div>
+      <div class="item">◎ Albums</div>
+      <div class="item">◯ Artists</div>
+      <div class="item">♫ Genres</div>
+      <div class="item">≡ Playlists</div>
+    </div>
+    <div style="margin-top:auto;padding:6px;font-size:10px;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.08);text-align:center">Add Folder</div>
+  </div>
+  <div class="content">
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px">Library — 4 tracks • 2 albums</div>
+    <div class="tracks">
+      <div class="card"><div class="cover">♫</div><div class="title">Midnight Bus</div><div class="artist">Vynlore • FLAC</div></div>
+      <div class="card"><div class="cover">♫</div><div class="title">Monsoon Static</div><div class="artist">Vynlore • FLAC</div></div>
+      <div class="card"><div class="cover">♫</div><div class="title">Lab Hum</div><div class="artist">Vynlore • FLAC</div></div>
+      <div class="card"><div class="cover">♫</div><div class="title">Neon Drift</div><div class="artist">Vynlore • FLAC</div></div>
+    </div>
+  </div>
+</div>
+<div class="player">
+  <div class="left">
+    <div class="art"></div>
+    <div class="meta"><div>Midnight Bus</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">Vynlore • FLAC • 44.1kHz</div></div>
+  </div>
+  <div class="controls"><span>⏮</span><span class="play">▶</span><span>⏭</span></div>
+  <div style="font-size:10px;color:rgba(255,255,255,0.3)">44.1kHz • WASAPI</div>
+</div>
+<div class="note">This is just the design — music can only be played through the app itself (WASAPI exclusive)</div>
+</body>
+</html>
