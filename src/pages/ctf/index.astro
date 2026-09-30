@@ -144,7 +144,7 @@ import Doc from "../../layouts/Doc.astro";
       pointer-events: none;
     }
 
-    .confetti-piece {
+    .paper-blast :global(.confetti-piece) {
       position: absolute;
       top: var(--start-y);
       left: var(--start-x);
@@ -157,13 +157,13 @@ import Doc from "../../layouts/Doc.astro";
       will-change: transform, opacity;
     }
 
-    .confetti-dot {
+    .paper-blast :global(.confetti-dot) {
       width: 9px;
       height: 9px;
       border-radius: 50%;
     }
 
-    .is-blasting .confetti-piece {
+    .paper-blast.is-blasting :global(.confetti-piece) {
       animation: paper-blast var(--fall-time) cubic-bezier(.16,.72,.3,1) var(--delay) both;
     }
 
@@ -175,7 +175,7 @@ import Doc from "../../layouts/Doc.astro";
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .confetti-piece { display: none; }
+      .paper-blast :global(.confetti-piece) { display: none; }
     }
   </style>
 </Doc>
