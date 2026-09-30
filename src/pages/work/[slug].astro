@@ -8,6 +8,7 @@ import PxeLab from "../../components/labs/PxeLab.astro";
 import EspLab from "../../components/labs/EspLab.astro";
 import SmbLab from "../../components/labs/SmbLab.astro";
 import { projects } from "../../data/projects";
+import { highlightBash, highlightCpp } from "../../lib/highlight";
 
 export async function getStaticPaths() {
   return projects.map((p) => ({ params: { slug: p.slug } }));
@@ -160,7 +161,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
                     <i style="background:#34d399; width:10px; height:10px; border-radius:50%; display:inline-block"></i>
                     <span class="ml-2">{c.lang}</span>
                   </div>
-                  <pre class="code-block-body overflow-x-auto whitespace-pre">{c.body}</pre>
+                  <pre class="code-block-body overflow-x-auto whitespace-pre">{c.lang === "cpp" ? <code set:html={highlightCpp(c.body)} /> : c.lang === "bash" ? <code set:html={highlightBash(c.body)} /> : c.body}</pre>
                 </div>
               </div>
             ))}

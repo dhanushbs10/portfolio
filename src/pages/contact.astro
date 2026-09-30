@@ -14,11 +14,14 @@ const c = profile.contact;
 
     <!-- Contact cards -->
     <div class="mt-12 grid gap-4 md:grid-cols-2">
-      <a href={`mailto:${c.email}`} class="reveal dossier dossier-hover group p-8" data-magnetic>
+      <div class="reveal dossier p-8">
         <p class="meta-label">Email</p>
-        <p class="display mt-3 break-all text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors md:text-[1.7rem]">{c.email}</p>
-        <span class="arrow-slide mt-4 inline-block font-mono text-xs text-[var(--color-accent-ink)]">SEND AN EMAIL <span data-arrow>→</span></span>
-      </a>
+        <p class="display mt-3 break-all text-2xl md:text-[1.7rem]">{c.email}</p>
+        <div class="mt-4 flex flex-wrap gap-5">
+          <a href={`mailto:${c.email}`} class="arrow-slide font-mono text-xs text-[var(--color-accent-ink)]" data-magnetic>SEND AN EMAIL <span data-arrow>→</span></a>
+          <button id="copy-email" type="button" class="arrow-slide cursor-pointer font-mono text-xs text-[var(--color-accent-ink)]" data-magnetic>COPY <span data-arrow>→</span></button>
+        </div>
+      </div>
       <a href={`tel:${c.phone.replace(/\s/g, "")}`} class="reveal dossier dossier-hover group p-8" style="--rd:80ms" data-magnetic>
         <p class="meta-label">Phone</p>
         <p class="display mt-3 text-2xl group-hover:text-[var(--color-accent-ink)] transition-colors md:text-[1.7rem]">{c.phone}</p>
@@ -53,4 +56,17 @@ const c = profile.contact;
       </div>
     </div>
   </section>
+
+  <script>
+    const copyBtn = document.getElementById('copy-email');
+    const copyLabel = 'COPY →';
+    copyBtn?.addEventListener('click', async () => {
+      const email = 'dhanushpoojari101@gmail.com';
+      try {
+        await navigator.clipboard.writeText(email);
+        copyBtn.innerHTML = 'COPIED <span class="text-[var(--color-ok)]">✓</span>';
+        setTimeout(() => { copyBtn.innerHTML = 'COPY <span data-arrow>→</span>'; }, 1600);
+      } catch { /* clipboard unavailable */ }
+    });
+  </script>
 </Doc>

@@ -93,6 +93,7 @@
       master = ctx.createGain(); master.gain.value = 0.5;
       low.connect(mid); mid.connect(high); high.connect(master); master.connect(analyser); analyser.connect(ctx.destination);
       eqNodes = [low, mid, high];
+      eqNodes.forEach((n, i) => { if (sliders[i]) n.gain.value = Number(sliders[i].value || 0); });
     }
 
     const note = (freq, t, dur, type, vol) => {

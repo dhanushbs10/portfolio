@@ -2,70 +2,73 @@
 import Doc from "../layouts/Doc.astro";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
-import DarkVeil from "../components/reactbits/DarkVeil.tsx";
-
-const ticker = ["CYBERSECURITY", "NETWORKING", "LINUX", "WIRESHARK", "NMAP", "BURP SUITE", "TCP/IP", "PYTHON", "PACKET TRACER", "HOME LAB", "ETHERNET", "METASPLOIT"];
-
-const stats = [
-  { value: "7", label: "Projects shipped" },
-  { value: "5", label: "Languages used" },
-  { value: "3", label: "Networking labs" },
-  { value: "100%", label: "Open-source" },
-];
+import PixelSnow from "../components/reactbits/PixelSnow.tsx";
+import ProfileCard from "../components/reactbits/ProfileCard.tsx";
+import { TECH_LOGOS } from "../data/tech-logos";
 ---
 
 <Doc>
-  <!-- Hero — React Bits DarkVeil (real WebGL shader) -->
+  <!-- Hero — React Bits PixelSnow (falling pixel snow) -->
   <section class="relative overflow-hidden bg-[var(--color-paper)] pt-32 pb-16 md:pt-44 md:pb-24">
-    <div class="absolute inset-0">
-      <DarkVeil client:load />
+    <div class="absolute inset-0 hidden md:block">
+      <PixelSnow client:visible color="#ffffff" density={0.06} speed={0.14} pixelResolution={240} />
     </div>
 
     <div class="relative mx-auto max-w-7xl px-5 md:px-8">
-      <!-- Main heading - character assembly (Stefan Vitasović-style) -->
-      <h1 class="display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.82]" style="line-height:0.82" aria-label="Dhanush B S.">
-        Dhanush<br />BS<span class="text-[var(--color-accent)]">.</span>
-      </h1>
+      <div class="grid items-center gap-16 lg:grid-cols-[1.5fr_0.8fr]">
+        <div>
+          <!-- Main heading - character assembly (Stefan Vitasović-style) -->
+          <h1 id="hero-title" class="display mt-10 text-[clamp(3.5rem,11vw,8.5rem)] leading-[0.82]" style="line-height:0.82" aria-label="Dhanush B S.">
+            <span class="char-row">
+              {"Dhanush".split("").map((c, i) => <span class="char" style={`--i:${i}`}>{c}</span>)}
+            </span>
+            <span class="char-row">
+              {"BS".split("").map((c, i) => <span class="char" style={`--i:${i + 7}`}>{c}</span>)}
+              <span class="char text-[var(--color-accent)]" style="--i:9">.</span>
+            </span>
+          </h1>
 
-      <div class="mt-10 max-w-2xl">
-        <div class="reveal" style="--rd:160ms">
-          <p class="font-serif text-xl italic leading-relaxed text-[var(--color-ink-2)] md:text-2xl">
-            "{profile.intro}"
-          </p>
-          <p class="mt-5 max-w-xl text-[0.92rem] leading-[1.85] text-[var(--color-ink-3)]">
-            {profile.bio[0]}
-          </p>
-          <div class="mt-8 flex flex-wrap gap-4">
-            <a href="/work" class="btn-ink" data-magnetic>Open the work <span aria-hidden="true">→</span></a>
-            <a href="/contact" class="btn-line" data-magnetic>Contact</a>
+          <div class="mt-10 max-w-2xl">
+            <div class="reveal" style="--rd:160ms">
+              <p class="font-serif text-xl italic leading-relaxed text-[var(--color-ink-2)] md:text-2xl">
+                "{profile.intro}"
+              </p>
+              <p class="mt-5 max-w-xl text-[0.92rem] leading-[1.85] text-[var(--color-ink-3)]">
+                {profile.bio[0]}
+              </p>
+              <div class="mt-8 flex flex-wrap gap-4">
+                <a href="/work" class="btn-ink" data-magnetic>Open the work <span aria-hidden="true">→</span></a>
+                <a href="/contact" class="btn-line" data-magnetic>Contact</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scroll hint -->
+          <div class="reveal mt-16 flex items-center gap-4 font-mono text-[0.66rem] tracking-[0.24em] text-[var(--color-ink-3)]" style="--rd:280ms">
+            <span class="inline-block h-8 w-px bg-[var(--color-line-strong)]"></span>
+            SCROLL TO EXPLORE
           </div>
         </div>
-      </div>
 
-      <!-- Scroll hint -->
-      <div class="reveal mt-16 flex items-center gap-4 font-mono text-[0.66rem] tracking-[0.24em] text-[var(--color-ink-3)]" style="--rd:280ms">
-        <span class="inline-block h-8 w-px bg-[var(--color-line-strong)]"></span>
-        SCROLL TO EXPLORE
-      </div>
-    </div>
-  </section>
-
-  <!-- Ticker -->
-  <div class="overflow-hidden border-y border-[var(--color-line-strong)] bg-[var(--color-night)] py-3.5 text-[var(--color-ink)]">
-    <div class="animate-ticker flex gap-10 font-mono text-[0.7rem] tracking-[0.22em] opacity-80">
-      {[...ticker, ...ticker].map((t) => <span class="flex items-center gap-10">{t}<span class="text-[var(--color-accent)]">·</span></span>)}
-    </div>
-  </div>
-
-  <!-- Quick stats strip -->
-  <section class="border-b border-[var(--color-line)]">
-    <div class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-[var(--color-line)] md:grid-cols-4">
-      {stats.map((s, i) => (
-        <div class="reveal px-5 py-8 text-center md:px-8 md:py-10" style={`--rd:${i * 60}ms`}>
-          <p class="stat-num text-3xl text-[var(--color-ink)] md:text-4xl">{s.value}</p>
-          <p class="mt-2 font-mono text-[0.64rem] tracking-[0.16em] text-[var(--color-ink-3)]">{s.label.toUpperCase()}</p>
+        <!-- Profile card -->
+        <div class="reveal hidden justify-self-end lg:block" style="--rd:200ms">
+          <ProfileCard client:load
+            name="Dhanush B S"
+            title="Cybersecurity & Networking Student"
+            handle="dhanushbs10"
+            status="Open to internships"
+            contactText="Contact Me"
+            avatarUrl="/assets/demo/avatar.png"
+            showUserInfo={false}
+            enableTilt={true}
+            enableMobileTilt={false}
+            onContactClick={() => console.log('Contact clicked')}
+            iconUrl="/assets/demo/iconpattern.png"
+            grainUrl="/assets/demo/grain.webp"
+            behindGlowEnabled
+            innerGradient="linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)" />
         </div>
-      ))}
+      </div>
     </div>
   </section>
 
@@ -191,4 +194,18 @@ const stats = [
       </div>
     </div>
   </section>
+<!-- Tech logos ticker -->
+  <div class="overflow-hidden border-y border-[var(--color-line-strong)] bg-[var(--color-night)] py-4"
+       style="mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);">
+    <div class="animate-ticker flex w-max items-center gap-12">
+      {[...TECH_LOGOS, ...TECH_LOGOS].map((l) => (
+        <span class="flex shrink-0 items-center gap-12 opacity-70 transition-opacity duration-300 hover:opacity-100"
+              title={l.title} aria-label={l.title}>
+          <svg viewBox="0 0 24 24" class="h-[22px] w-[22px] fill-current text-[var(--color-ink-2)]"><path d={l.path} /></svg>
+          <span class="text-[0.7rem] text-[var(--color-accent)]">&#183;</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
 </Doc>

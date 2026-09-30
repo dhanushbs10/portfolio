@@ -1,0 +1,275 @@
+---
+import PingChat from "./PingChat.astro";
+import PingAvatar from "./PingAvatar";
+---
+
+<div class="pw" id="pw" data-open="false">
+  <div class="pw-scrim" id="pw-scrim" aria-hidden="true"></div>
+
+  <section class="pw-panel" id="pw-panel" aria-modal="true" role="dialog" aria-label="Chat with Ping" tabindex="-1">
+    <div class="pw-box">
+      <header class="pw-head">
+        <div class="pw-id">
+          <span class="pw-avatar" aria-hidden="true">
+            <PingAvatar size={54} client:load />
+          </span>
+          <span class="pw-id-txt">
+            <span class="pw-name">Ping</span>
+          </span>
+        </div>
+        <button class="pw-close" id="pw-close" type="button" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+      </header>
+      <div class="pw-body">
+        <PingChat />
+      </div>
+    </div>
+  </section>
+
+  <button class="pw-fab" id="pw-fab" type="button" aria-label="Chat with Ping" aria-expanded="false">
+    <span class="pw-ico pw-ico-open" aria-hidden="true">
+      <PingAvatar size={77} client:load />
+    </span>
+  </button>
+  <div class="pw-tag" id="pw-tag" aria-hidden="true">Wanna ask anything about Dhanush?</div>
+</div>
+
+<style>
+  .pw {
+    --pw-ox: calc(100vw - 60px);
+    --pw-oy: calc(100dvh - 60px);
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+  }
+
+  .pw-scrim {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-night) 55%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .pw[data-open="true"] .pw-scrim { opacity: 1; pointer-events: auto; }
+
+  .pw-panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    visibility: hidden;
+    pointer-events: none;
+    clip-path: circle(0px at var(--pw-ox) var(--pw-oy));
+    transition:
+      clip-path 1s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 1s;
+  }
+  .pw[data-open="true"] .pw-panel {
+    clip-path: circle(150% at var(--pw-ox) var(--pw-oy));
+    visibility: visible;
+    pointer-events: auto;
+    transition: clip-path 1s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .pw-box {
+    width: min(580px, 100%);
+    height: min(700px, calc(100dvh - 3rem));
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background:
+      radial-gradient(560px 320px at 20% 0%, rgb(59 130 246 / 0.08), transparent 55%),
+      var(--color-paper);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 22px;
+    box-shadow: 0 40px 100px -20px rgb(0 0 0 / 0.7);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+    transition:
+      opacity 0.5s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pw[data-open="true"] .pw-box {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.5s ease 0.25s,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+
+  .pw-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--color-line);
+    flex: none;
+  }
+  @media (min-width: 640px) { .pw-head { padding: 1rem 2rem; } }
+  .pw-id { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+  .pw-avatar {
+    width: 54px;
+    height: 54px;
+    flex: none;
+    display: grid;
+    place-items: center;
+  }
+  .pw-avatar svg { width: 54px; height: 54px; display: block; }
+  .pw-id-txt { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; justify-content: center; }
+  .pw-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .pw-close {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 12px;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-card);
+    color: var(--color-ink-2);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .pw-close svg { width: 18px; height: 18px; }
+  .pw-close:hover { border-color: var(--color-ink); color: var(--color-ink); background: var(--color-card-2); }
+
+  .pw-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
+
+  .pw-fab {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 2;
+    width: 79px;
+    height: 79px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(0 12px 26px rgb(37 99 235 / 0.45));
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s, opacity 0.35s ease, scale 0.35s ease;
+    pointer-events: auto;
+    padding: 0;
+  }
+  .pw-fab:hover { transform: translateY(-3px) scale(1.06); filter: drop-shadow(0 18px 32px rgb(37 99 235 / 0.55)); }
+  .pw-fab:active { transform: scale(0.94); }
+  .pw-ico { display: grid; place-items: center; }
+  .pw-ico svg { width: 77px; height: 77px; display: block; }
+
+  .pw-tag {
+    position: absolute;
+    right: 1.25rem;
+    bottom: calc(1.25rem + 79px + 0.55rem);
+    z-index: 2;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    color: var(--color-ink-2);
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.8);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .pw-tag.show {
+    opacity: 1;
+    transform: none;
+  }
+  .pw[data-open="true"] .pw-tag {
+    opacity: 0 !important;
+    transform: translateY(6px) !important;
+  }
+
+  .pw[data-open="true"] .pw-fab {
+    opacity: 0;
+    scale: 0.7;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pw-panel, .pw-scrim, .pw-fab, .pw-box, .pw-tag { transition: none !important; }
+  }
+
+  /* Hide launcher + tag while the site preloader is on screen */
+  body:has(#preloader:not(.is-hidden)) .pw-fab,
+  body:has(#preloader:not(.is-hidden)) .pw-tag {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+</style>
+
+<script>
+  const root = document.getElementById("pw");
+  const panel = document.getElementById("pw-panel");
+  const scrim = document.getElementById("pw-scrim");
+  const fab = document.getElementById("pw-fab");
+  const tag = document.getElementById("pw-tag");
+  const closeBtn = document.getElementById("pw-close");
+
+  function originFromFab() {
+    const r = fab.getBoundingClientRect();
+    root.style.setProperty("--pw-ox", `${Math.round(r.left + r.width / 2)}px`);
+    root.style.setProperty("--pw-oy", `${Math.round(r.top + r.height / 2)}px`);
+  }
+  originFromFab();
+  addEventListener("resize", originFromFab);
+
+  function isOpen() { return root.dataset.open === "true"; }
+
+  function openChat() {
+    originFromFab();
+    root.dataset.open = "true";
+    fab.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => {
+      const ta = panel.querySelector("textarea");
+      if (ta) ta.focus({ preventScroll: true });
+    }, 750);
+  }
+
+  function closeChat() {
+    root.dataset.open = "false";
+    fab.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  fab.addEventListener("click", () => (isOpen() ? closeChat() : openChat()));
+
+  setTimeout(() => {
+    if (isOpen() || !tag) return;
+    tag.classList.add("show");
+    setTimeout(() => tag.classList.remove("show"), 10000);
+  }, 60000);
+  scrim.addEventListener("click", closeChat);
+  closeBtn.addEventListener("click", closeChat);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) closeChat();
+  });
+
+  const path = location.pathname;
+  if (path === "/chat" || path.startsWith("/chat")) {
+    if (new URLSearchParams(location.search).get("chat") !== "0") {
+      openChat();
+    } else {
+      fab.style.display = "none";
+    }
+  }
+</script>

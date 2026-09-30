@@ -1,0 +1,102 @@
+---
+import { cv } from "../data/cv";
+---
+<style>
+  .cv-h {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #2563eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.4rem;
+  }
+  .cv-li {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #374151;
+  }
+  .cv-li::before {
+    content: "\2022";
+    color: #2563eb;
+    flex: none;
+  }
+</style>
+
+<div class="cv-doc mx-auto max-w-[860px] bg-white px-8 py-10 font-sans text-[#191c24] shadow-[0_20px_60px_rgba(0,0,0,0.35)] md:px-12 md:py-14">
+  <header class="border-b-2 border-[#0b0d12] pb-6">
+    <h1 class="cv-name text-4xl font-extrabold tracking-tight md:text-[2.6rem]">{cv.header.name}</h1>
+    <p class="mt-1 text-sm font-semibold text-[#2563eb]">{cv.header.title}</p>
+    <p class="mt-3 font-mono text-[0.72rem] leading-relaxed tracking-tight text-[#4b5563]">{cv.header.contact}</p>
+  </header>
+
+  <section class="mt-7">
+    <h2 class="cv-h">Summary</h2>
+    <p class="mt-2 text-[0.85rem] leading-[1.7] text-[#374151]">{cv.summary}</p>
+  </section>
+
+  <section class="mt-7">
+    <h2 class="cv-h">Education</h2>
+    <div class="mt-3 space-y-4">
+      {cv.education.map((ed) => (
+        <div>
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="text-[0.95rem] font-bold text-[#191c24]">{ed.degree}</h3>
+            <span class="font-mono text-[0.7rem] text-[#6b7280]">{ed.period}</span>
+          </div>
+          <p class="mt-0.5 text-[0.8rem] text-[#4b5563]">
+            {ed.school}{ed.grade ? `, Grade ${ed.grade}` : ""}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-7">
+    <h2 class="cv-h">Technical Skills</h2>
+    <div class="mt-3 space-y-1.5">
+      {cv.skills.map((s) => (
+        <p class="text-[0.82rem] leading-relaxed text-[#374151]">
+          <span class="font-bold text-[#191c24]">{s.group}:</span> {s.items.join(", ")}
+        </p>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-7">
+    <h2 class="cv-h">Projects</h2>
+    <div class="mt-3 space-y-6">
+      {cv.projects.map((p) => (
+        <div class="break-inside-avoid">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+            <h3 class="text-[0.95rem] font-bold text-[#191c24]">{p.name}</h3>
+            <span class="font-mono text-[0.7rem] text-[#6b7280]">{p.meta}</span>
+          </div>
+          <ul class="mt-1.5 space-y-1">
+            {p.points.map((pt) => (
+              <li class="cv-li">{pt}</li>
+            ))}
+          </ul>
+          <p class="mt-1.5 text-[0.72rem] text-[#6b7280]">
+            <span class="font-semibold text-[#4b5563]">Stack:</span> {p.stack.join(" \u00b7 ")}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-7">
+    <h2 class="cv-h">Certifications</h2>
+    <ul class="mt-2 space-y-1.5">
+      {cv.certifications.map((c) => (
+        <li class="cv-li">{c}</li>
+      ))}
+    </ul>
+  </section>
+
+  <footer class="mt-9 border-t border-[#d1d5db] pt-4 text-center font-mono text-[0.68rem] text-[#6b7280]">
+    {cv.footer}
+  </footer>
+</div>

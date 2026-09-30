@@ -1,0 +1,498 @@
+---
+interface Props {
+  initOpen?: boolean;
+}
+
+const { initOpen = false } = Astro.props;
+const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="sc-chat" id={chatId} data-init-open={initOpen ? "true" : "false"}>
+  <div class="sc-view" tabindex="-1">
+    <div class="sc-hero">
+      <p class="sc-hero-s">
+        Ask me anything about Dhanush's work, skills and journey.
+      </p>
+      <div class="sc-chips" role="group" aria-label="Suggested questions">
+        <button type="button" data-q="What is Dhanush currently working on?">What is Dhanush currently working on?</button>
+        <button type="button" data-q="Which project should I look at first?">Which project should I look at first?</button>
+        <button type="button" data-q="What are his core skills?">What are his core skills?</button>
+      </div>
+    </div>
+  </div>
+
+  <form class="sc-input" autocomplete="off">
+    <div class="sc-limit" hidden>Message limit reached for this visit. Refresh to continue.</div>
+    <div class="sc-field">
+      <textarea rows="1" placeholder="Ask me about Dhanush…" enterkeyhint="send" aria-label="Message Ping"></textarea>
+      <button class="sc-send" type="submit" aria-label="Send" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 14 0"></path><path d="m13 6 6 6-6 6"></path></svg>
+      </button>
+    </div>
+  </form>
+</div>
+
+<style is:global>
+  .sc-chat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    font-family: Inter, system-ui, sans-serif;
+    color: var(--color-ink);
+  }
+
+  .sc-view {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 2rem 1.25rem 1.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .sc-view::-webkit-scrollbar { display: none; }
+  @media (min-width: 640px) { .sc-view { padding: 2.5rem 2rem 1.5rem; } }
+  .sc-view > :last-child { margin-bottom: 0.5rem; }
+
+  /* ── Hero / welcome ── */
+  .sc-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 0.5rem 0 1rem;
+  }
+  .sc-hero-s {
+    margin: 0.55rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--color-ink-3);
+    max-width: 34ch;
+  }
+  .sc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.6rem;
+  }
+  .sc-chips button {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--color-ink-2);
+    background: var(--color-card);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.25s cubic-bezier(.16,1,.3,1);
+  }
+  .sc-chips button:hover {
+    background: color-mix(in srgb, var(--color-accent) 14%, var(--color-card));
+    border-color: var(--color-accent);
+    color: var(--color-accent-ink);
+    transform: translateY(-2px);
+  }
+  .sc-chips button:disabled { opacity: 0.4; pointer-events: none; }
+
+  .sc-empty {
+    max-width: 30rem;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+  .sc-empty-t {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+  .sc-empty-s {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-ink-3);
+    line-height: 1.6;
+  }
+
+  /* ── Messages ── */
+  .sc-msg {
+    display: flex;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto 1.1rem;
+    animation: scIn 0.4s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes scIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  .sc-msg .sc-bubble {
+    max-width: 30rem;
+    padding: 0.7rem 0.95rem;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    line-height: 1.66;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .sc-msg-ping { justify-content: flex-start; }
+  .sc-msg-ping .sc-bubble {
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-top-left-radius: 5px;
+    color: var(--color-ink-2);
+  }
+  .sc-msg-user { justify-content: flex-end; }
+  .sc-msg-user .sc-bubble {
+    background: linear-gradient(135deg, var(--color-accent-deep), var(--color-accent));
+    color: #fff;
+    border-top-right-radius: 5px;
+    box-shadow: 0 8px 22px -10px rgb(37 99 235 / 0.5);
+  }
+  @media (min-width: 640px) {
+    .sc-msg-ping .sc-bubble { max-width: 32rem; }
+    .sc-msg-user .sc-bubble { max-width: 26rem; }
+  }
+
+  .sc-name {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--color-accent-ink);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .sc-user-name { color: rgb(255 255 255 / 0.75); }
+
+  .sc-txt { white-space: pre-wrap; margin: 0; }
+  .sc-msg-ping .sc-txt strong { color: var(--color-ink); font-weight: 600; }
+  .sc-txt code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8em;
+    background: var(--color-card-2);
+    border-radius: 5px;
+    padding: 0.12em 0.4em;
+    color: var(--color-ink);
+  }
+  .sc-msg-user .sc-txt code { background: rgb(255 255 255 / 0.18); color: #fff; }
+  .sc-txt a { color: var(--color-accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+  .sc-txt ul, .sc-txt ol { margin: 0.3rem 0 0.3rem 1.2rem; padding: 0; }
+  .sc-txt li { margin: 0.15rem 0; }
+  .sc-txt p { margin: 0; }
+  .sc-txt p + p { margin-top: 0.5rem; }
+  .sc-txt h1, .sc-txt h2, .sc-txt h3 {
+    font-size: 0.98em;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin: 0.5rem 0 0.2rem;
+  }
+
+  .sc-caret {
+    display: inline-block;
+    width: 7px;
+    height: 1em;
+    vertical-align: text-bottom;
+    background: var(--color-accent);
+    margin-left: 3px;
+    border-radius: 2px;
+    animation: scBlink 0.9s steps(2, jump-none) infinite;
+  }
+  @keyframes scBlink { 50% { opacity: 0; } }
+
+  .sc-dots {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    padding: 0.45rem 0;
+  }
+  .sc-dots i {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: scDot 1.2s ease-in-out infinite;
+  }
+  .sc-dots i:nth-child(2) { animation-delay: 0.15s; }
+  .sc-dots i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes scDot {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .sc-err {
+    max-width: 30rem;
+    margin: 0 auto 1.1rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--color-ink-3);
+    border: 1px dashed var(--color-line-strong);
+    border-radius: 10px;
+    padding: 0.5rem 0.9rem;
+  }
+
+  /* ── Input ── */
+  .sc-input {
+    padding: 0.9rem 1.25rem 1.1rem;
+  }
+  @media (min-width: 640px) { .sc-input { padding: 1.25rem 2.25rem 1.4rem; } }
+  .sc-limit {
+    max-width: 34rem;
+    margin: 0 auto 0.6rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    color: var(--color-accent-ink);
+  }
+  .sc-limit[hidden] { display: none; }
+  .sc-field {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+    max-width: 34rem;
+    margin: 0 auto;
+    background: var(--color-card);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 16px;
+    padding: 0.45rem 0.45rem 0.45rem 1.1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .sc-field:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgb(59 130 246 / 0.13);
+  }
+  .sc-field:has(.sc-send:disabled) { border-color: var(--color-line); }
+  .sc-field textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: var(--color-ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-height: 7.5rem;
+    min-height: 1.55rem;
+    padding: 0.4rem 0;
+  }
+  .sc-field textarea::placeholder { color: var(--color-ink-3); }
+  .sc-send {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 11px;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-card-2);
+    color: var(--color-ink-2);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s ease, opacity 0.2s;
+  }
+  .sc-send svg { width: 18px; height: 18px; }
+  .sc-send:not(:disabled):hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .sc-send:not(:disabled) {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+  .sc-send:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sc-msg, .sc-src, .sc-caret, .sc-dots i { animation: none !important; }
+    .sc-field, .sc-send, .sc-chips button, .sc-hero-ava { transition: none !important; }
+  }
+</style>
+
+<script define:vars={{ chatId }}>
+  const root = document.getElementById(chatId);
+  const view = root.querySelector(".sc-view");
+  const form = root.querySelector(".sc-input");
+  const textarea = form.querySelector("textarea");
+  const sendBtn = form.querySelector(".sc-send");
+  const limitEl = form.querySelector(".sc-limit");
+  const chips = root.querySelectorAll(".sc-chips button");
+
+  const MAX_MSG = 20;
+  let sent = 0;
+  let busy = false;
+  const history = [];
+
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const inlineMark = (s) =>
+    esc(s)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
+
+  function renderMarkdown(src) {
+    const out = [];
+    let list = null;
+    const flush = () => {
+      if (list) { out.push(`<ul>${list.join("")}</ul>`); list = null; }
+    };
+    for (let line of src.split("\n")) {
+      let t = line.trim();
+      if (/^#{1,4}\s/.test(t)) { flush(); out.push(`<h3>${inlineMark(t.replace(/^#{1,4}\s+/, ""))}</h3>`); }
+      else if (/^[-*+]\s+/.test(t)) { (list = list || []).push(`<li>${inlineMark(t.replace(/^[-*+]\s+/, ""))}</li>`); }
+      else if (/^\d+[.)]\s+/.test(t)) { (list = list || []).push(`<li>${inlineMark(t.replace(/^\d+[.)]\s+/, ""))}</li>`); }
+      else if (t === "") { flush(); }
+      else { flush(); out.push(`<p>${inlineMark(line)}</p>`); }
+    }
+    flush();
+    return out.join("");
+  }
+
+  const scrollBottom = () => { view.scrollTop = view.scrollHeight; };
+
+  function addUser(text) {
+    const msg = document.createElement("div");
+    msg.className = "sc-msg sc-msg-user";
+    msg.innerHTML = `<div class="sc-bubble"><p class="sc-name sc-user-name">You</p><p class="sc-txt"></p></div>`;
+    msg.querySelector(".sc-txt").textContent = text;
+    view.appendChild(msg);
+    scrollBottom();
+  }
+
+  function addPingBox() {
+    const msg = document.createElement("div");
+    msg.className = "sc-msg sc-msg-ping";
+    msg.innerHTML = `<div class="sc-bubble"><p class="sc-name">Ping</p><p class="sc-txt"></p></div>`;
+    view.appendChild(msg);
+    const txt = msg.querySelector(".sc-txt");
+    msg.querySelector(".sc-name").after(dots());
+    scrollBottom();
+    return { msg, txt };
+  }
+
+  function dots() {
+    const d = document.createElement("span");
+    d.className = "sc-dots";
+    d.innerHTML = "<i></i><i></i><i></i>";
+    return d;
+  }
+
+  function addError(text) {
+    const el = document.createElement("div");
+    el.className = "sc-err";
+    el.textContent = text;
+    view.appendChild(el);
+    scrollBottom();
+  }
+
+  function autosize() {
+    textarea.style.height = "auto";
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px";
+  }
+
+  function syncBtn() {
+    sendBtn.disabled = busy || sent >= MAX_MSG || !textarea.value.trim();
+  }
+
+  textarea.addEventListener("input", () => { autosize(); syncBtn(); });
+  textarea.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+  form.addEventListener("submit", (e) => { e.preventDefault(); send(); });
+
+  chips.forEach((c) => c.addEventListener("click", () => {
+    if (busy || sent >= MAX_MSG) return;
+    textarea.value = c.dataset.q || "";
+    autosize();
+    send();
+  }));
+
+  async function send() {
+    const text = textarea.value.trim();
+    if (!text || busy || sent >= MAX_MSG) return;
+    textarea.value = "";
+    autosize();
+    addUser(text);
+    sent++;
+    busy = true;
+    syncBtn();
+
+    const box = addPingBox();
+    const { txt } = box;
+    let raw = "";
+    let gotDelta = false;
+    let skipHistory = false;
+    let active = true;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [...history.slice(-12), { role: "user", content: text }] }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err && err.error) || `Request failed (${res.status})`);
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          let ev;
+          try { ev = JSON.parse(line); } catch { continue; }
+          if (ev.type === "sources") {
+            continue;
+          } else if (ev.type === "meta") {
+            if (ev.flagged) skipHistory = true;
+          } else if (ev.type === "delta") {
+            box.msg.querySelector(".sc-dots")?.remove();
+            gotDelta = true;
+            raw += ev.text || "";
+            txt.innerHTML = renderMarkdown(raw) + '<span class="sc-caret"></span>';
+            scrollBottom();
+          } else if (ev.type === "error") {
+            active = false;
+            box.msg.remove();
+            addError(ev.message);
+          }
+        }
+      }
+    } catch (err) {
+      active = false;
+      box.msg.remove();
+      addError(String((err && err.message) || err));
+    } finally {
+      busy = false;
+      box.msg.querySelector(".sc-dots")?.remove();
+      if (gotDelta) {
+        const c = txt.querySelector(".sc-caret");
+        if (c) c.remove();
+      }
+      if (gotDelta && raw.trim() && !skipHistory) {
+        history.push({ role: "user", content: text });
+        history.push({ role: "assistant", content: raw });
+      }
+      if (sent >= MAX_MSG) {
+        limitEl.hidden = false;
+        textarea.placeholder = "Message limit reached";
+      }
+      syncBtn();
+      scrollBottom();
+    }
+  }
+
+  syncBtn();
+
+  if (root.dataset.initOpen === "true") {
+    setTimeout(() => textarea.focus(), 650);
+  }
+</script>

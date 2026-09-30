@@ -1,5 +1,7 @@
 ---
 import "../styles/paper.css";
+import PingWidget from "../components/PingWidget.astro";
+import { Analytics } from "@vercel/analytics/react";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
 
@@ -12,12 +14,19 @@ interface Props {
 const { title, description, active } = Astro.props;
 const pageTitle = title ? `${title} - ${profile.name}` : `${profile.name} - ${profile.role}`;
 const pageDesc = description ?? profile.intro;
+const ogImage = new URL("/resume/page-1.png", Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const STACK_LANGS = ["C++", "Python", "Rust", "TypeScript", "JavaScript", "SQL", "Bash", "PowerShell"];
+const stackText = projects.flatMap((p) => p.stack).join(" ");
+const usesLang = (l: string) =>
+  new RegExp(`(?<![A-Za-z+#])${l.replace(/[+#]/g, "\\$&")}(?![A-Za-z+#])`).test(stackText);
 
 const stats = [
-  { label: "Projects shipped", value: 7 },
-  { label: "Open-source repos", value: 7 },
-  { label: "Networking labs", value: 3 },
-  { label: "Languages used", value: 5 },
+  { label: "Projects shipped", value: projects.length },
+  { label: "Open-source repos", value: projects.filter((p) => p.github).length },
+  { label: "Networking labs", value: projects.filter((p) => p.category === "Networking").length },
+  { label: "Languages used", value: STACK_LANGS.filter(usesLang).length },
 ];
 ---
 
@@ -27,19 +36,50 @@ const stats = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="google-site-verification" content="ouEAGJkUXjY9v0v4rx12vjM9GFLBQkCRqOuNYlR5k58" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={profile.name} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1654" />
+    <meta property="og:image:height" content="2339" />
+    <meta property="og:image:alt" content={`${profile.name} - ${profile.role}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#0b0d12" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Dhanush B S",
+      url: "https://bsdhanush.qzz.io/",
+      sameAs: [
+        "https://github.com/dhanushbs10",
+        "https://linkedin.com/in/dhanush-b-s-4b454a368",
+      ],
+    })} />
   </head>
   <body class="min-h-screen">
 
@@ -84,6 +124,7 @@ const stats = [
           <a href="/overview" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>OVERVIEW</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">DOSSIER</span></a>
           <a href="/resume" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>RESUME</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">CV</span></a>
           <a href="/contact" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>CONTACT</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-ink-3)]">ENCRYPTED</span></a>
+          <a href="/chat" class="flex items-baseline justify-between gap-6 border-b border-[var(--color-line-strong)] py-5 display text-4xl hover:text-[var(--color-accent)] md:text-6xl"><span>PING</span><span class="font-mono text-xs tracking-[0.2em] text-[var(--color-accent-ink)]">CHATBOT</span></a>
           <div class="mt-8 grid gap-2">
             {projects.map((p) => (
               <a href={`/work/${p.slug}`} class="flex items-center justify-between rounded-xl border border-transparent px-4 py-3 hover:border-[var(--color-line-strong)] hover:bg-[var(--color-card)]"><span class="font-mono text-sm text-[var(--color-ink)]">{p.title}</span><span class="font-mono text-xs text-[var(--color-ink-3)]">{p.category}</span></a>
@@ -99,6 +140,10 @@ const stats = [
     </div>
 
     <main class="relative"><slot /></main>
+
+    <!-- Ping chatbot widget -->
+    <PingWidget />
+    <Analytics client:idle />
 
     <!-- Footer -->
     <footer class="relative overflow-hidden border-t-2 border-[var(--color-line-strong)] bg-[var(--color-night)] text-[var(--color-ink)]">
@@ -155,8 +200,14 @@ const stats = [
       try {
         const pre = document.getElementById("preloader");
         if (pre) {
-          setTimeout(() => pre.classList.add("is-hidden"), 1400);
-          setTimeout(() => pre.remove(), 2000);
+          if (sessionStorage.getItem("visited")) {
+            pre.classList.add("is-hidden");
+            pre.remove();
+          } else {
+            sessionStorage.setItem("visited", "1");
+            setTimeout(() => pre.classList.add("is-hidden"), 1400);
+            setTimeout(() => pre.remove(), 2000);
+          }
         }
       } catch { /* ignore */ }
 
@@ -164,8 +215,12 @@ const stats = [
       try {
         const hero = document.getElementById("hero-title");
         if (hero) {
-          requestAnimationFrame(() => setTimeout(() => hero.classList.add("is-visible"), 90));
-          setTimeout(() => hero.classList.add("is-visible"), 1200);
+          if (sessionStorage.getItem("visited")) {
+            hero.classList.add("is-visible");
+          } else {
+            requestAnimationFrame(() => setTimeout(() => hero.classList.add("is-visible"), 90));
+            setTimeout(() => hero.classList.add("is-visible"), 1200);
+          }
         }
       } catch { /* ignore */ }
 
@@ -205,23 +260,6 @@ const stats = [
             }
           }, { passive: true });
         });
-      } catch { /* ignore */ }
-
-      /* ── Aurora parallax (subtle depth) ── */
-      try {
-        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          const aurora = document.querySelector(".aurora");
-          if (aurora) {
-            let ticking = false;
-            addEventListener("scroll", () => {
-              if (!ticking) requestAnimationFrame(() => {
-                aurora.style.transform = `translateY(${scrollY * 0.08}px)`;
-                ticking = false;
-              });
-              ticking = true;
-            }, { passive: true });
-          }
-        }
       } catch { /* ignore */ }
 
       /* ── Chapter scroll-spy ── */
@@ -305,6 +343,7 @@ const stats = [
 
       /* ── Magnetic button effect ── */
       try {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) throw 0;
         document.querySelectorAll("[data-magnetic]").forEach((el) => {
           el.addEventListener("mousemove", (e) => {
             const rect = el.getBoundingClientRect();
@@ -329,8 +368,10 @@ const stats = [
               if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
               const href = link.getAttribute("href");
               if (!href || href.startsWith("/#") || href === window.location.pathname) return;
-              // Don't intercept external or hash
+              // Don't intercept external, downloads, or hashes
               if (link.target === "_blank") return;
+              if (link.hasAttribute("download")) return;
+              if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
               e.preventDefault();
               overlay.classList.add("is-active");
               setTimeout(() => { window.location.href = link.href; }, 380);
@@ -345,7 +386,9 @@ const stats = [
           { label: "Home", href: "/" },
           { label: "All work", href: "/work" },
           { label: "Overview", href: "/overview" },
+          { label: "Resume", href: "/resume" },
           { label: "Contact", href: "/contact" },
+          { label: "Ping (chat)", href: "/chat" },
           ...projectLinks,
         ];
         const pal = document.getElementById("cmdk");

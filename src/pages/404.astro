@@ -14,7 +14,18 @@ import { projects } from "../data/projects";
     <p class="reveal mt-4 max-w-xl font-serif text-xl italic text-[var(--color-ink-2)] md:text-2xl" style="--rd:140ms">
       The page you opened doesn't exist - back to the files.
     </p>
-    <div class="reveal mt-8 flex flex-wrap gap-4" style="--rd:200ms">
+    <div class="reveal mt-10 max-w-xl overflow-hidden rounded-2xl border border-[var(--color-line-strong)]" style="--rd:260ms">
+      <div class="console-bar">
+        <i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i>
+        <span class="ml-2">NOT_FOUND.SH</span>
+      </div>
+      <pre class="console-body whitespace-pre-wrap text-[0.72rem] leading-relaxed"><span class="c-info">user@dhanush</span>:<span class="c-dim">~</span>$ open /this-page
+command not found: this-page
+<span class="c-info">user@dhanush</span>:<span class="c-dim">~</span>$ ls /suggestions/
+/work   /overview   /resume   /
+<span class="c-info">user@dhanush</span>:<span class="c-dim">~</span>$</pre>
+    </div>
+    <div class="reveal mt-8 flex flex-wrap gap-4" style="--rd:320ms">
       <a href="/" class="btn-ink" data-magnetic>Back home →</a>
       <a href="/work" class="btn-line" data-magnetic>Browse the work</a>
     </div>

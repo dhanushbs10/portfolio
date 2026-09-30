@@ -396,6 +396,14 @@ body {
   font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.85;
   color: #d6d6d2;
 }
+/* Visual Studio Dark inspired token colors */
+.code-block-body .tok-k { color: #569cd6; }
+.code-block-body .tok-s { color: #ce9178; }
+.code-block-body .tok-c { color: #6a9955; }
+.code-block-body .tok-n { color: #b5cea8; }
+.code-block-body .tok-p { color: #c586c0; }
+.code-block-body .tok-t { color: #4ec9b0; }
+.code-block-body .tok-f { color: #dcdcaa; }
 
 /* ── Preloader ── */
 .preloader {
@@ -428,3 +436,40 @@ body {
   transition: transform .35s cubic-bezier(.16,1,.3,1), color .3s;
 }
 .group:hover .arrow-slide [data-arrow] { transform: translateX(6px); }
+
+/* ── Availability pulse dot ── */
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-ok);
+  box-shadow: 0 0 0 0 rgb(74 222 128 / 0.55);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  70% { box-shadow: 0 0 0 9px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot { animation: none; }
+}
+
+/* ── Keyboard / focus visibility ── */
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── Print: only the detailed CV document ── */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: #ffffff !important; }
+  .preloader, .grain, #top-blur, #page-transition, #menu-overlay, #cmdk,
+  #menu-btn, #clock, #cmdk-btn, #rail-bar, .rail, .rail-progress,
+  #view-resume { display: none !important; }
+  #view-cv { display: block !important; margin: 0 !important; max-width: 100% !important; }
+  #view-cv > div:first-child { display: none !important; }
+  .cv-doc { box-shadow: none !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+}
