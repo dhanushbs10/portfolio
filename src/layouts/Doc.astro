@@ -13,9 +13,53 @@ interface Props {
 
 const { title, description, active } = Astro.props;
 const pageTitle = title ? `${title} - ${profile.name}` : `${profile.name} - ${profile.role}`;
-const pageDesc = description ?? profile.intro;
+const isHomePage = Astro.url.pathname === "/";
+const pageDesc = description ?? (isHomePage
+  ? `${profile.name} is a ${profile.role.toLowerCase()} based in ${profile.location}. Explore cybersecurity, networking, infrastructure projects, GitHub, and contact details.`
+  : profile.intro);
 const ogImage = new URL("/resume/page-1.png", Astro.site).href;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const personSchema = {
+  "@type": "Person",
+  "@id": `${new URL("/", Astro.site).href}#person`,
+  name: profile.name,
+  alternateName: "dhanushbs10",
+  url: new URL("/", Astro.site).href,
+  jobTitle: profile.role,
+  description: `${profile.name} is a ${profile.role.toLowerCase()} based in ${profile.location}. ${profile.intro}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Bengaluru",
+    addressRegion: "Karnataka",
+    addressCountry: "IN",
+  },
+  knowsAbout: profile.coreSkills.map((skill) => skill.title),
+  sameAs: [profile.contact.github, profile.contact.linkedin],
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    personSchema,
+    {
+      "@type": "WebSite",
+      "@id": `${new URL("/", Astro.site).href}#website`,
+      name: profile.name,
+      url: new URL("/", Astro.site).href,
+      inLanguage: "en-IN",
+      publisher: { "@id": personSchema["@id"] },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: pageTitle,
+      description: pageDesc,
+      isPartOf: { "@id": `${new URL("/", Astro.site).href}#website` },
+      about: { "@id": personSchema["@id"] },
+      inLanguage: "en-IN",
+    },
+  ],
+};
 
 const STACK_LANGS = ["C++", "Python", "Rust", "TypeScript", "JavaScript", "SQL", "Bash", "PowerShell"];
 const stackText = projects.flatMap((p) => p.stack).join(" ");
@@ -70,25 +114,17 @@ const stats = [
       rel="stylesheet"
     />
     <title>{pageTitle}</title>
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      name: "Dhanush B S",
-      url: "https://bsdhanush.qzz.io/",
-      sameAs: [
-        "https://github.com/dhanushbs10",
-        "https://linkedin.com/in/dhanush-b-s-4b454a368",
-      ],
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body class="min-h-screen">
 
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-      <div class="preloader-text">
-        {"dhanush.".split("").map((ch, i) => <span style={`--i:${i}`}>{ch}</span>)}
+    {Astro.url.pathname === "/" && (
+      <div class="preloader" id="preloader">
+        <div class="preloader-text">
+          {"dhanush.".split("").map((ch, i) => <span style={`--i:${i}`}>{ch}</span>)}
+        </div>
       </div>
-    </div>
+    )}
 
     <!-- Grain overlay -->
     <div class="grain" aria-hidden="true"></div>
@@ -197,25 +233,26 @@ const stats = [
 
     <script define:vars={{ projectLinks: projects.map((p) => ({ label: `${p.title}`, href: `/work/${p.slug}` })) }}>
       /* ── Preloader ── */
-      try {
+      {
         const pre = document.getElementById("preloader");
         if (pre) {
-          if (sessionStorage.getItem("visited")) {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
             pre.classList.add("is-hidden");
             pre.remove();
           } else {
-            sessionStorage.setItem("visited", "1");
-            setTimeout(() => pre.classList.add("is-hidden"), 1400);
-            setTimeout(() => pre.remove(), 2000);
+            setTimeout(() => {
+              pre.classList.add("is-hidden");
+              setTimeout(() => pre.remove(), 850);
+            }, 1250);
           }
         }
-      } catch { /* ignore */ }
+      }
 
       /* ── Hero char assembly ── */
       try {
         const hero = document.getElementById("hero-title");
         if (hero) {
-          if (sessionStorage.getItem("visited")) {
+          if (!document.getElementById("preloader") || matchMedia("(prefers-reduced-motion: reduce)").matches) {
             hero.classList.add("is-visible");
           } else {
             requestAnimationFrame(() => setTimeout(() => hero.classList.add("is-visible"), 90));
