@@ -60,9 +60,9 @@ function buildIndex(chunks: Chunk[]) {
 export function bm25Search(
   chunks: Chunk[],
   query: string,
-  opts: { topK?: number; k1?: number; b?: number } = {}
+  opts: { topK?: number; k1?: number; b?: number; minScore?: number } = {}
 ): { chunk: Chunk; score: number }[] {
-  const { topK = 6, k1 = 1.5, b = 0.75 } = opts;
+  const { topK = 6, k1 = 1.5, b = 0.75, minScore = 1.25 } = opts;
   const { tf, idf, docLen, avgDocLen, N } = buildIndex(chunks);
 
   const qTerms = tokenize(query);
@@ -84,7 +84,8 @@ export function bm25Search(
 
   return chunks
     .map((chunk, i) => ({ chunk, score: scores[i] }))
-    .filter((r) => r.score > 0)
+    // A weak lexical overlap is not enough evidence to ground an answer.
+    .filter((r) => r.score >= minScore)
     .sort((a, b) => b.score - a.score)
     .slice(0, topK)
     .map((r) => ({ chunk: r.chunk, score: r.score }));

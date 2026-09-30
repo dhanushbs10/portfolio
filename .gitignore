@@ -31,3 +31,4 @@ dev.log.err
 Temp/
 .vercel
 .env*
+!.env.example

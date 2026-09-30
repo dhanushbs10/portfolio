@@ -1,8 +1,6 @@
 import { profile } from "../../data/profile";
 import { projects } from "../../data/projects";
-import { cv } from "../../data/cv";
 import type { Chunk } from "./retrieval";
-import pingChunks from "./profile-chunks.json";
 
 function clean(s: string): string {
   return s.replace(/\s+/g, " ").trim();
@@ -22,7 +20,7 @@ const chunks: Chunk[] = [
     "id-01",
     "profile",
     "Identity",
-    `Dhanush B S (preferred: Dhanush, Dhanu), born 7 October 2008, from Bangalore (Bengaluru), India.`,
+    `Dhanush B S, based in Bengaluru, India.`,
   ),
   chunk(
     "id-02",
@@ -72,7 +70,7 @@ function profileChunks(): Chunk[] {
   );
 
   out.push(
-    chunk("pf-contact", "profile", "Contact", `Contact: email ${profile.contact.email}, phone ${profile.contact.phone}, GitHub ${profile.contact.github}, LinkedIn ${profile.contact.linkedin}. Location: ${profile.location}.`),
+    chunk("pf-links", "profile", "Public links", `GitHub ${profile.contact.github}, LinkedIn ${profile.contact.linkedin}. Location: ${profile.location}.`),
   );
 
   out.push(
@@ -97,27 +95,8 @@ function projectChunks(): Chunk[] {
   return out;
 }
 
-function cvChunks(): Chunk[] {
-  const out: Chunk[] = [];
-  out.push(chunk("cv-sum", "cv", "CV summary", `CV summary: ${cv.summary}`));
-  out.push(chunk("cv-edu", "cv", "CV education", `Education: ${cv.education.map((e) => `${e.degree}, ${e.school}, ${e.period}${e.grade ? ` (grade ${e.grade})` : ""}`).join(" | ")}`));
-  out.push(chunk("cv-skills", "cv", "CV skills", `Skills: ${cv.skills.map((s) => `${s.group}: ${s.items.join(", ")}`).join(" | ")}`));
-  out.push(chunk("cv-cert", "cv", "CV certifications", `Certifications: ${cv.certifications.join(" | ")}`));
-  return out;
-}
-
-function mergeProfileChunks(json: Chunk[]): Chunk[] {
-  return json.map((c) => ({
-    ...c,
-    title: (c.title ?? "").replace(/^\d{1,3}\.\s+/, ""),
-    section: c.section ?? null,
-  }));
-}
-
 export const knowledge: Chunk[] = [
   ...chunks,
   ...profileChunks(),
   ...projectChunks(),
-  ...cvChunks(),
-  ...mergeProfileChunks(pingChunks as unknown as Chunk[]),
 ];
