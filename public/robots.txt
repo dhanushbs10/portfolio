@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+# Field log for manual recon: /ctf/
 
 Sitemap: https://bsdhanush.qzz.io/sitemap.xml
