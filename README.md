@@ -1,4 +1,4 @@
-# dhanushbs10.dev
+# bsdhanush.qzz.io
 
 Portfolio for **Dhanush B S** — Cybersecurity & Networking student, Bengaluru.
 
