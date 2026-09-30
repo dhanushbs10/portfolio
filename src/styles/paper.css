@@ -410,24 +410,37 @@ body {
   position: fixed; inset: 0; z-index: 300;
   display: grid; place-items: center;
   background: var(--color-night);
-  transition: opacity .5s cubic-bezier(.16,1,.3,1), visibility .5s;
+  overflow: hidden;
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  filter: blur(0);
+  transition: clip-path .78s cubic-bezier(.76,0,.24,1), opacity .78s cubic-bezier(.76,0,.24,1), filter .78s cubic-bezier(.76,0,.24,1), visibility 0s linear .78s;
 }
-.preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; clip-path: inset(0 0 100% 0); filter: blur(12px); }
 .preloader-text {
+  position: relative;
+  z-index: 2;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2rem, 6vw, 4.5rem);
-  color: var(--color-ink);
+  color: #eef4ff;
   letter-spacing: -0.04em;
   overflow: hidden;
+  text-shadow: 0 0 34px rgb(96 165 250 / .16);
 }
 .preloader-text span {
   display: inline-block;
-  animation: slideUp .6s cubic-bezier(.16,1,.3,1) forwards;
-  animation-delay: calc(var(--i) * 50ms);
-  transform: translateY(110%);
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px) scale(.98);
+  animation: preloader-letter .72s cubic-bezier(.16,1,.3,1) forwards;
+  animation-delay: calc(120ms + var(--i) * 48ms);
 }
-@keyframes slideUp { to { transform: translateY(0); } }
+@keyframes preloader-letter { to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .preloader, .preloader.is-hidden { transition: none; clip-path: none; }
+  .preloader-text span { animation: none; opacity: 1; filter: none; transform: none; }
+}
 
 /* ── Hover arrow slide ── */
 .arrow-slide { display: inline-flex; align-items: center; gap: .4rem; }

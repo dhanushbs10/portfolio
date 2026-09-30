@@ -65,9 +65,9 @@ export const profile = {
   ],
   certifications: [{ title: "CCNA 200-301", org: "Cisco", status: "In Progress" }],
   roadmap: {
-    done: ["Portfolio with real project case studies", "PXE / SMB / WoL networking labs"],
+    done: ["Portfolio with real project case studies", "PXE / SMB / WoL networking labs", "Kubernetes ZeroTrust SOC lab with detection validation"],
     doing: ["Complete Diploma in CSE - 2026", "Enterprise networking at CCNA level"],
-    next: ["Network security certifications", "SOC home lab for incident response", "Technical write-ups", "CTF competitions"],
+    next: ["Network security certifications", "Technical write-ups", "CTF competitions"],
   },
   contact: {
     email: "dhanushpoojari101@gmail.com",

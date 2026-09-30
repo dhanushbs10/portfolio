@@ -24,6 +24,9 @@
     "tailwindcss": "^4.3.3",
     "three": "^0.186.0"
   },
+  "overrides": {
+    "path-to-regexp": "6.3.0"
+  },
   "allowScripts": {
     "esbuild": true
   },

@@ -21,7 +21,8 @@ const p = project;
 const idx = projects.findIndex((x) => x.slug === slug);
 const next = projects[(idx + 1) % projects.length];
 const prev = projects[(idx - 1 + projects.length) % projects.length];
-const chapters = p.slug === "droplink"
+const hasLiveExhibit = !["droplink", "zerotrust-soc-lab"].includes(p.slug);
+const chapters = !hasLiveExhibit
   ? [
       ["#overview", "Overview"],
       ["#evidence", "Evidence"],
@@ -42,6 +43,7 @@ const accentGradients: Record<string, string> = {
   "pxe-network-boot-lab": "project-accent-5",
   "esp8266-wake-on-lan": "project-accent-6",
   "cross-subnet-smb-fix": "project-accent-7",
+  "zerotrust-soc-lab": "project-accent-3",
 };
 const accentClass = accentGradients[p.slug] ?? "project-accent-1";
 ---
@@ -103,7 +105,7 @@ const accentClass = accentGradients[p.slug] ?? "project-accent-1";
           </section>
 
           <!-- Section: Live exhibit — hidden for droplink per request -->
-          {p.slug !== "droplink" && (
+          {hasLiveExhibit && (
             <section id="exhibit" class="mt-20 scroll-mt-28">
               <div class="reveal border-t border-[var(--color-line)] pt-10"></div>
               <div class="reveal mt-6" style="--rd:80ms">

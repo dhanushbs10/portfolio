@@ -5,6 +5,7 @@ import { projects } from "../data/projects";
 import PixelSnow from "../components/reactbits/PixelSnow.tsx";
 import ProfileCard from "../components/reactbits/ProfileCard.tsx";
 import { TECH_LOGOS } from "../data/tech-logos";
+const featured = projects.find((project) => project.slug === "zerotrust-soc-lab")!;
 ---
 
 <Doc>
@@ -77,7 +78,7 @@ import { TECH_LOGOS } from "../data/tech-logos";
     <div class="reveal flex flex-wrap items-end justify-between gap-4">
       <div>
         <p class="meta-label">Selected work</p>
-        <h2 class="display mt-3 text-4xl md:text-6xl">Seven builds,<br />each opened fully.</h2>
+        <h2 class="display mt-3 text-4xl md:text-6xl">{projects.length} builds,<br />each opened fully.</h2>
       </div>
       <a href="/work" class="btn-line !py-2.5" data-magnetic>All work →</a>
     </div>
@@ -94,7 +95,7 @@ import { TECH_LOGOS } from "../data/tech-logos";
             {p.stack.slice(0, 4).map((t) => <span class="tag">{t}</span>)}
           </div>
           <div class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-6">
-            <span class="tag shrink-0" style="border-color:rgb(74 222 128 / 0.35); color:var(--color-ok)">● LIVE DEMO</span>
+            {p.slug === "zerotrust-soc-lab" ? <span class="tag shrink-0">LOCAL LAB</span> : !["shellplay", "pxe-network-boot-lab"].includes(p.slug) && <span class="tag shrink-0" style="border-color:rgb(74 222 128 / 0.35); color:var(--color-ok)">● LIVE DEMO</span>}
             <span class="arrow-slide shrink-0 font-mono text-xs whitespace-nowrap text-[var(--color-ink-3)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">OPEN <span data-arrow>→</span></span>
           </div>
         </a>
@@ -111,40 +112,40 @@ import { TECH_LOGOS } from "../data/tech-logos";
     <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-28">
       <div class="grid gap-4 lg:grid-cols-[auto_1fr] lg:items-end">
         <p class="reveal meta-label">Featured</p>
-        <h2 class="reveal display mt-3 text-4xl md:text-6xl">Deep dive: PhantomSection.</h2>
+        <h2 class="reveal display mt-3 text-4xl md:text-6xl">Featured: {featured.title}.</h2>
       </div>
       <p class="reveal mt-4 max-w-2xl text-[var(--color-ink-3)]" style="--rd:80ms">
-        A C++ shellcode loader that walks the PEB, parses export address tables, and patches ETW - without touching a single documented API.
+        {featured.description}
       </p>
       <div class="reveal mt-10 grid gap-6 lg:grid-cols-2" style="--rd:160ms">
         <!-- Flow preview -->
         <div class="console">
           <div class="console-bar">
             <i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i>
-            <span class="ml-2">EXECUTION FLOW - 6 STEPS</span>
+            <span class="ml-2">ATTACK-TO-DETECTION FLOW</span>
           </div>
           <div class="console-body space-y-2">
-            {projects[0].flow.slice(0, 4).map((f) => (
+            {featured.flow.slice(0, 4).map((f) => (
               <div class="flex gap-3">
                 <span class="c-info font-semibold">{f.step}</span>
                 <span>{f.title} - <span class="c-dim">{f.detail.slice(0, 60)}…</span></span>
               </div>
             ))}
-            <div class="c-dim mt-2">… 2 more steps → full case file</div>
+            <div class="c-dim mt-2">Telemetry and detection coverage are documented in the case file.</div>
           </div>
         </div>
-        <!-- MITRE table -->
+        <!-- Lab inventory -->
         <div class="overflow-hidden rounded-2xl border border-[var(--color-line-strong)] bg-[var(--color-card-2)] p-6">
-          <p class="meta-label">MITRE ATT&CK</p>
+          <p class="meta-label">{featured.tables[0].title}</p>
           <table class="spec-table mt-4">
-            <thead><tr><th>Technique</th><th>Description</th></tr></thead>
+            <thead><tr><th>{featured.tables[0].table.head[0]}</th><th>{featured.tables[0].table.head[1]}</th></tr></thead>
             <tbody>
-              {projects[0].tables[0].table.rows.map((r) => (
+              {featured.tables[0].table.rows.map((r) => (
                 <tr><td>{r[0]}</td><td>{r[1]}</td></tr>
               ))}
             </tbody>
           </table>
-          <a href="/work/phantomsection" class="go-ghost mt-5" data-magnetic>Open case file →</a>
+          <a href={`/work/${featured.slug}`} class="go-ghost mt-5" data-magnetic>Open case file →</a>
         </div>
       </div>
     </div>

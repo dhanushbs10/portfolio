@@ -6,7 +6,7 @@ import PingAvatar from "./PingAvatar";
 <div class="pw" id="pw" data-open="false">
   <div class="pw-scrim" id="pw-scrim" aria-hidden="true"></div>
 
-  <section class="pw-panel" id="pw-panel" aria-modal="true" role="dialog" aria-label="Chat with Ping" tabindex="-1">
+  <section class="pw-panel" id="pw-panel" aria-modal="true" role="dialog" aria-labelledby="pw-title" tabindex="-1">
     <div class="pw-box">
       <header class="pw-head">
         <div class="pw-id">
@@ -14,7 +14,8 @@ import PingAvatar from "./PingAvatar";
             <PingAvatar size={54} client:load />
           </span>
           <span class="pw-id-txt">
-            <span class="pw-name">Ping</span>
+            <span class="pw-name" id="pw-title">Ping</span>
+            <span class="pw-subtitle">Dhanush's portfolio guide</span>
           </span>
         </div>
         <button class="pw-close" id="pw-close" type="button" aria-label="Close chat">
@@ -37,6 +38,7 @@ import PingAvatar from "./PingAvatar";
 
 <style>
   .pw {
+    --pw-accent: #d6d9df;
     --pw-ox: calc(100vw - 60px);
     --pw-oy: calc(100dvh - 60px);
     position: fixed;
@@ -52,7 +54,7 @@ import PingAvatar from "./PingAvatar";
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     opacity: 0;
-    transition: opacity 0.8s ease;
+    transition: opacity 0.4s ease;
   }
   .pw[data-open="true"] .pw-scrim { opacity: 1; pointer-events: auto; }
 
@@ -66,14 +68,14 @@ import PingAvatar from "./PingAvatar";
     pointer-events: none;
     clip-path: circle(0px at var(--pw-ox) var(--pw-oy));
     transition:
-      clip-path 1s cubic-bezier(0.32, 0.72, 0, 1),
-      visibility 0s linear 1s;
+      clip-path 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0.55s;
   }
   .pw[data-open="true"] .pw-panel {
     clip-path: circle(150% at var(--pw-ox) var(--pw-oy));
     visibility: visible;
     pointer-events: auto;
-    transition: clip-path 1s cubic-bezier(0.32, 0.72, 0, 1);
+    transition: clip-path 0.55s cubic-bezier(0.32, 0.72, 0, 1);
   }
   .pw-box {
     width: min(580px, 100%);
@@ -82,7 +84,7 @@ import PingAvatar from "./PingAvatar";
     flex-direction: column;
     min-height: 0;
     background:
-      radial-gradient(560px 320px at 20% 0%, rgb(59 130 246 / 0.08), transparent 55%),
+      radial-gradient(560px 320px at 20% 0%, color-mix(in srgb, var(--pw-accent) 4%, transparent), transparent 55%),
       var(--color-paper);
     border: 1px solid var(--color-line-strong);
     border-radius: 22px;
@@ -121,6 +123,7 @@ import PingAvatar from "./PingAvatar";
     place-items: center;
   }
   .pw-avatar svg { width: 54px; height: 54px; display: block; }
+  .pw-avatar svg, .pw-ico svg { filter: grayscale(1); }
   .pw-id-txt { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; justify-content: center; }
   .pw-name {
     font-family: "Space Grotesk", sans-serif;
@@ -128,6 +131,11 @@ import PingAvatar from "./PingAvatar";
     font-size: 1.08rem;
     letter-spacing: -0.01em;
     color: var(--color-ink);
+  }
+  .pw-subtitle {
+    color: var(--color-ink-3);
+    font-size: 0.72rem;
+    line-height: 1.4;
   }
   .pw-close {
     width: 40px;
@@ -144,6 +152,8 @@ import PingAvatar from "./PingAvatar";
   }
   .pw-close svg { width: 18px; height: 18px; }
   .pw-close:hover { border-color: var(--color-ink); color: var(--color-ink); background: var(--color-card-2); }
+  .pw-close:focus-visible,
+  .pw-fab:focus-visible { outline: 2px solid var(--pw-accent); outline-offset: 4px; }
 
   .pw-body {
     flex: 1;
@@ -164,12 +174,12 @@ import PingAvatar from "./PingAvatar";
     cursor: pointer;
     display: grid;
     place-items: center;
-    filter: drop-shadow(0 12px 26px rgb(37 99 235 / 0.45));
+    filter: drop-shadow(0 12px 26px color-mix(in srgb, var(--pw-accent) 32%, transparent));
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s, opacity 0.35s ease, scale 0.35s ease;
     pointer-events: auto;
     padding: 0;
   }
-  .pw-fab:hover { transform: translateY(-3px) scale(1.06); filter: drop-shadow(0 18px 32px rgb(37 99 235 / 0.55)); }
+  .pw-fab:hover { transform: translateY(-3px) scale(1.06); filter: drop-shadow(0 18px 32px color-mix(in srgb, var(--pw-accent) 42%, transparent)); }
   .pw-fab:active { transform: scale(0.94); }
   .pw-ico { display: grid; place-items: center; }
   .pw-ico svg { width: 77px; height: 77px; display: block; }
@@ -204,6 +214,20 @@ import PingAvatar from "./PingAvatar";
     pointer-events: none;
   }
 
+  @media (max-width: 639px) {
+    .pw-panel {
+      padding: max(0.65rem, env(safe-area-inset-top)) max(0.65rem, env(safe-area-inset-right)) max(0.65rem, env(safe-area-inset-bottom)) max(0.65rem, env(safe-area-inset-left));
+    }
+    .pw-box {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      border-radius: 18px;
+    }
+    .pw-head { padding: 0.75rem 1rem; }
+    .pw-avatar, .pw-avatar svg { width: 46px; height: 46px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pw-panel, .pw-scrim, .pw-fab, .pw-box, .pw-tag { transition: none !important; }
   }
@@ -214,6 +238,7 @@ import PingAvatar from "./PingAvatar";
     opacity: 0 !important;
     pointer-events: none !important;
   }
+
 </style>
 
 <script>
@@ -223,6 +248,9 @@ import PingAvatar from "./PingAvatar";
   const fab = document.getElementById("pw-fab");
   const tag = document.getElementById("pw-tag");
   const closeBtn = document.getElementById("pw-close");
+  let previousFocus = null;
+  let previousBodyOverflow = "";
+  let focusTimer;
 
   function originFromFab() {
     const r = fab.getBoundingClientRect();
@@ -236,19 +264,29 @@ import PingAvatar from "./PingAvatar";
 
   function openChat() {
     originFromFab();
+    previousFocus = document.activeElement;
+    previousBodyOverflow = document.body.style.overflow;
     root.dataset.open = "true";
     fab.setAttribute("aria-expanded", "true");
     document.body.style.overflow = "hidden";
-    setTimeout(() => {
+    clearTimeout(focusTimer);
+    focusTimer = setTimeout(() => {
       const ta = panel.querySelector("textarea");
       if (ta) ta.focus({ preventScroll: true });
-    }, 750);
+    }, 450);
   }
 
-  function closeChat() {
+  function closeChat(restoreFocus = true) {
+    clearTimeout(focusTimer);
     root.dataset.open = "false";
     fab.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
+    document.body.style.overflow = previousBodyOverflow;
+    if (restoreFocus) {
+      requestAnimationFrame(() => {
+        const target = previousFocus instanceof HTMLElement && previousFocus.isConnected ? previousFocus : fab;
+        target.focus({ preventScroll: true });
+      });
+    }
   }
 
   fab.addEventListener("click", () => (isOpen() ? closeChat() : openChat()));
@@ -260,8 +298,36 @@ import PingAvatar from "./PingAvatar";
   }, 60000);
   scrim.addEventListener("click", closeChat);
   closeBtn.addEventListener("click", closeChat);
+  panel.addEventListener("click", (event) => {
+    if (event.target === panel && isOpen()) closeChat();
+  });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isOpen()) closeChat();
+    if (!isOpen()) return;
+    if (e.key === "Escape") {
+      closeChat();
+      return;
+    }
+    if (e.key === "Tab") {
+      const focusable = [...panel.querySelectorAll('button:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')]
+        .filter((el) => el.getClientRects().length);
+      if (!focusable.length) {
+        e.preventDefault();
+        panel.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!panel.contains(document.activeElement)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      } else if (e.shiftKey && (document.activeElement === first || document.activeElement === panel)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   const path = location.pathname;

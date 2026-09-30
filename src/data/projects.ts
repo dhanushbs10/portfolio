@@ -496,6 +496,49 @@ export const projects: Project[] = [
       "Verify: both on 192.168.1.x/24, gateway 192.168.1.1, SMB opens",
     ],
   },
+  {
+    slug: "zerotrust-soc-lab",
+    index: "08",
+    title: "ZeroTrust SOC Lab",
+    category: "Security",
+    tagline: "A local Kubernetes attack-to-detection lab built around verifiable evidence.",
+    description: "A laptop-hosted kind cluster lab that runs real Kubernetes privilege paths and a six-hop intrusion chain, then collects audit-log and network-counter telemetry to evaluate Sigma detections and posture checks. The repository documents its coverage gaps and an outstanding failing assertion.",
+    stack: ["Kubernetes", "kind", "Python", "PowerShell", "Sigma", "MITRE ATT&CK", "Docker", "NetworkPolicy"],
+    github: "https://github.com/dhanushbs10/zerotrust-soc-lab",
+    features: [
+      "Three trust zones with default-deny network policies enforced by kube-router",
+      "Seven scripted privilege paths and a six-hop ATT&CK-mapped intrusion chain",
+      "Seven telemetry schemas, seven Sigma rules, and five live posture checks",
+      "Mutation checks challenge each detection rule; telemetry is linked to evidence",
+      "The README states current detection limits and one undiagnosed failing assertion",
+    ],
+    flow: [
+      { step: "01", title: "Build the cluster", detail: "PowerShell bootstraps a local kind cluster and applies the lab workloads and trust boundaries." },
+      { step: "02", title: "Run attack paths", detail: "Scripts exercise documented privilege paths and a six-hop intrusion chain against the local cluster." },
+      { step: "03", title: "Collect evidence", detail: "Collectors capture Kubernetes audit events and comparable network-counter measurements." },
+      { step: "04", title: "Evaluate detections", detail: "Sigma and posture checks run against collected evidence; mutation checks test whether gates can fail." },
+    ],
+    tables: [
+      {
+        title: "Lab inventory",
+        table: { head: ["Component", "Count"], rows: [["Trust zones", "3"], ["Workloads", "5"], ["Privilege paths", "7"], ["Intrusion chain", "6 hops"], ["Telemetry schemas", "7"], ["Sigma rules / posture checks", "7 / 5"]] },
+      },
+      {
+        title: "Documented coverage gaps",
+        note: "From the repository README; these are stated limitations, not implied coverage.",
+        table: { head: ["Area", "Current limitation"], rows: [["Privilege-path assertions", "One assertion currently fails and is undiagnosed."], ["T1021", "No positive attack-step test; current hits are instrumentation."], ["T1190", "Listed in the technique catalogue but not detected from collected schemas."], ["Network telemetry", "Counter deltas do not provide destination and port flow details."]] },
+      },
+    ],
+    code: [{ title: "Run the local lab", lang: "powershell", body: "git clone https://github.com/dhanushbs10/zerotrust-soc-lab.git\ncd zerotrust-soc-lab\npowershell -File run-lab.ps1\npython dashboard\\server.py" }],
+    build: [
+      "Prerequisites: Docker Desktop with WSL2 and 40 GB free, kind, kubectl, Python 3.11+",
+      "Clone the repository and run powershell -File run-lab.ps1",
+      "Start the console with python dashboard\\server.py",
+      "Open http://127.0.0.1:8099; the console binds to loopback only",
+      "Read docs/HOW-IT-WORKS.md and the README limitations before interpreting results",
+    ],
+    disclaimer: "Authorized local lab use only. Scripts target a kind cluster named soc-lab via the active kubeconfig. The dashboard can mint a cluster-admin token and must remain bound to loopback.",
+  },
 ];
 
 export const categories = ["All", "Security", "Networking", "Systems", "Web"] as const;

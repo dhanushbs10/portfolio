@@ -2,7 +2,7 @@
 
 Portfolio for **Dhanush B S** — Cybersecurity & Networking student, Bengaluru.
 
-Built with **Astro 7** + **Tailwind CSS v4** + small React islands (React Bits ProfileCard and PixelSnow hero, interactive labs). Output is static — no app server. Content is sourced directly from the author's real project READMEs — nothing invented, no terminal cosplay.
+Built with **Astro 7** + **Tailwind CSS v4** + small React islands (React Bits ProfileCard and PixelSnow hero, interactive labs). Pages are prerendered, with a Vercel serverless endpoint for Ping. Project case studies are sourced from the author's project READMEs.
 
 ## Routes
 
@@ -37,18 +37,18 @@ Each case page embeds a working interactive lab (Phantom XOR viewer, HKDF-SHA256
 ```sh
 npm install
 npm run dev        # http://localhost:4321
-npm run build      # static site → dist/
+npm run build      # prerendered pages + Vercel serverless output → dist/
 npm run preview    # preview the build
 ```
 
-Deploy `dist/` to any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages).
+Deploy through the Vercel adapter (`vercel dev` locally or Vercel project deployment). The `/api/chat` route needs the environment variables below; a static-only host cannot run Ping's API.
 
 ## Ping chatbot
 
 Floating widget on every page (`src/components/PingWidget.astro`) backed by
-`src/pages/api/chat.ts`: BM25 retrieval over site data plus the Ping profile,
+`src/pages/api/chat.ts`: BM25 retrieval over the public profile and project data,
 streamed answers from NVIDIA NIM, 20-message cap per refresh. Abuse hardware:
 input-regex tiers, decode pass, LLM classifier (fail-open), canary plus
 system-prompt-only overlap output check, per-IP 3-strikes cooldown, hashed
-server logs. See `.env.example` for `NIM_API_KEY`, `NIM_MODEL`,
+server logs. Copy `.env.example` to `.env` for local development. Set `NIM_API_KEY`, `NIM_MODEL`,
 `TEASE_MODEL`, `RATE_LIMIT_MAX_MESSAGES`, `GUARD_SALT`.
