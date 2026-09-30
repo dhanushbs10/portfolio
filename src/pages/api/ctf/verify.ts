@@ -15,9 +15,8 @@ const json = (body: Record<string, unknown>, status = 200) =>
   });
 
 export const POST: APIRoute = async ({ request }) => {
-  const answer = process.env.CTF_ANSWER;
   const flag = process.env.CTF_FLAG;
-  if (!answer || !flag) return json({ ok: false, message: "The verifier is not configured yet." }, 503);
+  if (!flag) return json({ ok: false, message: "The verifier is not configured yet." }, 503);
 
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
     return json({ ok: false, message: "JSON required." }, 415);
@@ -35,15 +34,15 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, message: "Invalid request." }, 400);
   }
 
-  const proof = body && typeof body === "object" && "proof" in body && typeof body.proof === "string"
-    ? body.proof.trim()
+  const submittedFlag = body && typeof body === "object" && "flag" in body && typeof body.flag === "string"
+    ? body.flag.trim()
     : "";
-  if (!proof || proof.length > 128) return json({ ok: false, message: "Proof is required." }, 400);
+  if (!submittedFlag || submittedFlag.length > 96) return json({ ok: false, message: "Enter a flag to submit." }, 400);
 
-  const submitted = Buffer.from(proof, "utf8");
-  const expected = Buffer.from(answer.trim(), "utf8");
+  const submitted = Buffer.from(submittedFlag, "utf8");
+  const expected = Buffer.from(flag.trim(), "utf8");
   const matches = submitted.length === expected.length && timingSafeEqual(submitted, expected);
   return matches
-    ? json({ ok: true, flag })
-    : json({ ok: false, message: "No match. Recheck the evidence and transform." }, 401);
+    ? json({ ok: true, message: "Correct flag. Signal recovered." })
+    : json({ ok: false, message: "Incorrect flag. Keep searching." }, 401);
 };

@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 # Field log for manual recon: /ctf/
+# Packet 0x01: 746467666a7f686f7d72
 
 Sitemap: https://bsdhanush.qzz.io/sitemap.xml
