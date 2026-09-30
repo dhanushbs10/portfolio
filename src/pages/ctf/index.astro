@@ -29,7 +29,7 @@ import Doc from "../../layouts/Doc.astro";
         maxlength="96"
         spellcheck="false"
         autocapitalize="off"
-        class="min-w-0 flex-1 rounded-full border border-[var(--color-line-strong)] bg-[var(--color-card)] px-5 py-3 font-mono text-sm text-[var(--color-ink)] outline-none focus:border-[var(--color-accent)]"
+        class="flag-input min-w-0 flex-1 rounded-full border border-[var(--color-line-strong)] bg-[var(--color-card)] px-5 py-3 font-mono text-sm text-[var(--color-ink)] outline-none focus:border-[var(--color-accent)]"
         placeholder="flag{...}"
         required
       />
@@ -45,6 +45,15 @@ import Doc from "../../layouts/Doc.astro";
     const result = document.querySelector("#ctf-result");
     const submit = form?.querySelector('button[type="submit"]');
     const burst = document.querySelector("#paper-blast");
+
+    input?.addEventListener("input", () => input.classList.remove("is-rejected"));
+
+    const shakeRejectedInput = () => {
+      if (!input) return;
+      input.classList.remove("is-rejected");
+      void input.offsetWidth;
+      input.classList.add("is-rejected");
+    };
 
     const playSuccessSound = () => {
       try {
@@ -124,6 +133,7 @@ import Doc from "../../layouts/Doc.astro";
           result.dataset.state = "error";
           result.style.color = "#fb7185";
           result.textContent = data.message ?? "Incorrect flag. Keep searching.";
+          shakeRejectedInput();
         }
       } catch {
         result.dataset.state = "error";
@@ -136,6 +146,21 @@ import Doc from "../../layouts/Doc.astro";
   </script>
 
   <style>
+    .flag-input.is-rejected {
+      border-color: #fb7185;
+      animation: flag-rejected 430ms ease-in-out;
+    }
+
+    @keyframes flag-rejected {
+      0%, 100% { transform: translateX(0); }
+      18%, 54% { transform: translateX(-8px); }
+      36%, 72% { transform: translateX(8px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .flag-input.is-rejected { animation: none; }
+    }
+
     .paper-blast {
       position: fixed;
       inset: 0;
