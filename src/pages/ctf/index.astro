@@ -37,14 +37,14 @@ import Doc from "../../layouts/Doc.astro";
     </form>
     <p id="ctf-result" class="mt-4 min-h-6 font-mono text-sm text-[var(--color-ink-2)]" aria-live="polite" role="status"></p>
   </section>
-  <div id="poop-burst" class="poop-burst" aria-hidden="true"></div>
+  <div id="paper-blast" class="paper-blast" aria-hidden="true"></div>
 
   <script>
     const form = document.querySelector("#ctf-form");
     const input = document.querySelector("#ctf-flag");
     const result = document.querySelector("#ctf-result");
     const submit = form?.querySelector('button[type="submit"]');
-    const burst = document.querySelector("#poop-burst");
+    const burst = document.querySelector("#paper-blast");
 
     const playSuccessSound = () => {
       try {
@@ -68,21 +68,29 @@ import Doc from "../../layouts/Doc.astro";
       } catch { /* Audio is an optional enhancement. */ }
     };
 
-    const launchPoopBurst = () => {
+    const launchPaperBlast = () => {
       if (!burst) return;
       burst.replaceChildren();
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const particles = reducedMotion ? 1 : 22;
+      const particles = reducedMotion ? 0 : 140;
       for (let i = 0; i < particles; i += 1) {
         const particle = document.createElement("span");
-        const angle = (Math.PI * 2 * i) / particles + Math.random() * 0.18;
-        const distance = 110 + Math.random() * 210;
-        particle.className = "poop-particle";
-        particle.textContent = i % 4 === 0 ? "✨" : "💩";
-        particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
-        particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
-        particle.style.setProperty("--spin", `${Math.random() * 720 - 360}deg`);
-        particle.style.setProperty("--delay", `${Math.random() * 90}ms`);
+        const fromLeft = i % 2 === 0;
+        const startX = fromLeft ? Math.random() * 16 : 84 + Math.random() * 16;
+        const endX = Math.random() * 100;
+        const endY = 25 + Math.random() * 100;
+        const colors = ["#e76f51", "#e9a23b", "#f4d35e", "#3d8f88", "#e5e1d8", "#f7f3eb"];
+        particle.className = `confetti-piece ${Math.random() > 0.72 ? "confetti-dot" : ""}`;
+        particle.style.setProperty("--start-x", `${startX}vw`);
+        particle.style.setProperty("--start-y", `${80 + Math.random() * 24}vh`);
+        particle.style.setProperty("--end-x", `${endX}vw`);
+        particle.style.setProperty("--end-y", `${endY}vh`);
+        particle.style.setProperty("--spin", `${Math.random() * 1800 - 900}deg`);
+        particle.style.setProperty("--delay", `${Math.random() * 260}ms`);
+        particle.style.setProperty("--fall-time", `${2200 + Math.random() * 1700}ms`);
+        particle.style.setProperty("--piece-color", colors[Math.floor(Math.random() * colors.length)]);
+        particle.style.setProperty("--piece-width", `${5 + Math.random() * 8}px`);
+        particle.style.setProperty("--piece-height", `${9 + Math.random() * 13}px`);
         burst.append(particle);
         particle.addEventListener("animationend", () => particle.remove(), { once: true });
       }
@@ -110,7 +118,7 @@ import Doc from "../../layouts/Doc.astro";
           result.dataset.state = "success";
           result.style.color = "var(--color-accent-ink)";
           result.textContent = data.message ?? "Correct flag. Signal recovered.";
-          launchPoopBurst();
+          launchPaperBlast();
           playSuccessSound();
         } else {
           result.dataset.state = "error";
@@ -128,35 +136,46 @@ import Doc from "../../layouts/Doc.astro";
   </script>
 
   <style>
-    .poop-burst {
+    .paper-blast {
       position: fixed;
       inset: 0;
-      z-index: 90;
+      z-index: 120;
       overflow: hidden;
       pointer-events: none;
     }
 
-    .poop-particle {
+    .confetti-piece {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      font-size: clamp(1.5rem, 4vw, 3rem);
+      top: var(--start-y);
+      left: var(--start-x);
+      width: var(--piece-width);
+      height: var(--piece-height);
+      border-radius: 2px;
+      background: var(--piece-color);
       opacity: 0;
-      filter: drop-shadow(0 5px 8px rgb(0 0 0 / 22%));
+      box-shadow: 0 2px 8px rgb(0 0 0 / 14%);
+      will-change: transform, opacity;
     }
 
-    .is-blasting .poop-particle {
-      animation: poop-blast 1050ms cubic-bezier(.14,.72,.24,1) var(--delay) both;
+    .confetti-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
     }
 
-    @keyframes poop-blast {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(0deg); }
-      12% { opacity: 1; }
-      100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(.75) rotate(var(--spin)); }
+    .is-blasting .confetti-piece {
+      animation: paper-blast var(--fall-time) cubic-bezier(.16,.72,.3,1) var(--delay) both;
+    }
+
+    @keyframes paper-blast {
+      0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg) scale(.5); }
+      8% { opacity: 1; }
+      45% { opacity: 1; transform: translate3d(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y) - 14vh), 0) rotate(calc(var(--spin) * .55)); }
+      100% { opacity: 0; transform: translate3d(calc(var(--end-x) - var(--start-x)), calc(var(--end-y) - var(--start-y) + 20vh), 0) rotate(var(--spin)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .poop-particle { animation: none; }
+      .confetti-piece { display: none; }
     }
   </style>
 </Doc>
