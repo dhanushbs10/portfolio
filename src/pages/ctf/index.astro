@@ -37,12 +37,61 @@ import Doc from "../../layouts/Doc.astro";
     </form>
     <p id="ctf-result" class="mt-4 min-h-6 font-mono text-sm text-[var(--color-ink-2)]" aria-live="polite" role="status"></p>
   </section>
+  <div id="poop-burst" class="poop-burst" aria-hidden="true"></div>
 
   <script>
     const form = document.querySelector("#ctf-form");
     const input = document.querySelector("#ctf-flag");
     const result = document.querySelector("#ctf-result");
     const submit = form?.querySelector('button[type="submit"]');
+    const burst = document.querySelector("#poop-burst");
+
+    const playSuccessSound = () => {
+      try {
+        const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (!AudioContextClass) return;
+        const context = new AudioContextClass();
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
+        oscillator.type = "sawtooth";
+        oscillator.frequency.setValueAtTime(520, now);
+        oscillator.frequency.exponentialRampToValueAtTime(95, now + 0.32);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.12, now + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.38);
+        oscillator.addEventListener("ended", () => context.close(), { once: true });
+      } catch { /* Audio is an optional enhancement. */ }
+    };
+
+    const launchPoopBurst = () => {
+      if (!burst) return;
+      burst.replaceChildren();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const particles = reducedMotion ? 1 : 22;
+      for (let i = 0; i < particles; i += 1) {
+        const particle = document.createElement("span");
+        const angle = (Math.PI * 2 * i) / particles + Math.random() * 0.18;
+        const distance = 110 + Math.random() * 210;
+        particle.className = "poop-particle";
+        particle.textContent = i % 4 === 0 ? "✨" : "💩";
+        particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+        particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+        particle.style.setProperty("--spin", `${Math.random() * 720 - 360}deg`);
+        particle.style.setProperty("--delay", `${Math.random() * 90}ms`);
+        burst.append(particle);
+        particle.addEventListener("animationend", () => particle.remove(), { once: true });
+      }
+      if (!reducedMotion) {
+        burst.classList.remove("is-blasting");
+        void burst.offsetWidth;
+        burst.classList.add("is-blasting");
+      }
+    };
 
     form?.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -61,6 +110,8 @@ import Doc from "../../layouts/Doc.astro";
           result.dataset.state = "success";
           result.style.color = "var(--color-accent-ink)";
           result.textContent = data.message ?? "Correct flag. Signal recovered.";
+          launchPoopBurst();
+          playSuccessSound();
         } else {
           result.dataset.state = "error";
           result.style.color = "#fb7185";
@@ -75,4 +126,37 @@ import Doc from "../../layouts/Doc.astro";
       }
     });
   </script>
+
+  <style>
+    .poop-burst {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .poop-particle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      opacity: 0;
+      filter: drop-shadow(0 5px 8px rgb(0 0 0 / 22%));
+    }
+
+    .is-blasting .poop-particle {
+      animation: poop-blast 1050ms cubic-bezier(.14,.72,.24,1) var(--delay) both;
+    }
+
+    @keyframes poop-blast {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(0deg); }
+      12% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(.75) rotate(var(--spin)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .poop-particle { animation: none; }
+    }
+  </style>
 </Doc>

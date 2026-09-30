@@ -183,15 +183,8 @@ const stats = [
     <PingWidget />
     <Analytics client:idle />
 
-    <!-- Footer -->
+    {!isCtfPage && (
     <footer class="relative overflow-hidden border-t-2 border-[var(--color-line-strong)] bg-[var(--color-night)] text-[var(--color-ink)]">
-      {isCtfPage ? (
-        <div class="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 font-mono text-xs text-white/50 md:px-8">
-          <a href="/" class="transition-colors hover:text-white" aria-label="Return to Dhanush B S portfolio">Dhanush B S<span class="text-[var(--color-accent)]">.</span></a>
-          <span>© 2026 · {profile.location}</span>
-        </div>
-      ) : (
-        <>
       <!-- Decorative grid -->
       <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px); background-size: 60px 60px;"></div>
 
@@ -230,9 +223,8 @@ const stats = [
           <span>Built from scratch · Astro + Tailwind</span>
         </div>
       </div>
-        </>
-      )}
     </footer>
+    )}
 
     <!-- CmdK palette -->
     <div id="cmdk" hidden class="fixed inset-0 z-[100] flex items-start justify-center bg-black/40 p-4 pt-[14vh] backdrop-blur-sm">
