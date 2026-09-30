@@ -10,13 +10,15 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
 <div class="sc-chat" id={chatId} data-init-open={initOpen ? "true" : "false"}>
   <div class="sc-view" tabindex="-1">
     <div class="sc-hero">
+      <p class="sc-eyebrow">PING <span aria-hidden="true">/</span> PORTFOLIO GUIDE</p>
+      <h2 class="sc-hero-title">Explore the work.</h2>
       <p class="sc-hero-s">
-        Ask me anything about Dhanush's work, skills and journey.
+        Ask about Dhanush's projects, skills, or background. I can point you to the right case study.
       </p>
       <div class="sc-chips" role="group" aria-label="Suggested questions">
-        <button type="button" data-q="What is Dhanush currently working on?">What is Dhanush currently working on?</button>
-        <button type="button" data-q="Which project should I look at first?">Which project should I look at first?</button>
-        <button type="button" data-q="What are his core skills?">What are his core skills?</button>
+        <button type="button" data-q="Show me Dhanush's projects">Browse the projects</button>
+        <button type="button" data-q="What is DropLink?">Ask about DropLink</button>
+        <button type="button" data-q="How can I contact Dhanush?">Find contact details</button>
       </div>
     </div>
   </div>
@@ -29,11 +31,17 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 14 0"></path><path d="m13 6 6 6-6 6"></path></svg>
       </button>
     </div>
+    <p class="sc-input-hint">Enter to send <span aria-hidden="true">·</span> Shift + Enter for a new line</p>
   </form>
+  <span class="sc-announcer" role="status" aria-live="polite" aria-atomic="true"></span>
 </div>
 
 <style is:global>
   .sc-chat {
+    --sc-accent: #d6d9df;
+    --sc-accent-soft: rgb(214 217 223 / 0.12);
+    --sc-accent-ink: #c4c9d2;
+    --sc-user-bubble: #252a34;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -64,7 +72,27 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     align-items: flex-start;
     max-width: 34rem;
     margin: 0 auto;
-    padding: 0.5rem 0 1rem;
+    padding: 0.65rem 0 1rem;
+  }
+  .sc-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    color: var(--sc-accent-ink);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+  }
+  .sc-eyebrow span { color: var(--color-ink-3); }
+  .sc-hero-title {
+    margin: 0.65rem 0 0;
+    color: var(--color-ink);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(1.45rem, 4vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
   }
   .sc-hero-s {
     margin: 0.55rem 0 0;
@@ -91,10 +119,15 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.25s cubic-bezier(.16,1,.3,1);
   }
   .sc-chips button:hover {
-    background: color-mix(in srgb, var(--color-accent) 14%, var(--color-card));
-    border-color: var(--color-accent);
-    color: var(--color-accent-ink);
+    background: color-mix(in srgb, var(--sc-accent) 12%, var(--color-card));
+    border-color: var(--sc-accent);
+    color: var(--sc-accent-ink);
     transform: translateY(-2px);
+  }
+  .sc-chips button:focus-visible,
+  .sc-send:focus-visible {
+    outline: 2px solid var(--sc-accent);
+    outline-offset: 3px;
   }
   .sc-chips button:disabled { opacity: 0.4; pointer-events: none; }
 
@@ -146,10 +179,10 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
   }
   .sc-msg-user { justify-content: flex-end; }
   .sc-msg-user .sc-bubble {
-    background: linear-gradient(135deg, var(--color-accent-deep), var(--color-accent));
+    background: var(--sc-user-bubble);
     color: #fff;
     border-top-right-radius: 5px;
-    box-shadow: 0 8px 22px -10px rgb(37 99 235 / 0.5);
+    box-shadow: 0 8px 22px -12px rgb(0 0 0 / 0.45);
   }
   @media (min-width: 640px) {
     .sc-msg-ping .sc-bubble { max-width: 32rem; }
@@ -160,7 +193,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     font-family: "JetBrains Mono", monospace;
     font-size: 0.62rem;
     letter-spacing: 0.12em;
-    color: var(--color-accent-ink);
+    color: var(--sc-accent-ink);
     text-transform: uppercase;
     margin-bottom: 0.3rem;
   }
@@ -177,7 +210,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     color: var(--color-ink);
   }
   .sc-msg-user .sc-txt code { background: rgb(255 255 255 / 0.18); color: #fff; }
-  .sc-txt a { color: var(--color-accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+  .sc-txt a { color: var(--sc-accent-ink); text-decoration: underline; text-underline-offset: 3px; }
   .sc-txt ul, .sc-txt ol { margin: 0.3rem 0 0.3rem 1.2rem; padding: 0; }
   .sc-txt li { margin: 0.15rem 0; }
   .sc-txt p { margin: 0; }
@@ -194,7 +227,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     width: 7px;
     height: 1em;
     vertical-align: text-bottom;
-    background: var(--color-accent);
+    background: var(--sc-accent);
     margin-left: 3px;
     border-radius: 2px;
     animation: scBlink 0.9s steps(2, jump-none) infinite;
@@ -210,7 +243,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
   .sc-dots i {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: var(--sc-accent);
     animation: scDot 1.2s ease-in-out infinite;
   }
   .sc-dots i:nth-child(2) { animation-delay: 0.15s; }
@@ -234,6 +267,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
   /* ── Input ── */
   .sc-input {
     padding: 0.9rem 1.25rem 1.1rem;
+    padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
   }
   @media (min-width: 640px) { .sc-input { padding: 1.25rem 2.25rem 1.4rem; } }
   .sc-limit {
@@ -241,7 +275,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     margin: 0 auto 0.6rem;
     font-family: "JetBrains Mono", monospace;
     font-size: 0.68rem;
-    color: var(--color-accent-ink);
+    color: var(--sc-accent-ink);
   }
   .sc-limit[hidden] { display: none; }
   .sc-field {
@@ -257,8 +291,8 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .sc-field:focus-within {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 4px rgb(59 130 246 / 0.13);
+    border-color: var(--sc-accent);
+    box-shadow: 0 0 0 4px var(--sc-accent-soft);
   }
   .sc-field:has(.sc-send:disabled) { border-color: var(--color-line); }
   .sc-field textarea {
@@ -291,17 +325,36 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
   }
   .sc-send svg { width: 18px; height: 18px; }
   .sc-send:not(:disabled):hover {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
+    background: var(--sc-accent);
+    border-color: var(--sc-accent);
+    color: #0b0d12;
     transform: translateY(-1px);
   }
   .sc-send:not(:disabled) {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
+    background: var(--sc-accent);
+    border-color: var(--sc-accent);
+    color: #0b0d12;
   }
   .sc-send:disabled { opacity: 0.35; cursor: not-allowed; }
+  .sc-input-hint {
+    max-width: 34rem;
+    margin: 0.55rem auto 0;
+    color: var(--color-ink-3);
+    font-size: 0.68rem;
+    text-align: center;
+  }
+  .sc-input-hint span { padding: 0 0.25rem; color: var(--sc-accent-ink); }
+  .sc-announcer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .sc-msg, .sc-src, .sc-caret, .sc-dots i { animation: none !important; }
@@ -316,6 +369,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
   const textarea = form.querySelector("textarea");
   const sendBtn = form.querySelector(".sc-send");
   const limitEl = form.querySelector(".sc-limit");
+  const announcer = root.querySelector(".sc-announcer");
   const chips = root.querySelectorAll(".sc-chips button");
 
   const MAX_MSG = 20;
@@ -417,6 +471,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
     addUser(text);
     sent++;
     busy = true;
+    announcer.textContent = "Ping is preparing a reply.";
     syncBtn();
 
     const box = addPingBox();
@@ -463,13 +518,16 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
             active = false;
             box.msg.remove();
             addError(ev.message);
+            announcer.textContent = "Ping could not reply. " + (ev.message || "Please try again.");
           }
         }
       }
     } catch (err) {
       active = false;
       box.msg.remove();
-      addError(String((err && err.message) || err));
+      const message = String((err && err.message) || err);
+      addError(message);
+      announcer.textContent = "Ping could not reply. " + message;
     } finally {
       busy = false;
       box.msg.querySelector(".sc-dots")?.remove();
@@ -485,6 +543,7 @@ const chatId = `ping-chat-${Math.random().toString(36).slice(2, 8)}`;
         limitEl.hidden = false;
         textarea.placeholder = "Message limit reached";
       }
+      if (gotDelta) announcer.textContent = "Ping has finished replying.";
       syncBtn();
       scrollBottom();
     }
