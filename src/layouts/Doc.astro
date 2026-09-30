@@ -9,9 +9,10 @@ interface Props {
   title?: string;
   description?: string;
   active?: string;
+  noindex?: boolean;
 }
 
-const { title, description, active } = Astro.props;
+const { title, description, active, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} - ${profile.name}` : `${profile.name} - ${profile.role}`;
 const isHomePage = Astro.url.pathname === "/";
 const pageDesc = description ?? (isHomePage
@@ -81,7 +82,7 @@ const stats = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageDesc} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta name="google-site-verification" content="ouEAGJkUXjY9v0v4rx12vjM9GFLBQkCRqOuNYlR5k58" />
     <meta name="generator" content={Astro.generator} />
     <meta name="author" content={profile.name} />
